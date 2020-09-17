@@ -3,6 +3,10 @@ This is the repository where all the work for "Team Miners" from CSE 297 (Fall 2
 
 ## Phase 1
 Construct Merkle/Patricia tree over a set of strings from a user-defined input file.
+Haoluo Fu: Input
+Tal Derei, Xinhao Liu: Tree
+Yifan She: SHA-256
+Chengshuo Huang: Printing
 
 # Contributors
 - Tal Derei <tad222@lehigh.edu>
