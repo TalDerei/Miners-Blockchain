@@ -1,3 +1,5 @@
+/* NODE STRUCTURE */	
+
 #ifndef NODE_DEF
 #define NODE_DEF
 
