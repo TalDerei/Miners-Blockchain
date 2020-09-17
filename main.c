@@ -12,3 +12,6 @@
 		 (5) main will call a function (printTree() inside of merkleTree.c) in order to print out the tree
 		 (6) main will call a function (freeTree() inside of merkleTree.c) in order to free memory
 		     allocated to the merkleTree and its nodes.  
+
+
+** Haven't defined the specific functions or their inputs yet **
