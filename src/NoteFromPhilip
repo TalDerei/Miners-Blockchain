@@ -1,0 +1,21 @@
+##this is a professional instruction on how to use the sha256 hash function
+##this is very professional
+##plz tell me via wechat if there is anything problematic
+
+To:
+sha_256 hash a $#size_t#$ type data: text
+Do in C code:
+    
+    BYTE buf[sha_256_BLOCK_SIZE]; //buff to hold the hash
+	sha_256_CTX ctx;              //the ctx
+	sha_256_init(&ctx);           //initiating the ctx
+	sha_256_update(&ctx, text, strlen(text)); //hashing
+	sha_256_final(&ctx, buf);     //recieving the hash
+
+        After:
+         build up a shared library with: sha_256.c, sha_256.h; called: sha_256.so
+         link sha_256.so with your code; To:
+          use: $#typedef struct#$ BYTE, $#typedef struct#$ sha_256_CTX; def-from: sha_256.h
+          
+        retfA
+oDoT
