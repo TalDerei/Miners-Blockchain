@@ -1,5 +1,5 @@
 /* HEADER FILE FOR SHA-256 ALGORITHM FOR ENCRYPTION */
-// source: https://github.com/B-Con/crypto-algorithms
+//source: https://github.com/B-Con/crypto-algorithms; with minor modifications
 
 /*********************************************************************
 * Filename:   sha_256.h
