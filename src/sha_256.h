@@ -1,4 +1,5 @@
 /* HEADER FILE FOR SHA-256 ALGORITHM FOR ENCRYPTION */
+// source: https://github.com/B-Con/crypto-algorithms
 
 /*********************************************************************
 * Filename:   sha_256.h
@@ -18,7 +19,7 @@
 #define sha_256_BLOCK_SIZE 32            // sha_256 outputs a 32 byte digest
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
+typedef size_t BYTE;             // size_t byte
 typedef unsigned int  WORD;             // 32-bit word, change to "long" for 16-bit machines
 
 typedef struct {
