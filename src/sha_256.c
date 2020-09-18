@@ -1,4 +1,5 @@
 /* IMPLEMENTATION OF SHA-256 ALGORITHM FOR ENCRYPTION */
+//source: https://github.com/B-Con/crypto-algorithms; with minor modifications
 
 /*********************************************************************
 * Filename:   sha_256.c
