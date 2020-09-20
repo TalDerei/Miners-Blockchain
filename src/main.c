@@ -17,20 +17,28 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 
 ** Haven't defined the specific functions or their inputs yet **
 */
-
 #include <stdio.h>
 #include <string.h>
 #include "merkleTree.h"
 #define BUFFER 256
 
 int main(int argc, char *argv[]) {
-    char *inputFile = NULL; //ptr to user-input on the console
+    char *inputFile = "input.txt"; //ptr to user-input on the console
     FILE *fp = NULL; //ptr to the OPENED file
 
     unsigned char buffer[BUFFER];
 
     fp = Fopen(inputFile, "r"); //open the file
-    fread(buffer, 100*sizeof(char), 1,inputFile);
+    fread(buffer, 100*sizeof(char), 1, fp);
 
-	
+    printf("file contents:\n%s", buffer);
+
+    int count = 1;
+    for(int i = 0; i < strlen(buffer); i++){
+        if(buffer[i] == '\n'){
+            count++;
+        }
+    }
+    printf("\n array count: %d \n", count);
+    qsort(buffer[0], count-1 , 100*sizeof(char), strcmp);
 }
