@@ -36,16 +36,19 @@ int main(int argc, char *argv[]) {
     int count = lineCount(fp);
     printf("number of lines: %d\n", count);
     
-    char buffer[count][BUFFER];
+    char buffer;
 
     fp = Fopen(input, "r"); //open the file
     fread(buffer, 100*sizeof(char), count, fp);
     printf("size of array buffer %lu\n", sizeof(buffer)); //array of elements*/
     printf("number of elements %d\n", (sizeof(buffer) / BUFFER)); //array of elements*/
-    printf("%s", buffer); //array of elements*/
+    printf("%s", buffer); //buffer of elements*/
     fclose(fp);
 
-    merkleTree(*buffer, count);
+    char sampleArray[7][2] = {"aa","bb","cc","dd","ee","ff","gg"};
+    merkletree(*sampleArray, 7);
+
+    //merkleTree(*buffer, count);
 
     /*int i;
 	qsort(buffer, count, 100*sizeof(char), comparetor);
@@ -59,9 +62,10 @@ int main(int argc, char *argv[]) {
     int j = 0;
     for(i; i < count; i++) {
         while (buffer[count][j] != '\n'){
-            printf("\n contents: %d \n", buffer[count][j]);
+            printf("\n contents: %c \n", buffer[count][j]);
             j++;
         }
+        j = 0;
     }*/
 }
     
