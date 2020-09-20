@@ -3,22 +3,24 @@
 #ifndef NODE_DEF
 #define NODE_DEF
 
-#include <stdint.h>    /* for uint*_t types */
+#include <stdint.h>   /* for uint*_t types */
 
+//leaf node
 struct leaf_node {
   uint64_t hash;
   int value;
 };
 typedef struct leaf_node LeafNode;
 
-struct internal_node {
+//internal node
+struct node {
   uint64_t hash;
-  string leftEdge;
-  string rightEdge;
   struct node *leftChild;
   struct node *rightChild;
+  //string leftEdge;
+  //string rightEdge;
 };
-typedef struct internal_node InternalNode;
+typedef struct node InternalNode;
 
 #endif
 

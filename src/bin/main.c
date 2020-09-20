@@ -1,6 +1,7 @@
 /* ROOT MAIN.c */
 
-/* CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFile.c to read-in 
+/* 
+CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFile.c to read-in 
 		     input file (plaintext) from user, and sort the file's contents with an algorithm 
 		     with efficient time complexity
 		 (2) main will then call function (e.g. build_tree() inside of merkleTree.c) to build
@@ -15,3 +16,8 @@
 
 
 ** Haven't defined the specific functions or their inputs yet **
+*/
+
+int main(int argc, char *arv[]) {
+	readFile();
+}
