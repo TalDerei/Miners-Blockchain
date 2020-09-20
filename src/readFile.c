@@ -33,8 +33,8 @@ int lineCount(FILE * file) {
             counter = counter + 1; 
         }
     }
-    return counter;
-}
+    return counter; 
+}  
 
 
 //read file function

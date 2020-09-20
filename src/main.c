@@ -42,53 +42,26 @@ int main(int argc, char *argv[]) {
     fread(buffer, 100*sizeof(char), count, fp);
     printf("size of array buffer %lu\n", sizeof(buffer)); //array of elements*/
     printf("number of elements %d\n", (sizeof(buffer) / BUFFER)); //array of elements*/
-    printf("%s\n", buffer); //array of elements*/
+    printf("%s", buffer); //array of elements*/
     fclose(fp);
 
     merkleTree(*buffer, count);
-}
 
-/*  int count = 1;
-    char *contents[] = {NULL};
-    //[5,6,7,8]
-    char a = 0;
-    for(int i = 0; i < strlen(buffer); i++){
-        if(buffer[i] == '\n'){
-            for(int j = a; j < i-1; j++){
-                //strcat(contents[count-1], buffer[j]);
-                printf("\n %d \n", a);
-            }
-            a = i;
-            count++;
+    /*int i;
+	qsort(buffer, count, 100*sizeof(char), comparetor);
+
+	for (i=0; i<count; i++)
+	    printf ("%d",buffer[i]);
+		return 0;*/
+
+    /*char contents[count][BUFFER];
+    int i = 0;
+    int j = 0;
+    for(i; i < count; i++) {
+        while (buffer[count][j] != '\n'){
+            printf("\n contents: %d \n", buffer[count][j]);
+            j++;
         }
-    }
-
-    printf("\n array count: %d \n", count);
-    //qsort(buffer[0], count-1 , 100*sizeof(char), strcmp);
+    }*/
 }
-
-    printf("\narray count: %d \n", count); */
-    //qsort(contents, count , 100*sizeof(char), strcmp);
-
-    /*char *lineptr;
-    size_t length = 0;
-    ssize_t readLength = 0;
-    char character c = 0;
-    int numMatches = 0;
-
-    char contents[] = {NULL};
-    while((readLength != getline(&lineptr, &length, fp) != -1)) {
-        numMatches = sscanf(lineptr, "%c", &character);
-        int i = 0;
-        int counter = 0;
-        while (character != '\n') {
-            
-            i++;
-
-
-
-        }
-    }
-
-}   
-*/
+    

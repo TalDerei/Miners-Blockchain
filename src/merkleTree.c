@@ -31,3 +31,7 @@ size_t hash(size_t key) {
    return hash;
 }
 */
+
+/*int sort(const void * a, const void * b) {
+		return ( *(int*)a - *(int*)b );
+}*/
