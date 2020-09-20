@@ -15,6 +15,7 @@ FILE *Fopen(const char *file, const char *permission) {
 
 size_t Fread(void * buffer, size_t size, size_t nmemb, FILE *file) {
     size_t returnBytes = fread(buffer, size, nmemb, file);
+
     if (returnBytes == 0) {
         printf("empty file!!!!!!!");
     }
@@ -22,6 +23,17 @@ size_t Fread(void * buffer, size_t size, size_t nmemb, FILE *file) {
         printf("error reading file!!!!!!");
     }
     return returnBytes;
+}
+
+int lineCount(FILE * file) {
+    int counter = 0;
+    char character;
+    for (character = getc(file); character != EOF; character = getc(file)) {
+        if (character == '\n') { 
+            counter = counter + 1; 
+        }
+    }
+    return counter;
 }
 
 
