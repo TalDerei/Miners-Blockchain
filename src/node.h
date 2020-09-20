@@ -23,4 +23,3 @@ struct node {
 typedef struct node InternalNode;
 
 #endif
-
