@@ -40,5 +40,5 @@ int main(int argc, char *argv[]) {
         }
     }
     printf("\n array count: %d \n", count);
-    qsort(buffer[0], count-1 , 100*sizeof(char), strcmp);
+    //qsort(buffer[0], count-1 , 100*sizeof(char), strcmp);
 }
