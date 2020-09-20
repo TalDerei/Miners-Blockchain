@@ -24,7 +24,7 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
-    char *inputFile = "input.txt"; //ptr to user-input on the console
+/*     char *inputFile = "input.txt"; //ptr to user-input on the console
     FILE *fp = NULL; //ptr to the OPENED file
 
     char input[BUFFER];
@@ -40,14 +40,16 @@ int main(int argc, char *argv[]) {
 
     fp = Fopen(input, "r"); //open the file
     fread(buffer, 100*sizeof(char), count, fp);
-    printf("size of array buffer %lu\n", sizeof(buffer)); //array of elements*/
-    printf("number of elements %d\n", (sizeof(buffer) / BUFFER)); //array of elements*/
+    printf("size of array buffer %lu\n", sizeof(buffer)); //array of elements
+    printf("number of elements %d\n", (sizeof(buffer) / BUFFER)); //array of elements
     printf("%s\n", buffer); //buffer of elements
-    fclose(fp);
+    fclose(fp); */
 
-/*     char sampleArray[7][2] = {"aa","bb","cc","dd","ee","ff","gg"};
-    merkleTree(*sampleArray, 7); */
-
+    int count = 7;
+    LeafNode **newLeafNode = NULL;
+    //newLeafNode = createLeafNode(**newLeafNode, count);
+    char sampleArray[7][2] = {"aa","bb","cc","dd","ee","ff","gg"};
+    newLeafNode = merkletree(*sampleArray, count);
     //merkleTree(*buffer, count);
 
     /*int i;
@@ -67,4 +69,3 @@ int main(int argc, char *argv[]) {
         j = 0;
     } */
 }
-    
