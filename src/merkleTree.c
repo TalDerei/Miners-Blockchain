@@ -1,18 +1,32 @@
 /* IMPLEMENTATION OF MERKLE TREE */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "node.h"
 #include "merkleTree.h"
 #include "sha_256.h"
 
-LeafNode **merkleTree(char *SortedArray, int count) {
-    printf("elements read in merkleTree.c: \n%s", SortedArray);
-
-/*
-for(int i = 0; i < 2*count; i += 2) {
-}*/
-    
+LeafNode **merkletree(char *SortedArray, int count) {
+    //printf("elements read in merkleTree.c: \n%s\n", SortedArray);
+	LeafNode leafnode[7];
+	printf("----");
+	for(int i = 0; i < count; i++){
+		leafnode[i]->hash = &SortedArray[i];
+		leafnode[i]->value = &SortedArray[i];
+	}
 }
+
+/* LeafNode **createLeafNode(LeafNode **leafnode, int count){
+	leafnode = malloc(count * 100* sizeof(char));
+	for(int i = 0; i < count; i++){
+		leafnode[i] = NULL;
+		//strcpy(leafnode[i].hash, NULL);
+		//strcpy(leafnode[i].value, NULL);
+	}
+	return leafnode;
+} */
+
+
 /* 
 InternalNode *merkleTreeRoot(merkleTree **){
 }*/
