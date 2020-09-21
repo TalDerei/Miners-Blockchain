@@ -2,27 +2,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "node.h"
 #include "merkleTree.h"
 #include "sha_256.h"
 
+
 LeafNode *merkletree(char *SortedArray[], int count) {
-    printf("elements read in merkleTree.c: \n%s\n%s\n%s\n", SortedArray[0],SortedArray[1],SortedArray[2]);
 	struct leaf_node leafnode[count];
 	for(int i = 0; i < count; i++){
 		leafnode[i].value = SortedArray[i];
-		leafnode[i].hash = hash(SortedArray[i]);
+		leafnode[i].hash = SortedArray[i];
 	}
-	printf("LeafNode hash \n%s\n%s\n%s\n", leafnode[0].hash,leafnode[1].hash,leafnode[2].hash);
-	printf("LeafNode value \n%s\n%s\n%s\n", leafnode[0].value,leafnode[1].value,leafnode[2].value);
+	for(int i = 0; i < count; i++){
+		printf("LeafNode value \n%s\n", leafnode[i].value);
+	}
+	
 	return leafnode;
 }
 
 
-InternalNode *merkleTreeRoot(merkleTree *){
+InternalNode *merkleTreeRoot(LeafNode *merkleTree, int count){
+	//get ceiling
+	InternalNode newInternal[(count/2)+(count%2)];
+	LeafNode *newLeafNode[(count/2)+(count%2)];
+	int parents = count/2 + count%2;
+	int j = 0;
+	for(int i = 0; i < count; i+=2){
+		if(i = count-1){
+			size_t temp =merkleTree[i].hash;
+			newInternal[j].hash = strcat(temp, merkleTree[i].hash);
+			newInternal[j].leftChild = *merkleTree[i].hash;
+			newInternal[j].rightChild = NULL;
 
+		}else{
+			size_t temp =merkleTree[i].hash;
+			newInternal[j].hash = strcat(temp, merkleTree[i+1].hash);
+			newInternal[j].leftChild = *merkleTree[i].hash;
+			newInternal[j].rightChild = *merkleTree[i+1].hash;
+		}
+		newLeafNode[j]->hash = newInternal[j].hash;
+		j++;
+	}
+	if(parents == 1){
+		return newInternal;
+	}
+	merkleTreeRoot(newLeafNode, parents);
 }
-
 /* 
 char *sorting(ContentArray *){
 }*/
