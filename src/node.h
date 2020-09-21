@@ -7,14 +7,14 @@
 
 //leaf node
 struct leaf_node {
-  size_t hash;
+  char hash[32];
   char value[100];
 };
 typedef struct leaf_node LeafNode;
 
 //internal node
 struct node {
-  uint64_t hash;
+  char hash[32];
   struct node *leftChild;
   struct node *rightChild;
   //string leftEdge;

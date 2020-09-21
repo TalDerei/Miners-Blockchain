@@ -72,6 +72,9 @@ int main(int argc, char *argv[]) {
     LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
     createLeafNodes(leafNodes, arr, count);
     merkleTreeRoot(leafNodes,count);
+    //InternalNode *RootReference =  merkleTreeRoot(leafNodes,count);
+    //printf("RootReference is %s\n",RootReference[0].hash);
+    //print_merkle_tree(RootReference,(count/2+count%2+1));
 
     //LeafNode *newleaf = merkletree(ptrArray, count);
     //
