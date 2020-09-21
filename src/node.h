@@ -7,8 +7,8 @@
 
 //leaf node
 struct leaf_node {
-  size_t *hash;
-  char* value;
+  size_t hash;
+  char value;
 };
 typedef struct leaf_node LeafNode;
 

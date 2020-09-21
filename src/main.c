@@ -36,10 +36,11 @@ int main(int argc, char *argv[]) {
     char *inputFile = "input.txt"; //ptr to user-input on the console
     FILE *fp = NULL; //ptr to the OPENED file
     char* input = malloc(255);
+    //char input[BUFFER];
     printf("input the filename to be opened : ");
 	scanf("%s",input);	
     fp = Fopen(input, "r"); 
-    int count = lineCount(fp);
+    int count = (int) lineCount(fp);
     printf("number of lines: %d\n", count);
     char** arr = malloc(100 * sizeof(char));
     for(int i = 0; i < count; i++){
@@ -49,18 +50,19 @@ int main(int argc, char *argv[]) {
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL)
     {
-        //printf ("%s", arr[z]);
+        printf ("%s", arr[z]);
         z++;
     }
     printf("size of array buffer %lu\n", sizeof(arr)); //array of elements*/
-    printf("number of elements %d\n", (sizeof(arr) / 100)); /*array of elements*/
+    printf("number of elements %lu\n", (sizeof(arr) / 100)); /*array of elements*/
     fclose(fp);
+
     //printf("contents: %x \n", &arr[4]);
     char *ptrArray[count];
     int j = 0;
     for(int i = 0; i < count; i++) {
         ptrArray[i] = arr[i];
-        printf("\n contents: %s \n", arr[i]);
+        printf("\n array contents: %s \n", arr[i]);
     }
 
     for(int i = 0; i < count; i++) {
@@ -68,6 +70,27 @@ int main(int argc, char *argv[]) {
     }
     //Above is all the readfile content. 
 
-    LeafNode *newleaf = merkletree(ptrArray, count);
-    merkleTreeRoot(newleaf,count);
+    LeafNode *leafNodes;
+    createLeafNodes(leafNodes, ptrArray, count);
+
+    for(int i = 0; i < count; i++) {
+        printf("\n leafNodes 1 are: %c \n", leafNodes[i].value);
+        printf("\n leafNodes 2 are: %zu \n", leafNodes[i].hash);
+    }
+
+
+    //LeafNode *newleaf = merkletree(ptrArray, count);
+    //merkleTreeRoot(leafNodes,count);
+
+    /*FILE *output = NULL;
+    size_t i;
+    char output[BUFFER];
+    
+    while (i != ".") {
+        output[i] = input[i];
+    }
+    
+    output = Fopen(str(ncat(output,".out.txt", 1), "w");    
+    print_merkle_tree(leadNodes, count / 2, output);
+    free_merkle_tree(leafNodes);*/
 }
