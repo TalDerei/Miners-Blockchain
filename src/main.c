@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL) {
         size_t len = strlen(arr[z]);
-        if( arr[z][len-1] == '\n') {
+        if( arr[z][len-1] == '\n' || arr[z][len-1] == '\r') {
             arr[z][len-1] = '\0';
         }
         //
