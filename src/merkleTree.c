@@ -25,35 +25,35 @@ InternalNode *merkleTreeRoot(LeafNode *leafNodes, int count){
 	int parents = count/2 + count%2;
 	InternalNode *newInternal = malloc(((count/2)+(count%2))*sizeof(InternalNode));
 	LeafNode *newLeafNode = malloc(((count/2)+(count%2))*sizeof(LeafNode));
-
+	
 	int j = 0;
-	if(parents > 1){
-		for(int i = 0; i < count; i+=2){
-			if(i != count-1){
-				char *temp = &(leafNodes[i].hash);
-				printf("in normal case temp is: %s\n" , temp);
-				printf("in normal case i+1 is: %s\n" , leafNodes[i+1].hash);
-				strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
-				//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
-				newInternal[j].leftChild = &leafNodes[i].hash;
-				newInternal[j].rightChild = &leafNodes[i+1].hash;
-			}else{
-				char *temp = &(leafNodes[i].hash);
-				printf("LeafNodes[i] is %s, temp is: %s\n",leafNodes[i].hash,temp);
-				strcpy(newInternal[j].hash,temp);//will need to apply the hash function here
-				newInternal[j].leftChild = &leafNodes[i];
-				newInternal[j].rightChild = NULL;
-			}
-			strcpy(newLeafNode[j].hash, newInternal[j].hash);
-			j++;
+	for(int i = 0; i < count; i+=2){
+		if(i != count-1){
+			char *temp = &(leafNodes[i].hash);
+			printf("temp is: %s\n" , temp);
+			printf("i+1 is: %s\n" , leafNodes[i+1].hash);
+			strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
+			printf("Strcat test: %s\n",newInternal[j].hash);
+			//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
+			newInternal[j].leftChild = &leafNodes[i].hash;
+			newInternal[j].rightChild = &leafNodes[i+1].hash;
+		}else{
+			char *temp = &(leafNodes[i].hash);
+			printf("LeafNodes[i] is %s, temp is: %s\n",leafNodes[i].hash,temp);
+			strcpy(newInternal[j].hash,temp);//will need to apply the hash function here
+			newInternal[j].leftChild = &leafNodes[i];
+			newInternal[j].rightChild = NULL;
+		}
+		strcpy(newLeafNode[j].hash, newInternal[j].hash);
+		j++;
+
+		if(parents == 1){
+			printf("New Internal is: %s\n", newInternal[0].hash);
+			free(newLeafNode);
+			return newInternal;
 		}
 	}
-	if(parents == 1){
-		printf("New Internal is: %s\n", newInternal[0].hash);
-		printf("New Internal is: %s\n", newLeafNode[0].hash);
-		free(newLeafNode);
-		return newInternal;
-	}
+
 	return merkleTreeRoot(newLeafNode, parents);
 	//free(newLeafNode); Do this in the main
 }

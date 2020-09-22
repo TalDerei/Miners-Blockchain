@@ -39,8 +39,7 @@ int main(int argc, char *argv[]) {
     }
     fp = Fopen(input, "r"); //open the file
     int z = 0;
-    while (fgets(arr[z], 100, fp) != NULL)
-    {
+    while (fgets(arr[z], 100, fp) != NULL) {
         printf ("elements are: %s\n", arr[z]);
         z++;
     }
