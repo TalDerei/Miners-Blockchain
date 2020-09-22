@@ -34,7 +34,7 @@ InternalNode *merkleTreeRoot(LeafNode *leafNodes, int count){
 				printf("in normal case temp is: %s\n" , temp);
 				printf("in normal case i+1 is: %s\n" , leafNodes[i+1].hash);
 				strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
-				printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
+				//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
 				newInternal[j].leftChild = &leafNodes[i].hash;
 				newInternal[j].rightChild = &leafNodes[i+1].hash;
 			}else{

@@ -23,15 +23,6 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 #include "merkleTree.h"
 #define BUFFER 100
 
-/* int main(int argc, char *argv[]) {
-    char element1[100] = "aa";
-    char element2[100] = "bb";
-    char element3[100] = "cc";
-    char* newArray[3] = {element1,element2,element3};
-    printf("This is the input array: \n%s\n%s\n%s\n", newArray[0],newArray[1],newArray[2]);
-    LeafNode *newLeafNode = merkletree(newArray, 3);
-    } */
-
 int main(int argc, char *argv[]) {
     char *inputFile = "input.txt"; //ptr to user-input on the console
     FILE *fp = NULL; //ptr to the OPENED file
@@ -50,24 +41,17 @@ int main(int argc, char *argv[]) {
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL)
     {
-        printf ("%s\n", arr[z]);
+        printf ("elements are: %s\n", arr[z]);
         z++;
     }
     printf("Total string put in arr is: %d\n",z);
     fclose(fp);
 
-    //printf("contents: %x \n", &arr[4]);
-/*     char *ptrArray[count];
-    int j = 0;
-    for(int i = 0; i < count; i++) {
-        ptrArray[i] = arr[i];
-        //printf("\n array contents: %s \n", arr[i]);
-    }
+    Sort(arr, count);
 
-    for(int i = 0; i < count; i++) {
-        printf("\n ptr array contents: %c \n", ptrArray[i]);
-    } */
-    //Above is all the readfile content. 
+    for(int i = 0; i < count; i++){
+      printf("Sorted array is: %s", arr[i]);
+    }
 
     LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
     createLeafNodes(leafNodes, arr, count);
