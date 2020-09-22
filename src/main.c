@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
         if( arr[z][len-1] == '\n') {
             arr[z][len-1] = '\0';
         }
+        //
         printf ("elements are: %s", arr[z]);
         z++;
     }
