@@ -40,7 +40,11 @@ int main(int argc, char *argv[]) {
     fp = Fopen(input, "r"); //open the file
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL) {
-        printf ("elements are: %s\n", arr[z]);
+        size_t len = strlen(arr[z]);
+        if( arr[z][len-1] == '\n') {
+            arr[z][len-1] = '\0';
+        }
+        printf ("elements are: %s", arr[z]);
         z++;
     }
     printf("Total string put in arr is: %d\n",z);
