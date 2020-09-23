@@ -19,12 +19,21 @@ LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
     return leafnode;
 }
 
-InternalNode *merkleTreeRoot(LeafNode *leafNodes, int count){
+InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count){
+	InternalNode *newInternal = malloc(count * sizeof(InternalNode));
+	for(int i = 0; i < count; i++){
+		strcpy(newInternal[i].hash, &LeafNode[i].hash);
+		strcpy(newInternal[i].leftEdge, &LeafNode[i].value);
+		strcpy(newInternal[i].rightEdge, &LeafNode[i].value);
+	}
+	return newInternal;
+}
+
+InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	//get ceiling
 	printf("Count is: %d\n",count);
 	int parents = count/2 + count%2;
 	InternalNode *newInternal = malloc(((count/2)+(count%2))*sizeof(InternalNode));
-	LeafNode *newLeafNode = malloc(((count/2)+(count%2))*sizeof(LeafNode));
 	
 	int j = 0;
 	for(int i = 0; i < count; i+=2){
@@ -37,24 +46,26 @@ InternalNode *merkleTreeRoot(LeafNode *leafNodes, int count){
 			//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
 			newInternal[j].leftChild = &leafNodes[i].hash;
 			newInternal[j].rightChild = &leafNodes[i+1].hash;
+			strcpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge);
+			printf("---------The left edge is: %s\n",newInternal[j].leftEdge);
+			strcpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge);
+			printf("---------The right edge is: %s\n",newInternal[j].rightEdge);
 		}else{
 			char *temp = &(leafNodes[i].hash);
 			printf("LeafNodes[i] is %s, temp is: %s\n",leafNodes[i].hash,temp);
 			strcpy(newInternal[j].hash,temp);//will need to apply the hash function here
 			newInternal[j].leftChild = &leafNodes[i];
 			newInternal[j].rightChild = NULL;
+			strcpy(newInternal[j].leftEdge, &leafNodes[i].rightEdge);
+			printf("---------The right edge is: %s\n",newInternal[j].rightEdge);
 		}
-		strcpy(newLeafNode[j].hash, newInternal[j].hash);
 		j++;
-
 		if(parents == 1){
 			printf("Root is: %s\n", newInternal[0].hash);
-			free(newLeafNode);
 			return newInternal;
 		}
 	}
-
-	return merkleTreeRoot(newLeafNode, parents);
+	return merkleTreeRoot(newInternal, parents);
 	//free(newLeafNode); Do this in the main
 }
  

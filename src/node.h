@@ -17,8 +17,8 @@ struct node {
   char hash[32];
   struct node *leftChild;
   struct node *rightChild;
-  char leftEdge;
-  char rightEdge;
+  char leftEdge[100];
+  char rightEdge[100];
 };
 typedef struct node InternalNode;
 

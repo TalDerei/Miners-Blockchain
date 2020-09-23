@@ -4,6 +4,7 @@
 FILE *Fopen(const char *, const char *);
 size_t Fread(void *, size_t, size_t, FILE *); 
 LeafNode *createLeafNodes(LeafNode *, char**, int);
-InternalNode *merkleTreeRoot(LeafNode *, int);
+InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count);
+InternalNode *merkleTreeRoot(InternalNode *, int);
 void Sort(char**, int);
 uint64_t hash(char arr[]);
