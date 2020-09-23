@@ -7,8 +7,9 @@
 #include "node.h"
 
 uint64_t hash(char arr[]) {
+    printf ("value passed in: %s\n", arr);
 
-BYTE buf[SHA256_BLOCK_SIZE];
+    BYTE buf[SHA256_BLOCK_SIZE];
 	SHA256_CTX ctx;
 	int idx;
 
@@ -16,8 +17,8 @@ BYTE buf[SHA256_BLOCK_SIZE];
 	sha256_update(&ctx, arr, strlen(arr));
 	sha256_final(&ctx, buf);
     /* Print the digest as one long hex value */ 
-    for (int n = 0; n <= SHA256_BLOCK_SIZE; n++) {
+    for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
         printf("%x", buf[n]);
     }
-    putchar('\n');
+    printf("\nfinal hash value is: %u\n", buf);
 }

@@ -13,8 +13,8 @@ LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 		printf("----\n");
         strcpy(leafnode[i].value, SortedArray[i]);
 		printf("LeafNode value \n%s\n", &leafnode[i].value);
-        strcpy(leafnode[i].hash, hash(SortedArray[i]));//will need to apply the hash function here
-		printf("LeafNode hash \n%lu\n", leafnode[i].hash);
+        strcpy(leafnode[i].hash, SortedArray[i]);//will need to apply the hash function here
+		printf("LeafNode hash \n%x\n", leafnode[i].hash);
     }
     return leafnode;
 }
@@ -48,7 +48,7 @@ InternalNode *merkleTreeRoot(LeafNode *leafNodes, int count){
 		j++;
 
 		if(parents == 1){
-			printf("New Internal is: %s\n", newInternal[0].hash);
+			printf("Root is: %s\n", newInternal[0].hash);
 			free(newLeafNode);
 			return newInternal;
 		}
