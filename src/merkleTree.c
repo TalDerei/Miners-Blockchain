@@ -5,16 +5,16 @@
 #include <math.h>
 #include "node.h"
 #include "merkleTree.h"
-#include "sha_256.h"
+#include "sha256.h"
 #define BUFFER 100
 
 LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){
 		printf("----\n");
         strcpy(leafnode[i].value, SortedArray[i]);
-		printf("LeafNode hash \n%s\n", &leafnode[i].value);
-        strcpy(leafnode[i].hash, SortedArray[i]);//will need to apply the hash function here
-		//printf("LeafNode hash \n%lu\n", leafnode[i].hash);
+		printf("LeafNode value \n%s\n", &leafnode[i].value);
+        strcpy(leafnode[i].hash, hash(SortedArray[i]));//will need to apply the hash function here
+		printf("LeafNode hash \n%lu\n", leafnode[i].hash);
     }
     return leafnode;
 }

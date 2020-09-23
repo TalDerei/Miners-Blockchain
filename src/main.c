@@ -21,6 +21,7 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 #include <stdlib.h>
 #include <string.h>
 #include "merkleTree.h"
+#include "sha256.h"
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
@@ -54,7 +55,7 @@ int main(int argc, char *argv[]) {
     Sort(arr, count);
 
     for(int i = 0; i < count; i++){
-      printf("Sorted array is: %s", arr[i]);
+      printf("Sorted array is: %s\n", arr[i]);
     }
 
     LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
@@ -79,3 +80,4 @@ int main(int argc, char *argv[]) {
     print_merkle_tree(leadNodes, count / 2, output);
     free_merkle_tree(leafNodes);*/
 }
+
