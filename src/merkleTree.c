@@ -37,31 +37,35 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	
 	int j = 0;
 	for(int i = 0; i < count; i+=2){
+		printf("\nI = : %d\n",i);
 		if(i != count-1){
 			char *temp = &(leafNodes[i].hash);
-			printf("temp is: %s\n" , temp);
-			printf("i+1 is: %s\n" , leafNodes[i+1].hash);
+			printf("\ntemp is: %s\n" , temp);
+			printf("\ni+1 is: %s\n" , leafNodes[i+1].hash);
 			strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
-			printf("Strcat test: %s\n",newInternal[j].hash);
+			printf("\nStrcat test: %s\n",newInternal[j].hash);
 			//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
 			newInternal[j].leftChild = &leafNodes[i].hash;
 			newInternal[j].rightChild = &leafNodes[i+1].hash;
 			strcpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge);
-			printf("---------The left edge is: %s\n",newInternal[j].leftEdge);
+			printf("\n---------The left edge is: %s\n",newInternal[j].leftEdge);
 			strcpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge);
-			printf("---------The right edge is: %s\n",newInternal[j].rightEdge);
+			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
 		}else{
 			char *temp = &(leafNodes[i].hash);
-			printf("LeafNodes[i] is %s, temp is: %s\n",leafNodes[i].hash,temp);
+			printf("\nZZZZZZZZZZZ ODD CASE: temp is: %s\n",temp);
 			strcpy(newInternal[j].hash,temp);//will need to apply the hash function here
 			newInternal[j].leftChild = &leafNodes[i];
 			newInternal[j].rightChild = NULL;
-			strcpy(newInternal[j].leftEdge, &leafNodes[i].rightEdge);
-			printf("---------The right edge is: %s\n",newInternal[j].rightEdge);
+			strcpy(newInternal[j].rightEdge, &leafNodes[i].rightEdge);
+			strcpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge);
+			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
 		}
 		j++;
 		if(parents == 1){
-			printf("Root is: %s\n", newInternal[0].hash);
+			printf("\n*****Root is: %s\n", newInternal[0].hash);
+			printf("\n*****Root left edge  is: %s\n", newInternal[0].leftEdge);
+			printf("\n*****Root right edge  is: %s\n", newInternal[0].rightEdge);
 			return newInternal;
 		}
 	}
