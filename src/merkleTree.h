@@ -7,4 +7,4 @@ LeafNode *createLeafNodes(LeafNode *, char**, int);
 InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count);
 InternalNode *merkleTreeRoot(InternalNode *, int);
 void Sort(char**, int);
-uint64_t hash(char arr[]);
+char hash(char arr[]);

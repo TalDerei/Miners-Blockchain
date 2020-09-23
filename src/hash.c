@@ -6,10 +6,10 @@
 #include "merkleTree.h"
 #include "node.h"
 
-uint64_t hash(char arr[]) {
+char hash(char arr[]) {
     printf ("value passed in: %s\n", arr);
 
-    BYTE buf[SHA256_BLOCK_SIZE];
+    BYTE *buf = malloc(sizeof(BYTE));
 	SHA256_CTX ctx;
 	int idx;
 
@@ -20,5 +20,6 @@ uint64_t hash(char arr[]) {
     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
         printf("%x", buf[n]);
     }
-    printf("\nfinal hash value is: %u\n", buf);
+    printf("\nfinal hash value is: %x\n", buf);
+    return buf;
 }
