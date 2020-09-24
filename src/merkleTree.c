@@ -80,7 +80,6 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 		}
 	}
 	return merkleTreeRoot(newInternal, parents);
-	//free(newLeafNode); Do this in the main
 }
 
 void print_merkle_tree(InternalNode *root, int ID) {

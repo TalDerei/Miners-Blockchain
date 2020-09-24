@@ -1,4 +1,4 @@
-run: main.o merkleTree.o readFile.o sort.o sha256.o hash.o
+prog: main.o merkleTree.o readFile.o sort.o sha256.o hash.o
 	gcc -g -o prog merkleTree.o readFile.o sort.o sha256.o hash.o main.o
 
 sort.o: merkleTree.h sort.c

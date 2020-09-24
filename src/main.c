@@ -1,6 +1,4 @@
-/* ROOT MAIN.c */
-
-/* 
+/* ROOT MAIN.c 
 CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFile.c to read-in 
 		     input file (plaintext) from user, and sort the file's contents with an algorithm 
 		     with efficient time complexity
@@ -13,31 +11,28 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 		 (5) main will call a function (printTree() inside of merkleTree.c) in order to print out the tree
 		 (6) main will call a function (freeTree() inside of merkleTree.c) in order to free memory
 		     allocated to the merkleTree and its nodes.  
-
-
-** Haven't defined the specific functions or their inputs yet **
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "merkleTree.h"
 #include "sha256.h"
+#include "node.h"
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
-    char *inputFile = "input.txt"; //ptr to user-input on the console
-    FILE *fp = NULL; //ptr to the OPENED file
-    char* input = malloc(255);
-    //char input[BUFFER];
+    char input[BUFFER];
     printf("input the filename to be opened : ");
 	scanf("%s",input);	
-    fp = Fopen(input, "r"); 
+    
+    FILE *fp = Fopen(input, "r"); 
     int count = (int) lineCount(fp);
     printf("number of lines: %d\n", count);
     char** arr = malloc(count * sizeof(char*));
     for(int i = 0; i < count; i++){
       arr[i] = malloc(100);
     }
+
     fp = Fopen(input, "r"); //open the file
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL) {

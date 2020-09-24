@@ -3,6 +3,7 @@
 #include "merkleTree.h"
 #include "node.h"
 
+/* Double Bubble-Sort: sorting by length and alphanumeric */
 void Sort(char** arr, int n) { 
    int i, j; 
    for (i = 0; i < n-1; i++)
@@ -20,7 +21,6 @@ void Sort(char** arr, int n) {
    }
    for (i = 0; i < n-1; i++)
    {
-       // Last i elements are already in place    
        for (j = 0; j < n-i-1; j++)
        {  
           if(strlen(arr[j]) >= strlen(arr[j+1]))

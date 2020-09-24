@@ -3,16 +3,14 @@
 #ifndef NODE_DEF
 #define NODE_DEF
 
-#include <stdint.h>   /* for uint*_t types */
-
-//leaf node
+//leaf node struct
 struct leaf_node {
   char hash[64];
   char value[100];
 };
 typedef struct leaf_node LeafNode;
 
-//internal node
+//internal node struct
 struct node {
   char hash[32];
   struct node *leftChild;

@@ -1,0 +1,12 @@
+#!/bin/bash
+#Bash Shell Script
+#RECOMPILE
+
+#Set EXECUTE PERMISSIONS
+chmod 755 recompile
+
+#Set path for bash script
+export PATH="$PATH:."
+
+make clean;
+make;

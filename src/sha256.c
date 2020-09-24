@@ -9,6 +9,7 @@
               offered in this implementation.
               Algorithm specification can be found here:
                * http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf
+			   * https://www.daemon-systems.org/man/SHA256_Update.3.html
               This implementation uses little endian byte order.
 *********************************************************************/
 
