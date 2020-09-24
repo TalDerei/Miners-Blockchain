@@ -84,7 +84,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 }
 
 void print_merkle_tree(InternalNode *root, int ID) {
-	printf("\n ------------------------- leafNodes 2 are: %s \n", root->hash[0]);
+	printf("\n ------------------------- leafNodes are: %s \n", root->hash[0]);
 	printf(root->leftChild);
 	if (root->leftChild != NULL) {
 		print_merkle_tree(root->leftChild, 2*ID);

@@ -42,10 +42,9 @@ int main(int argc, char *argv[]) {
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL) {
         size_t len = strlen(arr[z]);
-        if( arr[z][len-1] == '\n' || arr[z][len-1] == '\r') {
+        if( arr[z][len-1] == '\n') {
             arr[z][len-1] = '\0';
         }
-        //
         printf ("elements are: %s", arr[z]);
         z++;
     }
@@ -64,8 +63,9 @@ int main(int argc, char *argv[]) {
     internalNode = convertLeaftoInternal(leafNodes,count);
     InternalNode *TreeRoot = malloc(sizeof(InternalNode));
     TreeRoot = merkleTreeRoot(internalNode,count);
-    printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot->hash);
-    print_merkle_tree(TreeRoot,(count/2+count%2+1));
+    printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot);
+    //print_merkle_tree(TreeRoot, 1);
+
 
     //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
     //Fclose(output);
