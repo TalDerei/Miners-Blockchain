@@ -13,16 +13,17 @@ LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 		printf("----\n");
         strcpy(leafnode[i].value, SortedArray[i]);
 		printf("LeafNode value \n%s\n", leafnode[i].value);
-		unsigned char *returned_str = hash(SortedArray[i]);
-		for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-       		printf("%x\n", (unsigned char)(returned_str[n]));
-			printf("LeafNode hash \n %x\n", leafnode[i].hash); 
-		} 
+		//unsigned char *returned_str = hash(SortedArray[i]);
+		/* for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+       		printf("%x", (unsigned char)(returned_str[n]));
+			//printf("LeafNode hash \n %x\n", leafnode[i].hash); 
+		}  */
 		/*for (int j = 0; j < SHA256_BLOCK_SIZE; j++) { //wtf, cannot 
 			strcat(leafnode[i].hash, (unsigned char)(returned_str[j]));
 		}*/
         //strcpy(leafnode[i].hash, *returned_str);//will need to apply the hash function here
-		printf("LeafNode hash \n %x\n", leafnode[i].hash);
+		strcpy(leafnode[i].hash, SortedArray[i]);
+		printf("\nLeafNode hash \n %x\n", leafnode[i].hash);
     }
     return leafnode;
 }
@@ -51,6 +52,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			printf("\ntemp is: %s\n" , temp);
 			printf("\ni+1 is: %s\n" , leafNodes[i+1].hash);
 			strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
+			printf(".....temp after strcat is: %s", temp);
 			printf("\nStrcat test: %s\n",newInternal[j].hash);
 			//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
 			newInternal[j].leftChild = &leafNodes[i].hash;
@@ -80,17 +82,15 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	return merkleTreeRoot(newInternal, parents);
 	//free(newLeafNode); Do this in the main
 }
- 
-void print_merkle_tree(InternalNode *root, int height) {
-	//height of tree = # nodes / 2
-	//start at root
-	//print hashes of each node
-	printf("\n leafNodes 2 are: %s \n", root->hash);
+
+void print_merkle_tree(InternalNode *root, int ID) {
+	printf("\n ------------------------- leafNodes 2 are: %s \n", root->hash[0]);
+	printf(root->leftChild);
 	if (root->leftChild != NULL) {
-		print_merkle_tree(root->leftChild, height - 1);
+		print_merkle_tree(root->leftChild, 2*ID);
 	}
 	if (root->rightChild != NULL) {
-		print_merkle_tree(root->rightChild, height -1);
+		print_merkle_tree(root->rightChild, 2*ID+1);
 	}
 } 
 

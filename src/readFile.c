@@ -48,11 +48,7 @@ size_t Fwrite(void *buffer, size_t size, size_t nmemb, FILE *file) {
 }
 
 void Fclose(FILE *fp) {
-    if (fp && fclose(fp)) { //unable to 
-        fclose(fp);
-    }
-    else{
-        printf("error closing file!!!!!!");
-        exit(0);
+    if (fp && !fclose(fp)) { //unable to 
+        printf("error closing file");
     }
 }

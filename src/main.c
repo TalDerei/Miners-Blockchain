@@ -64,10 +64,11 @@ int main(int argc, char *argv[]) {
     internalNode = convertLeaftoInternal(leafNodes,count);
     InternalNode *TreeRoot = malloc(sizeof(InternalNode));
     TreeRoot = merkleTreeRoot(internalNode,count);
+    printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot->hash);
     print_merkle_tree(TreeRoot,(count/2+count%2+1));
 
-    FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
-
+    //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
+    //Fclose(output);
     //free_merkle_tree(leafNodes);
 }
 
