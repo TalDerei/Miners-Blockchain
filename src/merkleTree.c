@@ -12,9 +12,17 @@ LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){
 		printf("----\n");
         strcpy(leafnode[i].value, SortedArray[i]);
-		printf("LeafNode value \n%s\n", &leafnode[i].value);
-        strcpy(leafnode[i].hash, SortedArray[i]);//will need to apply the hash function here
-		printf("LeafNode hash \n%x\n", leafnode[i].hash);
+		printf("LeafNode value \n%s\n", leafnode[i].value);
+		unsigned char *returned_str = hash(SortedArray[i]);
+		for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+       		printf("%x\n", (unsigned char)(returned_str[n]));
+			printf("LeafNode hash \n %x\n", leafnode[i].hash); 
+		} 
+		/*for (int j = 0; j < SHA256_BLOCK_SIZE; j++) { //wtf, cannot 
+			strcat(leafnode[i].hash, (unsigned char)(returned_str[j]));
+		}*/
+        //strcpy(leafnode[i].hash, *returned_str);//will need to apply the hash function here
+		printf("LeafNode hash \n %x\n", leafnode[i].hash);
     }
     return leafnode;
 }
@@ -73,18 +81,18 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	//free(newLeafNode); Do this in the main
 }
  
-/* static void print_merkle_tree(InternalNode *root, int height) {
+void print_merkle_tree(InternalNode *root, int height) {
 	//height of tree = # nodes / 2
 	//start at root
 	//print hashes of each node
-	printf("\n leafNodes 2 are: %s \n", root.hash);
-	if (root.leftchild != NULL) {
-		print_merkle_tree(root.leftchild, height - 1);
+	printf("\n leafNodes 2 are: %s \n", root->hash);
+	if (root->leftChild != NULL) {
+		print_merkle_tree(root->leftChild, height - 1);
 	}
-	if (root.rightchild != NULL) {
-		print_merkle_tree(root.rightchild, height -1);
+	if (root->rightChild != NULL) {
+		print_merkle_tree(root->rightChild, height -1);
 	}
-} */
+} 
 
 /* free_merkle_tree(InternalNode *internalNodes) {
 	free(internalNodes);

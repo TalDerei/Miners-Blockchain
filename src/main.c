@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
         z++;
     }
     printf("Total string put in arr is: %d\n",z);
-    fclose(fp);
+    Fclose(fp);
 
     Sort(arr, count);
 
@@ -64,23 +64,10 @@ int main(int argc, char *argv[]) {
     internalNode = convertLeaftoInternal(leafNodes,count);
     InternalNode *TreeRoot = malloc(sizeof(InternalNode));
     TreeRoot = merkleTreeRoot(internalNode,count);
-    //InternalNode *RootReference =  merkleTreeRoot(leafNodes,count);
-    //printf("RootReference is %s\n",RootReference[0].hash);
-    //print_merkle_tree(RootReference,(count/2+count%2+1));
+    print_merkle_tree(TreeRoot,(count/2+count%2+1));
 
-    //LeafNode *newleaf = merkletree(ptrArray, count);
-    //
+    FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
 
-    /*FILE *output = NULL;
-    size_t i;
-    char output[BUFFER];
-    
-    while (i != ".") {
-        output[i] = input[i];
-    }
-    
-    output = Fopen(str(ncat(output,".out.txt", 1), "w");    
-    print_merkle_tree(leadNodes, count / 2, output);
-    free_merkle_tree(leafNodes);*/
+    //free_merkle_tree(leafNodes);
 }
 
