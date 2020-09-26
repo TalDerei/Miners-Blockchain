@@ -60,8 +60,6 @@ int main(int argc, char *argv[]) {
     TreeRoot = merkleTreeRoot(internalNode,count);
     printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot);
     //print_merkle_tree(TreeRoot, 1);
-
-
     //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
     //Fclose(output);
     //free_merkle_tree(leafNodes);

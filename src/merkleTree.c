@@ -49,6 +49,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			printf("\ni+1 is: %s\n" , leafNodes[i+1].hash);
 			strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
 			printf(".....temp after strcat is: %s", temp);
+			printf(".....LeafNodes[i] is: %s", leafNodes[i].hash);
 			printf("\nStrcat test: %s\n",newInternal[j].hash);
 			//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
 			newInternal[j].leftChild = &leafNodes[i].hash;
@@ -78,7 +79,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	return merkleTreeRoot(newInternal, parents);
 }
 
-/*void print_merkle_tree(InternalNode *root, int ID) {
+void print_merkle_tree(InternalNode *root, int ID) {
 	printf("\n ------------------------- leafNodes are: %s \n", root->hash[0]);
 	printf(root->leftChild);
 	if (root->leftChild != NULL) {
@@ -87,7 +88,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	if (root->rightChild != NULL) {
 		print_merkle_tree(root->rightChild, 2*ID+1);
 	}
-} */
+}
 
 /* free_merkle_tree(InternalNode *internalNodes) {
 	free(internalNodes);

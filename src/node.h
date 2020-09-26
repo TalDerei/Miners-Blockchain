@@ -29,4 +29,9 @@ struct header {
 };
 typedef struct header Header;
 
+struct block{
+  struct header *blockHeader;
+  struct InternalNode *blockTree;
+};
+typedef struct block Block;
 #endif
