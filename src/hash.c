@@ -9,7 +9,7 @@
 char *hash(char arr[]) {
     printf ("content passed in: %s\n", arr);
 
-    BYTE *buf = malloc(sizeof(BYTE));
+    BYTE* buf = malloc(100);
 	SHA256_CTX ctx;
 
     //initialize, update, and final functions to produce hash digest

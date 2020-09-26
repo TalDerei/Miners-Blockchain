@@ -5,7 +5,7 @@
 
 //leaf node struct
 struct leaf_node {
-  char hash[64];
+  char hash[32];
   char value[100];
 };
 typedef struct leaf_node LeafNode;
@@ -19,5 +19,14 @@ struct node {
   char rightEdge[100];
 };
 typedef struct node InternalNode;
+
+struct header {
+  char previousHash[32];
+  char rootHash[32];
+  int timestamp;
+  size_t nonce;
+  size_t target;
+};
+typedef struct header Header;
 
 #endif

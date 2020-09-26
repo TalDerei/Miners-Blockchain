@@ -12,18 +12,14 @@ LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){
 		printf("----\n");
         strcpy(leafnode[i].value, SortedArray[i]);
-		printf("LeafNode value \n%s\n", leafnode[i].value);
-		//unsigned char *returned_str = hash(SortedArray[i]);
-		/* for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		printf("LeafNode value: %s\n", leafnode[i].value);
+		unsigned char *returned_str = hash(SortedArray[i]);
+		for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
        		printf("%x", (unsigned char)(returned_str[n]));
-			//printf("LeafNode hash \n %x\n", leafnode[i].hash); 
-		}  */
-		/*for (int j = 0; j < SHA256_BLOCK_SIZE; j++) { //wtf, cannot 
-			strcat(leafnode[i].hash, (unsigned char)(returned_str[j]));
-		}*/
-        //strcpy(leafnode[i].hash, *returned_str);//will need to apply the hash function here
+		}   
+		printf("\nHash is: %x\n", *returned_str);
 		strcpy(leafnode[i].hash, SortedArray[i]);
-		printf("\nLeafNode hash \n %x\n", leafnode[i].hash);
+		printf("\nLeafNode hash: %s\n", leafnode[i].hash);
     }
     return leafnode;
 }
@@ -59,7 +55,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			newInternal[j].rightChild = &leafNodes[i+1].hash;
 			strcpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge);
 			printf("\n---------The left edge is: %s\n",newInternal[j].leftEdge);
-			strcpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge);
+			//strcpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge);
 			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
 		}else{
 			char *temp = &(leafNodes[i].hash);
@@ -82,7 +78,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	return merkleTreeRoot(newInternal, parents);
 }
 
-void print_merkle_tree(InternalNode *root, int ID) {
+/*void print_merkle_tree(InternalNode *root, int ID) {
 	printf("\n ------------------------- leafNodes are: %s \n", root->hash[0]);
 	printf(root->leftChild);
 	if (root->leftChild != NULL) {
@@ -91,7 +87,7 @@ void print_merkle_tree(InternalNode *root, int ID) {
 	if (root->rightChild != NULL) {
 		print_merkle_tree(root->rightChild, 2*ID+1);
 	}
-} 
+} */
 
 /* free_merkle_tree(InternalNode *internalNodes) {
 	free(internalNodes);
