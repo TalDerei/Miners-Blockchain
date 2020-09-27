@@ -3,16 +3,18 @@
 #ifndef NODE_DEF
 #define NODE_DEF
 
+#include "sha256.h"
+
 //leaf node struct
 struct leaf_node {
-  char hash[32];
+  char hash[SHA256_BLOCK_SIZE + 1];
   char value[100];
 };
 typedef struct leaf_node LeafNode;
 
 //internal node struct
 struct node {
-  char hash[32];
+  char hash[2*SHA256_BLOCK_SIZE + 1];
   struct node *leftChild;
   struct node *rightChild;
   char leftEdge[100];
@@ -21,7 +23,7 @@ struct node {
 typedef struct node InternalNode;
 
 struct header {
-  char previousHash[32];
+  char previousHash[2*SHA256_BLOCK_SIZE + 1];
   char rootHash[32];
   int timestamp;
   size_t nonce;

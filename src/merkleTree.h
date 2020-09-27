@@ -10,4 +10,4 @@ void Fclose(FILE *);
 size_t Fread(void *, size_t, size_t, FILE *); 
 size_t Fwrite(void *, size_t, size_t, FILE *);
 void Sort(char**, int);
-char* hash(char arr[]);
+unsigned char* hash(char arr[]);

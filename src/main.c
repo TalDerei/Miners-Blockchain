@@ -54,11 +54,22 @@ int main(int argc, char *argv[]) {
 
     LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
     createLeafNodes(leafNodes, arr, count);
+    printf("\nnoobs2.0\n");
+    for (int i = 0; i < count; i++) {
+        for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
+            printf("%x", (unsigned char) leafNodes[i].hash[j]);
+        }
+        printf("\n");
+    }
     InternalNode *internalNode = malloc(count*sizeof(InternalNode));
     internalNode = convertLeaftoInternal(leafNodes,count);
     InternalNode *TreeRoot = malloc(sizeof(InternalNode));
     TreeRoot = merkleTreeRoot(internalNode,count);
-    printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot);
+    printf("\n-------root is: ----\n");
+    for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+	    printf("%x", (unsigned char) TreeRoot->hash[n]);
+    }
+     printf("\n");
     //print_merkle_tree(TreeRoot, 1);
 
 
