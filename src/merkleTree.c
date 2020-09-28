@@ -111,7 +111,11 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 }
 
 void print_merkle_tree(InternalNode *root, int ID) {
+
 	printf("#######");
+	printf("%d", ID);
+	printf("%s", root->leftEdge);
+	printf("%s", root->rightEdge);
 	if (root->leftChild != NULL) {
 		print_merkle_tree(root->leftChild, 2*ID);
 	}
@@ -120,9 +124,9 @@ void print_merkle_tree(InternalNode *root, int ID) {
 	}
 }
 
-void print_internal_node(){
-	
-}
+/*void print_internal_node(){
+
+}*/
 
 /* free_merkle_tree(InternalNode *internalNodes) {
 	free(internalNodes);
