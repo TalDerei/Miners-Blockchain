@@ -18,7 +18,7 @@ unsigned char *hash(char arr[]) {
 	sha256_final(&ctx, buf);
     printf ("content passed out:\n");
     for(int i = 0 ; i < SHA256_BLOCK_SIZE; i++){
-        printf("%x\n", buf[i]);
+        printf("%x", buf[i]);
     }
     printf("\n");
     return buf;

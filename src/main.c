@@ -70,7 +70,13 @@ int main(int argc, char *argv[]) {
 	    printf("%x", (unsigned char) TreeRoot->hash[n]);
     }
      printf("\n");
-    //print_merkle_tree(TreeRoot, 1);
+
+    /*printf("The left child of TreeRoot is: ");
+    for(int i = 0; i < SHA256_BLOCK_SIZE; i++){
+        printf("%x",(unsigned char) (TreeRoot -> rightChild -> hash[i]));
+    }
+    printf("\n");*/
+    print_merkle_tree(TreeRoot, 1);
 
 
     //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
