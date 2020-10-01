@@ -21,47 +21,45 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
-    char input[BUFFER];
-    printf("input the filename to be opened : ");
-	scanf("%s",input);	
+
+    int count;
+    printf("input the numebr of files you want opened: "); 
+	scanf("%d",count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+    char ** arr = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
+    arr = ReadMultipleFiles(count);
+    char * 
     
-    FILE *fp = Fopen(input, "r"); 
-    int count = (int) lineCount(fp);
-    printf("number of lines: %d\n", count);
-    char** arr = malloc(count * sizeof(char*));
     for(int i = 0; i < count; i++){
-      arr[i] = malloc(100);
-    }
-
-    fp = Fopen(input, "r"); //open the file
-    int z = 0;
-    while (fgets(arr[z], 100, fp) != NULL) {
-        size_t len = strlen(arr[z]);
-        if( arr[z][len-1] == '\n') {
-            arr[z][len-1] = '\0';
+        LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
+        createLeafNodes(leafNodes, arr, count);
+        printf("\nnoobs2.0\n");
+        for (int i = 0; i < count; i++) {
+            for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
+                printf("%x", (unsigned char) leafNodes[i].hash[j]);
+            }
+            printf("\n");
         }
-        printf ("elements are: %s", arr[z]);
-        z++;
+        InternalNode *internalNode = malloc(count*sizeof(InternalNode));
+        internalNode = convertLeaftoInternal(leafNodes,count);
+        InternalNode *TreeRoot = malloc(sizeof(InternalNode));
+        TreeRoot = merkleTreeRoot(internalNode,count);
+        printf("\n-------root is: ----\n");
+        for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+            printf("%x", (unsigned char) TreeRoot->hash[n]);
+        }
+        printf("\n");
+
+        /*printf("The left child of TreeRoot is: ");
+        for(int i = 0; i < SHA256_BLOCK_SIZE; i++){
+            printf("%x",(unsigned char) (TreeRoot -> rightChild -> hash[i]));
+        }
+        printf("\n");*/
+        print_merkle_tree(TreeRoot, 1);
+
+
+        //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
+        //Fclose(output);
+        //free_merkle_tree(leafNodes);
     }
-    printf("Total string put in arr is: %d\n",z);
-    Fclose(fp);
-
-    Sort(arr, count);
-
-    for(int i = 0; i < count; i++){
-      printf("Sorted array is: %s\n", arr[i]);
-    }
-
-    LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
-    createLeafNodes(leafNodes, arr, count);
-    InternalNode *internalNode = malloc(count*sizeof(InternalNode));
-    internalNode = convertLeaftoInternal(leafNodes,count);
-    InternalNode *TreeRoot = malloc(sizeof(InternalNode));
-    TreeRoot = merkleTreeRoot(internalNode,count);
-    printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot);
-    //print_merkle_tree(TreeRoot, 1);
-    //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
-    //Fclose(output);
-    //free_merkle_tree(leafNodes);
 }
 
