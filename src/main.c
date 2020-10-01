@@ -26,18 +26,18 @@ int main(int argc, char *argv[]) {
 	scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
     printf("number of files entered: %d\n", count); 
 
-    
-    char *fileNames = malloc(count * BUFFER);
-        char input[BUFFER];
+    char **fileNames = (char **)malloc(count * BUFFER);
+    for(int i = 0; i < count; i++){
+        fileNames[i] = (char *)malloc(BUFFER);
+    }
     for (int i = 0; i < count; i ++){
         printf("enter the filename[%d]: ", i); 
-        scanf("%s", input);
-        strcpy(fileNames[i], input);
+        scanf("%s", fileNames[i]);
         //int k = strlen(fileNames[i]);
         /*for (int j = 0; j < k; j++) {
             printf("Filename entered: %c \n", fileNames[i][j]);
         }*/
-        //printf("Filename entered: %s \n", fileNames[i]);
+        printf("Filename entered: %s \n", fileNames[i]);
     }
 
     char ** arr = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 

@@ -52,8 +52,9 @@ int lineCount(FILE * inputFile) {
     return counter; 
 }  
 
-char **ReadOneFile(char filename) {
-    printf("number of lines: %s\n", filename);
+//BUG -- NOT READING THE FILE CONTENTS
+char **ReadOneFile(char *filename) { 
+    printf("file name %s\n", filename);
     FILE *fp = Fopen(filename, "r"); 
     int count = (int) lineCount(fp);
     printf("number of lines: %d\n", count);
@@ -83,7 +84,7 @@ char **ReadOneFile(char filename) {
     return arr;
 }
 
-char **ReadMultipleFiles(char *filename, int count) {
+char **ReadMultipleFiles(char **filename, int count) {
     printf("---ENTERED  ReadMultipleFiles: \n");
     printf("number of lines: %s\n", filename[0]);
     char ** multiplefilecontents = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
@@ -94,7 +95,7 @@ char **ReadMultipleFiles(char *filename, int count) {
     return multiplefilecontents;
 }
 
-int *GetLineNumbers(char *filename, int count) {
+int *GetLineNumbers(char **filename, int count) {
     int *lineNum[count];
     FILE *fp;
     for(int i = 0; i < count; i++){
