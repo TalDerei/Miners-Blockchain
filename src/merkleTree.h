@@ -7,6 +7,7 @@ InternalNode *merkleTreeRoot(InternalNode *, int);
 void print_merkle_tree(InternalNode *, int);
 FILE *Fopen(const char *, const char *);
 void Fclose(FILE *);
+int lineCount(FILE *);
 size_t Fread(void *, size_t, size_t, FILE *); 
 size_t Fwrite(void *, size_t, size_t, FILE *);
 void Sort(char**, int);
