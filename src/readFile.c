@@ -52,13 +52,9 @@ int lineCount(FILE * inputFile) {
     return counter; 
 }  
 
-char **ReadOneFile() {
-
-    char input[BUFFER];
-    printf("input the filename to be opened : ");
-	scanf("%s",input);	
-    
-    FILE *fp = Fopen(input, "r"); 
+char **ReadOneFile(char filename) {
+    printf("number of lines: %s\n", filename);
+    FILE *fp = Fopen(filename, "r"); 
     int count = (int) lineCount(fp);
     printf("number of lines: %d\n", count);
     char** arr = malloc(count * sizeof(char*));
@@ -66,7 +62,7 @@ char **ReadOneFile() {
       arr[i] = malloc(100);
     }
 
-    fp = Fopen(input, "r"); //open the file
+    //fp = Fopen(input, "r"); //open the file
     int z = 0;
     while (fgets(arr[z], 100, fp) != NULL) {
         size_t len = strlen(arr[z]);
@@ -87,13 +83,25 @@ char **ReadOneFile() {
     return arr;
 }
 
-char **ReadMultipleFiles(int count) {
+char **ReadMultipleFiles(char *filename, int count) {
+    printf("---ENTERED  ReadMultipleFiles: \n");
+    printf("number of lines: %s\n", filename[0]);
     char ** multiplefilecontents = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
     int i;
     for (i = 0; i < count; i++) {
-        multiplefilecontents[i] = ReadOneFile();
+        multiplefilecontents[i] = ReadOneFile(filename[i]);
     }
     return multiplefilecontents;
+}
+
+int *GetLineNumbers(char *filename, int count) {
+    int *lineNum[count];
+    FILE *fp;
+    for(int i = 0; i < count; i++){
+        fp = fopen(filename[i], "r");
+        int * count = (int) lineCount(fp);
+    }
+    return lineNum;
 }
 
 //array of char **
