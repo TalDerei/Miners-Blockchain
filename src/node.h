@@ -22,21 +22,4 @@ struct node {
 };
 typedef struct node InternalNode;
 
-//header struct
-struct header {
-  unsigned char* previousHash[2*SHA256_BLOCK_SIZE + 1]; 
-  unsigned char rootHash[32];
-  int timestamp;
-  size_t nonce;
-  size_t target;
-};
-typedef struct header Header;
-
-//block struct
-struct block {
-  Header *header;
-  char *rootHash[32];
-};
-typedef struct block Block;
-
 #endif

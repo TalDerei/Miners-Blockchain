@@ -18,6 +18,7 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 #include "merkleTree.h"
 #include "sha256.h"
 #include "node.h"
+#include "block.h"
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
@@ -39,15 +40,17 @@ int main(int argc, char *argv[]) {
         }*/
         printf("Filename entered: %s \n", fileNames[i]);
     }
-
+     
     char ** arr = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
     arr = ReadMultipleFiles(fileNames, count);
     
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames);
 
+    Block **block = (Block **)malloc(sizeof(lineNum) * sizeof(Block *));
     for(int i = 0; i < count; i++){
         LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
+        block[i] = (Block *)malloc(sizeof(Block));
         createLeafNodes(leafNodes, arr[i], lineNum[i]);
         printf("\nnoobs2.0\n");
         for (int i = 0; i < lineNum[i]; i++) {
@@ -72,11 +75,19 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");*/
         print_merkle_tree(TreeRoot, 1);
-        //build block here!!!!!!!!!!!!!!
+        
+        //create block
+        if(i != 0){
+            block[i] = create_block(TreeRoot,block[i-1]);
+        }else{
+            block[i] = initialize_block(TreeRoot); //first block, previous block pointing to 0
+        }
 
         //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
         //Fclose(output);
         //free_merkle_tree(leafNodes);
     }
+
+    //print_block(block, count, fileNames);
 }
 
