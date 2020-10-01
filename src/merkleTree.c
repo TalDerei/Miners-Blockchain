@@ -114,8 +114,19 @@ void print_merkle_tree(InternalNode *root, int ID) {
 
 	printf("#######");
 	printf("%d", ID);
-	printf("%s", root->leftEdge);
-	printf("%s", root->rightEdge);
+	printf("hash is:");
+	for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		printf("%x", (unsigned char) root->hash[n]);
+	}
+	printf("\n");
+	printf("%p\n", root->leftChild);
+	printf("%p\n", root->rightChild);
+	if(strcmp(root->leftEdge, root->rightEdge)){
+		printf("%s\n", root->leftEdge);
+		printf("%s\n", root->rightEdge);
+	}else{
+		printf("leaf node\n");
+	}
 	if (root->leftChild != NULL) {
 		print_merkle_tree(root->leftChild, 2*ID);
 	}
