@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "readFile.h"
+#include "sort.h"
 
 FILE *Fopen(const char *file, const char *permission) {
     FILE *fp = fopen(file, permission);
@@ -65,7 +66,8 @@ char **ReadOneFile(char *filename)
         arr[i] = malloc(100);
     }
 
-    //fp must be open twice!!!
+    
+    //fp must be open twice OR rewind()!
     fp = Fopen(filename, "r"); //open the file
     int z = 0;
     while ( fgets(arr[z], 100, fp) != NULL )
@@ -80,7 +82,7 @@ char **ReadOneFile(char *filename)
     printf("Total string put in arr is: %d\n", z);
     fclose(fp);
 
-    ssort(arr, count);
+    sort(arr, count);   
 
     for (int i = 0; i < count; i++)
     {
@@ -101,11 +103,12 @@ char **ReadMultipleFiles(char **filename, int count) {
 }
 
 int *GetLineNumbers(char **filename, int count) {
-    int *lineNum[count];
+    int *lineNum = (int *)malloc(count*sizeof(int));
     FILE *fp;
     for(int i = 0; i < count; i++){
         fp = fopen(filename[i], "r");
-        int * count = (int) lineCount(fp);
+        lineNum[i] = (int) lineCount(fp);
+        printf("!!!!!Assigned line number %d to %d\n", i, lineNum[i]);
     }
     return lineNum;
 }

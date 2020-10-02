@@ -7,7 +7,7 @@
 #include "sha256.h"
 #include "hash.h"
 
-LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
+void createLeafNodes(LeafNode *leafnode, char *SortedArray, int count) {
 	for(int i = 0; i < count; i++){
 		printf("----\n");
         strcpy(leafnode[i].value, SortedArray[i]);//correct
@@ -25,22 +25,19 @@ LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 		//strcpy(leafnode[i].hash, SortedArray[i]);
 		//printf("\nLeafNode hash: %s\n", leafnode[i].hash);
     }
-    //return leafnode;
 }
 
-InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count){
-	InternalNode *newInternal = malloc(count * sizeof(InternalNode));
+void convertLeaftoInternal(InternalNode *newInternal, LeafNode *LeafNode, int count){
 	for(int i = 0; i < count; i++){
 		memcpy(newInternal[i].hash, &LeafNode[i].hash, SHA256_BLOCK_SIZE);
 		strncpy(newInternal[i].leftEdge, &LeafNode[i].value, 100);
 		strncpy(newInternal[i].rightEdge, &LeafNode[i].value, 100);
 	}
-	return newInternal;
 }
 
 InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	//get ceiling
-	printf("Count is: %d\n",count);
+	printf("********Count is: %d\n",count);
 	int parents = count/2 + count%2;
 	InternalNode *newInternal = malloc(((count/2)+(count%2))*sizeof(InternalNode));
 	

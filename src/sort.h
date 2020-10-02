@@ -2,6 +2,6 @@
 #ifndef SORT_DEF
 #define SORT_DEF
 
-void Sort(char**, int);
+void sort(char**, int);
 
 #endif
