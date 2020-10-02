@@ -1,22 +1,31 @@
 /* HEADER FILE FOR FUCNTIONS ASSOCIATED WITH MERKLE TREE */
+#ifndef MERKLETREE_DEF
+#define MERKLETREE_DEF
+
 #include <stdio.h>
-#include "node.h"
-#include "block.h"
+#include "sha256.h"
 #define BUFFER 100
+
+//leaf node struct
+struct leaf_node {
+  char hash[SHA256_BLOCK_SIZE + 1];
+  char value[100];
+};
+typedef struct leaf_node LeafNode;
+
+//internal node struct
+struct node {
+  char hash[2*SHA256_BLOCK_SIZE + 1];
+  struct node *leftChild;
+  struct node *rightChild;
+  char leftEdge[100];
+  char rightEdge[100];
+};
+typedef struct node InternalNode;
 
 LeafNode *createLeafNodes(LeafNode *, char**, int);
 InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count);
 InternalNode *merkleTreeRoot(InternalNode *, int);
 void print_merkle_tree(InternalNode *, int);
-FILE *Fopen(const char *, const char *);
-void Fclose(FILE *);
-size_t Fread(void *, size_t, size_t, FILE *); 
-//size_t Fwrite(void *, size_t, size_t, FILE *);
-void Sort(char**, int);
-unsigned char* hash(char arr[]);
-Block *create_block(InternalNode *, Block *);
-Block *initialize_block(InternalNode *);
-void populate_header(Header *, InternalNode *, Block *);
-void initialize_header(Header *, InternalNode *);
-int *timestamp();
-void generate_nonce(unsigned char *, InternalNode *);
+
+#endif

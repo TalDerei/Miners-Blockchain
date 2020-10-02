@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "node.h"
 #include "merkleTree.h"
+#include "sha256.h"
+#include "hash.h"
 
 LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){

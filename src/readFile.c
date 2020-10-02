@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "merkleTree.h"
+#include "readFile.h"
 
 FILE *Fopen(const char *file, const char *permission) {
     FILE *fp = fopen(file, permission);

@@ -1,6 +1,6 @@
-#include "node.h"
 #include "block.h"
 #include "merkleTree.h"
+#include "sha256.h"
 #include "time.h"
 #include <stdint.h>
 
@@ -61,7 +61,8 @@ int *timestamp() {
 void generate_nonce(unsigned char * nonce, InternalNode *Treeroot) {
     while (1) {
         unsigned char *nonce = rand(0); 
-        if (hash(strcat(nonce, Treeroot))[0] <= 0x7f) { 
+        unsigned char *hashResult = hash(strcat(nonce, Treeroot));
+        if (hashResult[0] <= 0x7f) { 
         return;
         }
     }

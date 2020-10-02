@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "merkleTree.h"
-#include "node.h"
 
 /* Double Bubble-Sort: sorting by length and alphanumeric */
 void Sort(char** arr, int n) { 

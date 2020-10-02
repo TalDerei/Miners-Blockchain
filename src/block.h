@@ -1,7 +1,8 @@
-
 #ifndef BLOCK_DEF
 #define BLOCK_DEF
+
 #include "sha256.h"
+#include "merkleTree.h"
 
 //header struct
 struct header {
@@ -19,5 +20,12 @@ struct block {
   char *rootHash[32];
 };
 typedef struct block Block;
+
+Block *create_block(InternalNode *, Block *);
+Block *initialize_block(InternalNode *);
+void populate_header(Header *, InternalNode *, Block *);
+void initialize_header(Header *, InternalNode *);
+int *timestamp();
+void generate_nonce(unsigned char *, InternalNode *);
 
 #endif

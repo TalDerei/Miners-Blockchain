@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include "sha256.h"
 #include "merkleTree.h"
-#include "node.h"
 
 unsigned char *hash(char arr[]) {
     //printf ("content passed in: %s\n", arr);

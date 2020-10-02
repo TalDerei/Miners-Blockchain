@@ -16,9 +16,11 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 #include <stdlib.h>
 #include <string.h>
 #include "merkleTree.h"
-#include "sha256.h"
-#include "node.h"
 #include "block.h"
+#include "sha256.h"
+#include "readFile.h"
+#include "sort.h"
+#include "hash.h"
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
@@ -45,7 +47,7 @@ int main(int argc, char *argv[]) {
     arr = ReadMultipleFiles(fileNames, count);
     
     int * lineNum = malloc(count * sizeof(int));
-    lineNum = GetLineNumbers(fileNames);
+    lineNum = GetLineNumbers(fileNames, count);
 
     Block **block = (Block **)malloc(sizeof(lineNum) * sizeof(Block *));
     for(int i = 0; i < count; i++){
