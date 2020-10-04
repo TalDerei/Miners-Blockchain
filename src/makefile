@@ -1,13 +1,16 @@
 prog: main.o merkleTree.o readFile.o sha256.o hash.o sort.o block.o
 	gcc -g -o prog merkleTree.o readFile.o sha256.o hash.o block.o sort.o main.o
 
+main.o: main.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c main.c
+
 sort.o: sort.h sort.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c sort.c
 
 readFile.o: readFile.h sort.h readFile.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c readFile.c
 
-merkleTree.o: merkleTree.h sha256.h merkleTree.c 
+merkleTree.o: merkleTree.h sha256.h merkleTree.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c merkleTree.c
 
 sha256.o: sha256.h sha256.c

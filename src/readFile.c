@@ -94,6 +94,7 @@ char **ReadOneFile(char *filename)
 char **ReadMultipleFiles(char **filename, int count) {
     printf("---ENTERED  ReadMultipleFiles: \n");
     printf("number of lines: %s\n", filename[0]);
+    printf("count is: %d\n", count);
     char ** multiplefilecontents = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
     int i;
     for (i = 0; i < count; i++) {

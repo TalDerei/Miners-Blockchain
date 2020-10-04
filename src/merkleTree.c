@@ -9,7 +9,9 @@
 
 void createLeafNodes(LeafNode *leafnode, char *SortedArray, int count) {
 	for(int i = 0; i < count; i++){
-		printf("----\n");
+		printf("inside createLeafNodes\n");
+		printf("Sorted Array is: %s\n", SortedArray);
+		exit(0);
         strcpy(leafnode[i].value, SortedArray[i]);//correct
 		printf("LeafNode value: %s\n", leafnode[i].value);//correct
 		unsigned char *returned_str = hash(SortedArray[i]);
