@@ -56,6 +56,7 @@ int main(int argc, char *argv[]) {
         arr[i] = malloc(100);
     }
 
+    char *pointerToZero = "0";
     Block **block = (Block **)malloc(count * sizeof(Block *));
     LeafNode **leafNodes = (LeafNode **)malloc(count * sizeof(LeafNode *));
     InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
@@ -95,7 +96,7 @@ int main(int argc, char *argv[]) {
         if(i != 0){
             block[i] = create_block(TreeRoot[i],block[i-1]);
         }else{
-            block[i] = initialize_block(TreeRoot[i]); //first block, previous block pointing to 0
+            block[i] = initialize_block(TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
         }
 
         //clear arr to reuse

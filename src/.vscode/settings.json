@@ -5,6 +5,7 @@
         "memory": "c",
         "optional": "c",
         "string": "c",
-        "system_error": "c"
+        "system_error": "c",
+        "random": "c"
     }
 }

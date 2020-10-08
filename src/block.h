@@ -6,8 +6,8 @@
 
 //header struct
 struct header {
-  unsigned char* previousHash[2*SHA256_BLOCK_SIZE + 1]; 
-  unsigned char rootHash[32];
+  unsigned char* previousHash; 
+  char rootHash[32];
   int timestamp;
   double target;
   unsigned char* nonce;
@@ -22,9 +22,9 @@ struct block {
 typedef struct block Block;
 
 Block *create_block(InternalNode *, Block *);
-Block *initialize_block(InternalNode *);
+Block *initialize_block(InternalNode *, int *);
 void populate_header(Header *, InternalNode *, Block *);
-void initialize_header(Header *, InternalNode *);
+void initialize_header(Header *, InternalNode *, int *);
 int *timestamp();
 void generate_nonce(unsigned char *, InternalNode *);
 

@@ -5,18 +5,25 @@
 #include <stdint.h>
 
 //create block consisting of block header and transaction array
-Block *initialize_block(InternalNode *Treeroot) {
+Block *initialize_block(InternalNode *Treeroot, int *pointerToZero) {
     Header *header = (Header *)malloc(sizeof (header));
-    initialize_header(header, Treeroot);
+    initialize_header(header, Treeroot, pointerToZero);
 
     print_merkle_tree(Treeroot, 1);
 }
 
-void initialize_header(Header *header, InternalNode *Treeroot) {
+void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZero) {
     //hash of the previous root hash of the previous block
-    strncpy(header->previousHash, 0, SHA256_BLOCK_SIZE);
+    header->previousHash = pointerToZero;
+    printf("header is fine! previouhash works %s\n", header->previousHash);
     //hash of the root of the current block 
+    printf("\n-------root is: ----\n");
+        for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+            printf("%x", (unsigned char) Treeroot->hash[n]);
+        }
     strncpy(header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
+    printf("hello motherfuckers!!!!!!!!!!!!!!!!");
+    exit(0);
     //timestamp
     header->timestamp = timestamp();
     //nonce with 50% difficulty target
