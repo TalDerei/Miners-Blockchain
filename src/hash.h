@@ -1,6 +1,7 @@
 #ifndef HASH_DEF
 #define HASH_DEF
 
-unsigned char* hash(char);
+unsigned char* hashPointer(char *);
+unsigned char* hash(char []);
 
 #endif

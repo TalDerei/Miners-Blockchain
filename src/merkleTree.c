@@ -7,12 +7,11 @@
 #include "sha256.h"
 #include "hash.h"
 
-void createLeafNodes(LeafNode *leafnode, char *SortedArray, int count) {
+void createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){
 		printf("inside createLeafNodes\n");
-		printf("Sorted Array is: %s\n", SortedArray);
-		exit(0);
-        strcpy(leafnode[i].value, SortedArray[i]);//correct
+		printf("Sorted Array is: %s\n", SortedArray[i]);     
+		strcpy(leafnode[i].value, SortedArray[i]);//correct
 		printf("LeafNode value: %s\n", leafnode[i].value);//correct
 		unsigned char *returned_str = hash(SortedArray[i]);
 		for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
@@ -31,9 +30,14 @@ void createLeafNodes(LeafNode *leafnode, char *SortedArray, int count) {
 
 void convertLeaftoInternal(InternalNode *newInternal, LeafNode *LeafNode, int count){
 	for(int i = 0; i < count; i++){
+		printf("!!!!!!!!!!leafNode[i] is: %s", LeafNode[i].value);
 		memcpy(newInternal[i].hash, &LeafNode[i].hash, SHA256_BLOCK_SIZE);
 		strncpy(newInternal[i].leftEdge, &LeafNode[i].value, 100);
+		printf("\n*******************Left edge assigned is: %s\n", newInternal[i].leftEdge);
 		strncpy(newInternal[i].rightEdge, &LeafNode[i].value, 100);
+		printf("\n*******************Right edge assigned is: %s\n", newInternal[i].rightEdge);
+		newInternal[i].leftChild = NULL;
+		newInternal[i].rightChild = NULL;
 	}
 }
 
@@ -77,9 +81,9 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			newInternal[j].leftChild = &leafNodes[i].hash;
 			newInternal[j].rightChild = &leafNodes[i+1].hash;
 			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
-			//printf("\n---------The left edge is: %s\n",newInternal[j].leftEdge);
+			printf("\n---------The left edge is: %s\n",newInternal[j].leftEdge);
 			strncpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge, 100);
-			//printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
+			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
 		}else{
 			unsigned char *temp = &(leafNodes[i].hash);
 			printf("\nZZZZZZZZZZZ ODD CASE: temp is:\n");
@@ -94,8 +98,9 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			newInternal[j].leftChild = &leafNodes[i];
 			newInternal[j].rightChild = NULL;
 			strncpy(newInternal[j].rightEdge, &leafNodes[i].rightEdge, 100);
+			printf("\n!!!!!!!!!!!!Left edge assigned is: %s\n", newInternal[j].leftEdge);
 			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
-			//printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
+			printf("\n!!!!!!!!!!!!Right edge assigned is: %s\n",newInternal[j].rightEdge);
 		}
 		j++;
 		if(parents == 1){
@@ -112,8 +117,12 @@ void print_merkle_tree(InternalNode *root, int ID) {
 
 	printf("#######");
 	printf("%d", ID);
+	printf("\n");
 	printf("%s", root->leftEdge);
+	printf("\n");
 	printf("%s", root->rightEdge);
+	printf("\n");
+	printf("\n");
 	if (root->leftChild != NULL) {
 		print_merkle_tree(root->leftChild, 2*ID);
 	}

@@ -54,18 +54,12 @@ int lineCount(FILE * inputFile) {
 }  
 
 //BUG -- NOT READING THE FILE CONTENTS
-char **ReadOneFile(char *filename)
+void ReadOneFile(char** arr, char *filename)
 {
     printf("file name %s\n", filename);
     FILE *fp = Fopen(filename, "r");
     int count = (int)lineCount(fp);
     printf("number of lines: %d\n", count);
-    char **arr = malloc(count * sizeof(char*));
-    for (int i = 0; i < count; i++)
-    {
-        arr[i] = malloc(100);
-    }
-
     
     //fp must be open twice OR rewind()!
     fp = Fopen(filename, "r"); //open the file
@@ -88,20 +82,18 @@ char **ReadOneFile(char *filename)
     {
         printf("Sorted array is: %s\n", arr[i]);
     }
-    return (char **)arr;
+    // return (char **)arr;
 }
 
-char **ReadMultipleFiles(char **filename, int count) {
-    printf("---ENTERED  ReadMultipleFiles: \n");
-    printf("number of lines: %s\n", filename[0]);
-    printf("count is: %d\n", count);
-    char ** multiplefilecontents = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
-    int i;
-    for (i = 0; i < count; i++) {
-        multiplefilecontents[i] = ReadOneFile(filename[i]);
-    }
-    return multiplefilecontents;
-}
+// void ReadMultipleFiles(char **multiplefilecontents, char **filename, int count) {
+//     printf("---ENTERED  ReadMultipleFiles: \n");
+//     printf("number of lines: %s\n", filename[0]);
+//     printf("count is: %d\n", count);
+//     int i;
+//     for (i = 0; i < count; i++) {
+//         multiplefilecontents[i] = ReadOneFile(filename[i]);
+//     }
+// }
 
 int *GetLineNumbers(char **filename, int count) {
     int *lineNum = (int *)malloc(count*sizeof(int));
