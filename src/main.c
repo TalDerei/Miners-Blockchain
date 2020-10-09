@@ -26,7 +26,8 @@ CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFi
 int main(int argc, char *argv[]) {
     int count;
     printf("input the number of files you want opened: "); 
-	scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+    count = 1;
     printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -35,7 +36,9 @@ int main(int argc, char *argv[]) {
     }
     for (int i = 0; i < count; i ++){
         printf("enter the filename[%d]: ", i); 
-        scanf("%s", fileNames[i]);
+        //scanf("%s", fileNames[i]);
+        fileNames[i] = "input.txt";
+
         //int k = strlen(fileNames[i]);
         /*for (int j = 0; j < k; j++) {
             printf("Filename entered: %c \n", fileNames[i][j]);

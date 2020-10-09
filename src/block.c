@@ -18,10 +18,11 @@ void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZer
     printf("header is fine! previouhash works %s\n", header->previousHash);
     //hash of the root of the current block 
     printf("\n-------root is: ----\n");
-        for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-            printf("%x", (unsigned char) Treeroot->hash[n]);
-        }
-    strncpy(header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
+        // for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+        //     printf("%x", (unsigned char) Treeroot->hash[n]);
+        // }
+    unsigned char *temp = hash(Treeroot->hash);
+    strncpy(header->rootHash, temp , SHA256_BLOCK_SIZE);//SOMETHING is preventing the acess to temp or header->rootHash. Need debug
     printf("hello motherfuckers!!!!!!!!!!!!!!!!");
     exit(0);
     //timestamp
