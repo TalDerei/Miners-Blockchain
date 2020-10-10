@@ -33,8 +33,7 @@ void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZer
     header->timestamp = timestamp();
     //nonce with 50% difficulty target
     
-    long *nonce = malloc(sizeof(header->nonce));
-    generate_nonce(nonce, Treeroot);
+    generate_nonce(header, Treeroot);
     //targete value
     header->target = 0.5;
 }
@@ -54,7 +53,7 @@ void populate_header(Header *header, InternalNode *Treeroot, Block *prevBlock) {
     //timestamp
     header->timestamp = timestamp();
     //nonce with 50% difficulty target
-    generate_nonce(header->nonce, Treeroot);
+    generate_nonce(header, Treeroot);
     //targete value
     header->target = 0.5;
 }
@@ -70,17 +69,26 @@ int *timestamp() {
     return seconds;
 }
 
-void generate_nonce(long *nonce, InternalNode *Treeroot) {
+void generate_nonce(Header* header, InternalNode *Treeroot) {
     while (1) {
-        nonce = rand()*rand(); //RAND_MAX?
-        printf("\n nonce is: %lu\n", nonce);
-        unsigned long *temp = (unsigned int*)malloc(64);
-        temp = nonce;
-        printf("temp is: %lu", temp);
-        strcat(temp, Treeroot->hash);
-        exit(0);
-        unsigned char *hashResult = hash(temp);
-        if (hashResult[0] <= 0x7f) { 
+        srand(time(0)); //seed rand() 
+        header->nonce = rand(); //turn into MACRO
+        printf("\n nonce is: %lu\n", header->nonce);
+        unsigned int temp = header->nonce; //&temp or *temp = &(header->nonce) in order to make it pass by reference because memcpy expects a pointer
+        unsigned char tempstr[SHA256_BLOCK_SIZE + sizeof(unsigned int)];//36 char[] (nonce + treeroot->hash)
+        memcpy(tempstr, &temp, sizeof(unsigned int));
+        memcpy(tempstr + sizeof(unsigned int), Treeroot->hash, SHA256_BLOCK_SIZE);//use memcpy instead to avoid /0 problem
+        //strcat -- 0000\0 00000000000000000000000000000000\0, use memcpy with pointer aritmetic to concatnate buffers
+        printf("\n!!!!!!!!!!!!!!!tempstr is:");
+        for( int i =0; i < sizeof(tempstr) / (sizeof(unsigned char)); ++i){ //unsigned char shoul dbe 1 but it can vary
+            printf("%x\n", tempstr[i]); //doesn't have null terminators anymore
+        }
+        for (int n = 0; n < SHA256_BLOCK_SIZE; ++n) {
+            printf("%x", (unsigned char) Treeroot->hash[n]);
+        }
+        printf("\n");
+        unsigned char *hashResult = hash(tempstr);
+        if (hashResult[0] <= 0x7f) { //turn into MACRO, 0x7f 01111111
             return;
         }
     }
