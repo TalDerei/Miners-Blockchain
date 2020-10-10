@@ -6,7 +6,10 @@
 #include "merkleTree.h"
 
 unsigned char *hash(unsigned char arr[]) {
-    //printf ("content passed in: %s\n", arr);
+    printf("content passed in:\n");
+    for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+            printf("%x", (unsigned char) arr[n]);
+    }
 
     BYTE* buf = malloc(SHA256_BLOCK_SIZE);
 	SHA256_CTX ctx;
@@ -15,10 +18,11 @@ unsigned char *hash(unsigned char arr[]) {
 	sha256_init(&ctx); 
 	sha256_update(&ctx, arr, strlen(arr));
 	sha256_final(&ctx, buf);
-    printf ("content passed out:\n");
+    printf ("\ncontent passed out:\n");
     for(int i = 0 ; i < SHA256_BLOCK_SIZE; i++){
         printf("%x", buf[i]);
     }
     printf("\n");
-    return buf;
+    return (unsigned char *)buf;
 }
+
