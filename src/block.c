@@ -27,13 +27,14 @@ void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZer
        		printf("%x", temp[n]);
 	} 
     strncpy(header->rootHash, temp , SHA256_BLOCK_SIZE);//SOMETHING is preventing the acess to temp or header->rootHash. Need debug
-    printf("\nhello motherfuckers!!!!!!!!!!!!!!!!");
+    printf("\nhello NOOBS!!!!!!!!!!!!!!!!");
 
     //timestamp
     header->timestamp = timestamp();
     //nonce with 50% difficulty target
-    generate_nonce(header->nonce, Treeroot);
-    exit(0);
+    
+    long *nonce = malloc(sizeof(header->nonce));
+    generate_nonce(nonce, Treeroot);
     //targete value
     header->target = 0.5;
 }
@@ -69,11 +70,11 @@ int *timestamp() {
     return seconds;
 }
 
-void generate_nonce(long* nonce, InternalNode *Treeroot) {
+void generate_nonce(long *nonce, InternalNode *Treeroot) {
     while (1) {
         nonce = rand()*rand(); //RAND_MAX?
-        printf("nonce is: %lu", nonce);
-        unsigned long *temp = (unsigned int*)malloc(65);
+        printf("\n nonce is: %lu\n", nonce);
+        unsigned long *temp = (unsigned int*)malloc(64);
         temp = nonce;
         printf("temp is: %lu", temp);
         strcat(temp, Treeroot->hash);
