@@ -10,7 +10,7 @@ struct header {
   char rootHash[32];
   int timestamp;
   double target;
-  unsigned char* nonce;
+  long *nonce;
 };
 typedef struct header Header;
 
@@ -26,6 +26,6 @@ Block *initialize_block(InternalNode *, int *);
 void populate_header(Header *, InternalNode *, Block *);
 void initialize_header(Header *, InternalNode *, int *);
 int *timestamp();
-void generate_nonce(unsigned char *, InternalNode *);
+void generate_nonce(long *, InternalNode *);
 
 #endif
