@@ -1,7 +1,9 @@
 # CSE297 Team Miners Repository
 This is the repository where all the work for "Team Miners" from CSE 297 Fall 2020 will be committed.
 
-Check out Phase-1 Branch for Phase-1.
+'git checkout phase-1' for Phase-1 Branch
+'git checkout phase-2' for Phase-2 Branch
+'git checkout phase-3' for Phase-3 Branch
 
 # Contributors
 - Tal Derei <tad222@lehigh.edu>
