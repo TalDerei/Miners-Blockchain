@@ -34,17 +34,20 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < count; i++){
         fileNames[i] = (char *)malloc(BUFFER);
     }
-    for (int i = 0; i < count; i ++){
-        printf("enter the filename[%d]: ", i); 
-        //scanf("%s", fileNames[i]);
-        fileNames[i] = "input.txt";
+    fileNames[0] = "input.txt";
+    //fileNames[1] = "input2.txt";
+    // for (int i = 0; i < count; i ++){
+    //     printf("enter the filename[%d]: ", i); 
+    //     scanf("%s", fileNames[i]);
+        // fileNames[0] = "input.txt";
+        // fileNames[1] = "input2.txt";
 
         //int k = strlen(fileNames[i]);
         /*for (int j = 0; j < k; j++) {
             printf("Filename entered: %c \n", fileNames[i][j]);
         }*/
-        printf("Filename entered: %s \n", fileNames[i]);
-    }
+    //     printf("Filename entered: %s \n", fileNames[i]);
+    // }
     // char **multiplefilecontents = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
     // ReadMultipleFiles(multiplefilecontents, fileNames, count);
     int * lineNum = malloc(count * sizeof(int));
@@ -97,8 +100,10 @@ int main(int argc, char *argv[]) {
         print_merkle_tree(TreeRoot[i], 1);
         //create block
         if(i != 0){
+            printf("CREATE BLOCK: \n");
             block[i] = create_block(TreeRoot[i],block[i-1]);
         }else{
+            printf("INITIALIZE BLOCK: \n");
             block[i] = initialize_block(TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
         }
 
@@ -108,7 +113,6 @@ int main(int argc, char *argv[]) {
                 arr[i][j] = NULL;
             }
         }
-
     }
         //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
         //Fclose(output);

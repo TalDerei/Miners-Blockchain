@@ -9,8 +9,8 @@
 Block *initialize_block(InternalNode *Treeroot, int *pointerToZero) {
     Header *header = (Header *)malloc(sizeof (header));
     initialize_header(header, Treeroot, pointerToZero);
-
     print_merkle_tree(Treeroot, 1);
+    return header; 
 }
 
 void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZero) {
@@ -34,6 +34,8 @@ void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZer
     //nonce with 50% difficulty target
     
     generate_nonce(header, Treeroot);
+    //printf("nonce for first block is: %s\n", header->nonce);
+
     //targete value
     header->target = 0.5;
 }
@@ -71,14 +73,14 @@ int *timestamp() {
 
 void generate_nonce(Header* header, InternalNode *Treeroot) {
     while (1) {
-        srand(time(0)); //seed rand() 
+        srand(time(NULL)); //seed rand() 
         header->nonce = rand(); //turn into MACRO
-        printf("\n nonce is: %lu\n", header->nonce);
+        printf("\n nonce is: %d\n", header->nonce);
         unsigned int temp = header->nonce; //&temp or *temp = &(header->nonce) in order to make it pass by reference because memcpy expects a pointer
         unsigned char tempstr[SHA256_BLOCK_SIZE + sizeof(unsigned int)];//36 char[] (nonce + treeroot->hash)
         memcpy(tempstr, &temp, sizeof(unsigned int));
         memcpy(tempstr + sizeof(unsigned int), Treeroot->hash, SHA256_BLOCK_SIZE);//use memcpy instead to avoid /0 problem
-        //strcat -- 0000\0 00000000000000000000000000000000\0, use memcpy with pointer aritmetic to concatnate buffers
+        //strcat -- 0000\0 00000000000000000000000000000000\0 and will cut off after \0, use memcpy with pointer aritmetic to concatnate buffers
         printf("\n!!!!!!!!!!!!!!!tempstr is:");
         for( int i =0; i < sizeof(tempstr) / (sizeof(unsigned char)); ++i){ //unsigned char shoul dbe 1 but it can vary
             printf("%x\n", tempstr[i]); //doesn't have null terminators anymore
@@ -88,7 +90,7 @@ void generate_nonce(Header* header, InternalNode *Treeroot) {
         }
         printf("\n");
         unsigned char *hashResult = hash(tempstr);
-        if (hashResult[0] <= 0x7f) { //turn into MACRO, 0x7f 01111111
+        if (hashResult[0] <= 0x7f) { //turn into MACRO, 0x7f -- 01111111
             return;
         }
     }
