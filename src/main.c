@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     int count;
     printf("input the number of files you want opened: "); 
 	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 2;
+    count = 1;
     printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         fileNames[i] = (char *)malloc(BUFFER);
     }
     fileNames[0] = "input.txt";
-    fileNames[1] = "input2.txt";
+    //fileNames[1] = "input2.txt";
     
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 
@@ -82,7 +82,11 @@ int main(int argc, char *argv[]) {
         printf("\nnoobs2.0\n");
         for (int k = 0; k < lineNum[i]; k++) {
             for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
-                printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
+                if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
+                    printf("0%x", (unsigned char) leafNodes[i][k].hash[j]);
+                }else{
+                    printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
+                }
             }
             printf("\n");
         }
@@ -100,22 +104,22 @@ int main(int argc, char *argv[]) {
             printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
         }
         printf("\n");
-        //print_merkle_tree(TreeRoot[i], 1);
+        print_merkle_tree(TreeRoot[i], 1);
         //create block
-        if(i != 0){
-            printf("CREATE BLOCK: \n");
-            create_block(block[i], TreeRoot[i], block[i-1]);
-        }else{
-            printf("INITIALIZE BLOCK: \n");
-            initialize_block(block[i], TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
-        }
+        // if(i != 0){
+        //     printf("CREATE BLOCK: \n");
+        //     create_block(block[i], TreeRoot[i], block[i-1]);
+        // }else{
+        //     printf("INITIALIZE BLOCK: \n");
+        //     initialize_block(block[i], TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
+        // }
 
-        //clear arr to reuse
-        for(int i = 0 ; i < 100; i++){
-            for( int j = 0; j < 100; j++){
-                arr[i][j] = NULL;
-            }
-        }
+        // //clear arr to reuse
+        // for(int i = 0 ; i < 100; i++){
+        //     for( int j = 0; j < 100; j++){
+        //         arr[i][j] = NULL;
+        //     }
+        // }
     }
         //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
         //Fclose(output);

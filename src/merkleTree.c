@@ -51,13 +51,13 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	for(int i = 0; i < count; i+=2){
 		printf("\nI = %d\n",i);
 		if(i != count-1){
-			unsigned char *temp = (unsigned char *) malloc(2*SHA256_BLOCK_SIZE+1);
+			unsigned char *temp = (unsigned char *) malloc(2*SHA256_BLOCK_SIZE);
 			printf("\nhash[i] is:");
 			for	 (int n = 0; n < SHA256_BLOCK_SIZE; n ++) {
 				printf("%x", (unsigned char) leafNodes[i].hash[n]);
 			}
 			printf("\n");
-			memcpy(temp, leafNodes[i].hash,SHA256_BLOCK_SIZE);
+			memcpy(temp, leafNodes[i].hash, SHA256_BLOCK_SIZE);
 			printf("\ntemp is:");
 			for (int n = 0; n < SHA256_BLOCK_SIZE; n ++) {
 				printf("%x", (unsigned char) temp[n]);
@@ -68,16 +68,27 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 				printf("%x", (unsigned char) leafNodes[i+1].hash[n]);
 			}
 			printf("\n");
-
-			strncpy(newInternal[j].hash, hash(strcat(temp, leafNodes[i+1].hash)), SHA256_BLOCK_SIZE);
-			printf(".....temp after strcat is");
+			unsigned char *tempHash = hash(memcpy(temp+SHA256_BLOCK_SIZE, leafNodes[i+1].hash, SHA256_BLOCK_SIZE));
+			memcpy(newInternal[j].hash, tempHash, SHA256_BLOCK_SIZE); //memory shift by SHA256_BLOCK_SIZE
+			printf(".....temp after strcat is\n");
 			for (int n = 0; n < 2*SHA256_BLOCK_SIZE; n++) {
-				printf("%x", temp[n]);
+				if ((unsigned char)temp[n] <= 0x0f) {
+						printf("0%x", temp[n]);
+				}else{
+						printf("%x", temp[n]);
+				}
 			}
-			printf("\nStrcat test: \n");
+			printf("\nhash of the concatenation test: \n");
 			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-				printf("%x", (unsigned char) newInternal[j].hash[n]);
+				if ((unsigned char)newInternal[i].hash[j] <= 0x0f) {
+						printf("0%x", (unsigned char) newInternal[j].hash[n]);
+				}else{
+						printf("%x", (unsigned char) newInternal[j].hash[n]);
+				}
 			}
+			// for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+			// 	printf("%x", (unsigned char) newInternal[j].hash[n]);
+			// }
 			newInternal[j].leftChild = &leafNodes[i].hash;
 			newInternal[j].rightChild = &leafNodes[i+1].hash;
 			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
@@ -91,7 +102,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 				printf("%x", (unsigned char) temp[n]);
 			}
 			printf("\n");
-			strncpy(newInternal[j].hash, hash(temp), SHA256_BLOCK_SIZE);
+			memcpy(newInternal[j].hash, hash(hash(temp)), SHA256_BLOCK_SIZE);
 			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
 				printf("%x", (unsigned char) newInternal[j].hash[n]);
 			}
