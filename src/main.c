@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     int count;
     printf("input the number of files you want opened: "); 
 	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 1;
+    count = 2;
     printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         fileNames[i] = (char *)malloc(BUFFER);
     }
     fileNames[0] = "input.txt";
-    //fileNames[1] = "input2.txt";
+    fileNames[1] = "input2.txt";
     
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 
@@ -72,7 +72,8 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < count; i++){
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
-        block[i] = (Block *)malloc(sizeof(Block));
+        block[i] = (Block *)malloc(sizeof(Block)); //mallocing for block (pointer to root and header) -- 16 Bytes
+        block[i]->header = malloc(sizeof(Header)); //mallocing for header contents
         printf("\nnoobs\n");
         createLeafNodes(leafNodes[i], arr, lineNum[i]);
         // for (int j = 0; lineNum[i] < 5; j++) {

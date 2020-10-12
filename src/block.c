@@ -21,7 +21,6 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     block->header->previousHash = pointerToZero; //wtf -- why can't equal unsigned char * to unsigned char *???
     // printf("header is fine! previous hash works %s\n", block->header->previousHash);
     // printf("\n-------Treeroot is (within initialize_header): ----\n");
-    exit(0);
 
     unsigned char *temp = hash(Treeroot->hash);
     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
@@ -56,7 +55,6 @@ void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock) {
     printf("entered populate_header\n");
 
     block->header->previousHash = hash(prevBlock->rootHash);
-    exit(0);
     //hash of the root of the current block 
     strncpy(block->header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
     //timestamp
@@ -73,7 +71,7 @@ int *timestamp() {
     seconds = time(NULL);
     if (seconds == -1) {
         printf("time error");
-        exit(0);
+        exit(0); //neccessary exit(0);
     }
     return seconds;
 }
@@ -92,6 +90,7 @@ void generate_nonce(Header* header, InternalNode *Treeroot) {
         for( int i =0; i < sizeof(tempstr) / (sizeof(unsigned char)); ++i){ //unsigned char shoul dbe 1 but it can vary
             printf("%x", tempstr[i]); //doesn't have null terminators anymore
         }
+        printf("\n");
         for (int n = 0; n < SHA256_BLOCK_SIZE; ++n) {
             printf("%x", (unsigned char) Treeroot->hash[n]);
         }
