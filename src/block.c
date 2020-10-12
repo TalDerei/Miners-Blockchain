@@ -6,58 +6,65 @@
 #include <stdint.h>
 
 //create block consisting of block header and transaction array
-Block *initialize_block(InternalNode *Treeroot, int *pointerToZero) {
-    Header *header = (Header *)malloc(sizeof (header));
-    initialize_header(header, Treeroot, pointerToZero);
-    print_merkle_tree(Treeroot, 1);
-    return header; 
+void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
+    printf("entered initialize initialize_block \n");
+    printf("pointerToZero is: %c\n", *pointerToZero); 
+    initialize_header(block, Treeroot, pointerToZero);
+    block->rootHash = Treeroot; //pointer to full merkletree
+    //print_merkle_tree(Treeroot, 1);
 }
 
-void initialize_header(Header *header, InternalNode *Treeroot, int *pointerToZero) {
+void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
     //previousHash initially pointing to 0
-    header->previousHash = pointerToZero;
-    printf("header is fine! previous hash works %s\n", header->previousHash);
-    printf("\n-------Treeroot is (within initialize_header): ----\n");
-        for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-            printf("%x", (unsigned char) Treeroot->hash[n]);
-        }
-    printf("\n");
+    printf("entered initialize initialize_header\n");
+    printf("pointerToZero is: %c\n", *pointerToZero);
+    block->header->previousHash = pointerToZero; //wtf -- why can't equal unsigned char * to unsigned char *???
+    // printf("header is fine! previous hash works %s\n", block->header->previousHash);
+    // printf("\n-------Treeroot is (within initialize_header): ----\n");
+    exit(0);
+
     unsigned char *temp = hash(Treeroot->hash);
     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
        		printf("%x", temp[n]);
 	} 
-    strncpy(header->rootHash, temp , SHA256_BLOCK_SIZE);//SOMETHING is preventing the acess to temp or header->rootHash. Need debug
+    strncpy(block->header->rootHash, temp , SHA256_BLOCK_SIZE);//SOMETHING is preventing the acess to temp or header->rootHash. Need debug
     printf("\nhello NOOBS!!!!!!!!!!!!!!!!");
 
     //timestamp
-    header->timestamp = timestamp();
+    block->header->timestamp = timestamp();
     //nonce with 50% difficulty target
     
-    generate_nonce(header, Treeroot);
+    generate_nonce(block->header, Treeroot);
     //printf("nonce for first block is: %s\n", header->nonce);
 
     //targete value
-    header->target = 0.5;
+    block->header->target = 0.5;
 }
 
-Block *create_block(InternalNode *Treeroot, Block *prevBlock) {
-    Header *header = (Header *)malloc(sizeof (header));
-    populate_header(header, Treeroot, prevBlock);
-    print_merkle_tree(Treeroot, 1);
+void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock) {
+    printf("entered create block\n");
+    populate_header(block, Treeroot, prevBlock);
+    block->rootHash = Treeroot;    
+    //print_merkle_tree(Treeroot, 1);
+    //don't need to malloc header --> malloced block already
+    //turned function prototypes in void and passing in block directly
 }
 
 //populate the header with 5-elements
-void populate_header(Header *header, InternalNode *Treeroot, Block *prevBlock) {
+void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock) {
     //hash of the previous root hash of the previous block
-    strncpy(header->previousHash, hash(prevBlock->rootHash), SHA256_BLOCK_SIZE);
+    printf("entered populate_header\n");
+
+    block->header->previousHash = hash(prevBlock->rootHash);
+    exit(0);
     //hash of the root of the current block 
-    strncpy(header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
+    strncpy(block->header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
     //timestamp
-    header->timestamp = timestamp();
+    block->header->timestamp = timestamp();
     //nonce with 50% difficulty target
-    generate_nonce(header, Treeroot);
+    generate_nonce(block->header, Treeroot);
     //targete value
-    header->target = 0.5;
+    block->header->target = 0.5;
 }
 
 //return unix-time in seconds
@@ -72,8 +79,8 @@ int *timestamp() {
 }
 
 void generate_nonce(Header* header, InternalNode *Treeroot) {
+    srand(time(0)); //seed rand() 
     while (1) {
-        srand(time(NULL)); //seed rand() 
         header->nonce = rand(); //turn into MACRO
         printf("\n nonce is: %d\n", header->nonce);
         unsigned int temp = header->nonce; //&temp or *temp = &(header->nonce) in order to make it pass by reference because memcpy expects a pointer
@@ -83,7 +90,7 @@ void generate_nonce(Header* header, InternalNode *Treeroot) {
         //strcat -- 0000\0 00000000000000000000000000000000\0 and will cut off after \0, use memcpy with pointer aritmetic to concatnate buffers
         printf("\n!!!!!!!!!!!!!!!tempstr is:");
         for( int i =0; i < sizeof(tempstr) / (sizeof(unsigned char)); ++i){ //unsigned char shoul dbe 1 but it can vary
-            printf("%x\n", tempstr[i]); //doesn't have null terminators anymore
+            printf("%x", tempstr[i]); //doesn't have null terminators anymore
         }
         for (int n = 0; n < SHA256_BLOCK_SIZE; ++n) {
             printf("%x", (unsigned char) Treeroot->hash[n]);

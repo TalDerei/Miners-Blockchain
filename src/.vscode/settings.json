@@ -6,6 +6,9 @@
         "optional": "c",
         "string": "c",
         "system_error": "c",
-        "random": "c"
+        "random": "c",
+        "array": "c",
+        "deque": "c",
+        "iterator": "c"
     }
 }

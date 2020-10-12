@@ -7,7 +7,7 @@
 //header struct
 struct header {
   unsigned char* previousHash; 
-  char rootHash[32];
+  unsigned char rootHash[32];
   int timestamp;
   double target;
   unsigned int nonce;
@@ -17,14 +17,14 @@ typedef struct header Header;
 //block struct
 struct block {
   Header *header;
-  char *rootHash[32];
+  InternalNode *rootHash;
 };
 typedef struct block Block;
 
-Block *create_block(InternalNode *, Block *);
-Block *initialize_block(InternalNode *, int *);
-void populate_header(Header *, InternalNode *, Block *);
-void initialize_header(Header *, InternalNode *, int *);
+void create_block(Block *, InternalNode *, Block *);
+void initialize_block(Block *, InternalNode *, unsigned char *);
+void populate_header(Block *, InternalNode *, Block *);
+void initialize_header(Block *, InternalNode *, unsigned char *);
 int *timestamp();
 void generate_nonce(Header *, InternalNode *);
 

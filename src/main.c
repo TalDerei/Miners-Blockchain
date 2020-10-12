@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
     }
     fileNames[0] = "input.txt";
     //fileNames[1] = "input2.txt";
+    
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 
     //     scanf("%s", fileNames[i]);
@@ -62,7 +63,8 @@ int main(int argc, char *argv[]) {
         arr[i] = malloc(100);
     }
 
-    char *pointerToZero = "0";
+    unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
+    strncpy(pointerToZero, "0", 1);
     Block **block = (Block **)malloc(count * sizeof(Block *));
     LeafNode **leafNodes = (LeafNode **)malloc(count * sizeof(LeafNode *));
     InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
@@ -97,14 +99,14 @@ int main(int argc, char *argv[]) {
             printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
         }
         printf("\n");
-        print_merkle_tree(TreeRoot[i], 1);
+        //print_merkle_tree(TreeRoot[i], 1);
         //create block
         if(i != 0){
             printf("CREATE BLOCK: \n");
-            block[i] = create_block(TreeRoot[i],block[i-1]);
+            create_block(block[i], TreeRoot[i], block[i-1]);
         }else{
             printf("INITIALIZE BLOCK: \n");
-            block[i] = initialize_block(TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
+            initialize_block(block[i], TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
         }
 
         //clear arr to reuse
