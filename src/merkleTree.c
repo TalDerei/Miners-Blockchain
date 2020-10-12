@@ -65,10 +65,18 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			printf("\n");
 			printf("\ni+1 is:\n");
 			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-				printf("%x", (unsigned char) leafNodes[i+1].hash[n]);
+				if ((unsigned char)leafNodes[i+1].hash[n] <= 0x0f) {
+						printf("0%x", (unsigned char)leafNodes[i+1].hash[n]);
+				}else{
+						printf("%x", (unsigned char)leafNodes[i+1].hash[n]);
+				}
 			}
+			// for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+			// 	printf("%x", (unsigned char) leafNodes[i+1].hash[n]);
+			// }
 			printf("\n");
-			unsigned char *tempHash = hash(memcpy(temp+SHA256_BLOCK_SIZE, leafNodes[i+1].hash, SHA256_BLOCK_SIZE));
+			memcpy(temp+SHA256_BLOCK_SIZE, leafNodes[i+1].hash, SHA256_BLOCK_SIZE);
+			unsigned char *tempHash = hash(temp);
 			memcpy(newInternal[j].hash, tempHash, SHA256_BLOCK_SIZE); //memory shift by SHA256_BLOCK_SIZE
 			printf(".....temp after strcat is\n");
 			for (int n = 0; n < 2*SHA256_BLOCK_SIZE; n++) {
@@ -80,7 +88,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			}
 			printf("\nhash of the concatenation test: \n");
 			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-				if ((unsigned char)newInternal[i].hash[j] <= 0x0f) {
+				if ((unsigned char)newInternal[i].hash[n] <= 0x0f) {
 						printf("0%x", (unsigned char) newInternal[j].hash[n]);
 				}else{
 						printf("%x", (unsigned char) newInternal[j].hash[n]);
