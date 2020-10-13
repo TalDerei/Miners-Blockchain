@@ -1,10 +1,16 @@
+#include <stdlib.h>
 #include "block.h"
 #include "merkleTree.h"
 #include "sha256.h"
 #include "time.h"
 #include "hash.h"
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
+//void srand(unsigned int); 
+//void *memcpy(void *, const void *, size_t); 
+//char *strncpy(char *, const char *, size_t);
 //create block consisting of block header and transaction array
 void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
     printf("entered initialize initialize_block \n");

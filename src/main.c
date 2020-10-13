@@ -104,7 +104,12 @@ int main(int argc, char *argv[]) {
             printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
         }
         printf("\n");
-        print_merkle_tree(TreeRoot[i], 1);
+		FILE *output; 
+		output = fopen("input.block.txt","w");  //txt version works!!
+		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
+    	print_merkle_tree(TreeRoot[i], 1, output);
+		fclose(output); 
+		
         //create block
         // if(i != 0){
         //     printf("CREATE BLOCK: \n");
