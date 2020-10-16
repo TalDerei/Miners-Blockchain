@@ -1,3 +1,5 @@
+/* HEADER FILE FOR BLOCK.C */
+
 #ifndef BLOCK_DEF
 #define BLOCK_DEF
 
@@ -25,7 +27,7 @@ void create_block(Block *, InternalNode *, Block *);
 void initialize_block(Block *, InternalNode *, unsigned char *);
 void populate_header(Block *, InternalNode *, Block *);
 void initialize_header(Block *, InternalNode *, unsigned char *);
-int *timestamp();
 void generate_nonce(Header *, InternalNode *);
+int *timestamp();
 
 #endif

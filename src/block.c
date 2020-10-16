@@ -1,3 +1,5 @@
+/* IMPLEMENTATION OF BLOCKS IN BLOCKCHAIN (LINKEDLIST) */
+
 #include <stdlib.h>
 #include "block.h"
 #include "merkleTree.h"
@@ -8,9 +10,6 @@
 #include <stdio.h>
 #include <string.h>
 
-//void srand(unsigned int); 
-//void *memcpy(void *, const void *, size_t); 
-//char *strncpy(char *, const char *, size_t);
 //create block consisting of block header and transaction array
 void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
     printf("entered initialize initialize_block \n");
@@ -107,11 +106,3 @@ void generate_nonce(Header* header, InternalNode *Treeroot) {
         }
     }
 } 
-
-//PLEASE IMPLEMENT GROUP MEMBERS 
-// print_block(block, count, fileNames) {
-//     printf("----PRINT BLOCK----");
-//     for(int i = 0; i < count; i++){
-//         printf("%x",(unsigned char *) block[i];
-//     }
-// }   

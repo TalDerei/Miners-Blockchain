@@ -1,3 +1,5 @@
+/* IMPLEMENTATION FOR SORTING ALGORITHM -- BUBBLE SORT */
+
 #include <stdio.h>
 #include <string.h>
 #include "merkleTree.h"

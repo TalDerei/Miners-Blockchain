@@ -1,4 +1,5 @@
 /* IMPLEMENTATION OF READING USER FILE AND SORTING CONTENTS */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -53,7 +54,6 @@ int lineCount(FILE * inputFile) {
     return counter; 
 }  
 
-//BUG -- NOT READING THE FILE CONTENTS
 void ReadOneFile(char** arr, char *filename)
 {
     printf("file name %s\n", filename);
@@ -61,7 +61,7 @@ void ReadOneFile(char** arr, char *filename)
     int count = (int)lineCount(fp);
     printf("number of lines: %d\n", count);
     
-    //fp must be open twice OR rewind()!
+    //***fp must be open twice OR use rewind() to reset pointer
     fp = Fopen(filename, "r"); //open the file
     int z = 0;
     while ( fgets(arr[z], 100, fp) != NULL )
@@ -82,18 +82,7 @@ void ReadOneFile(char** arr, char *filename)
     {
         printf("Sorted array is: %s\n", arr[i]);
     }
-    // return (char **)arr;
 }
-
-// void ReadMultipleFiles(char **multiplefilecontents, char **filename, int count) {
-//     printf("---ENTERED  ReadMultipleFiles: \n");
-//     printf("number of lines: %s\n", filename[0]);
-//     printf("count is: %d\n", count);
-//     int i;
-//     for (i = 0; i < count; i++) {
-//         multiplefilecontents[i] = ReadOneFile(filename[i]);
-//     }
-// }
 
 int *GetLineNumbers(char **filename, int count) {
     int *lineNum = (int *)malloc(count*sizeof(int));
@@ -105,5 +94,3 @@ int *GetLineNumbers(char **filename, int count) {
     }
     return lineNum;
 }
-
-//array of char **

@@ -1,17 +1,5 @@
-/* ROOT MAIN.c 
-CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFile.c to read-in 
-		     input file (plaintext) from user, and sort the file's contents with an algorithm 
-		     with efficient time complexity
-		 (2) main will then call function (e.g. build_tree() inside of merkleTree.c) to build
-		     an empty merkle tree.
-		 (3) main will then call a function (e.g. populate_tree() inside of merkleTree.c) in order
-		     to start populating the tree with the set of string inputted by the user.
-		 (4) From merkleTree.c, we'll have to call the hash function (e.g. hash() inside of sha_256.c)
-		     in order to hash the input, and then placing the hash inside the specified node
-		 (5) main will call a function (printTree() inside of merkleTree.c) in order to print out the tree
-		 (6) main will call a function (freeTree() inside of merkleTree.c) in order to free memory
-		     allocated to the merkleTree and its nodes.  
-*/
+/* ROOT -- MAIN.c */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,8 +37,6 @@ int main(int argc, char *argv[]) {
         }*/
     //     printf("Filename entered: %s \n", fileNames[i]);
     // }
-    // char **multiplefilecontents = malloc(count * sizeof(FILE *)); //malloc count * 8 BYTES 
-    // ReadMultipleFiles(multiplefilecontents, fileNames, count);
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames, count);
     for(int i = 0 ; i < count; i++){
@@ -74,12 +60,7 @@ int main(int argc, char *argv[]) {
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
         block[i] = (Block *)malloc(sizeof(Block)); //mallocing for block (pointer to root and header) -- 16 Bytes
         block[i]->header = malloc(sizeof(Header)); //mallocing for header contents
-        printf("\nnoobs\n");
         createLeafNodes(leafNodes[i], arr, lineNum[i]);
-        // for (int j = 0; lineNum[i] < 5; j++) {
-        //     printf("leafnodes[i] is: %s\n", leafNodes[i][j].value);
-        // }
-        printf("\nnoobs2.0\n");
         for (int k = 0; k < lineNum[i]; k++) {
             for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
                 if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
@@ -94,41 +75,35 @@ int main(int argc, char *argv[]) {
         convertLeaftoInternal(internalNode[i], leafNodes[i],lineNum[i]);
         TreeRoot[i] = malloc(sizeof(InternalNode));
         TreeRoot[i] = merkleTreeRoot(internalNode[i],lineNum[i]);
-        printf("wtf man **********");
-        // exit(0);
-        // char hashTest[2 * SHA256_BLOCK_SIZE + 1];
-        // strncpy(hashTest, TreeRoot[i]->hash, 2 * SHA256_BLOCK_SIZE + 1);
-        // exit(0);
         printf("\n-------root is: ----\n");
         for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
             printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
         }
         printf("\n");
 		FILE *output; 
-		output = fopen("input.block.txt","w");  //txt version works!!
+		output = fopen("output.block.txt","w");  //txt version works!!
 		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
     	print_merkle_tree(TreeRoot[i], 1, output);
 		fclose(output); 
 		
-        //create block
-        // if(i != 0){
-        //     printf("CREATE BLOCK: \n");
-        //     create_block(block[i], TreeRoot[i], block[i-1]);
-        // }else{
-        //     printf("INITIALIZE BLOCK: \n");
-        //     initialize_block(block[i], TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
-        // }
+        //create individual blocks part of the blockchain 
+        if(i != 0){
+            printf("CREATE BLOCK: \n");
+            create_block(block[i], TreeRoot[i], block[i-1]);
+        }else{
+            printf("INITIALIZE BLOCK: \n");
+            initialize_block(block[i], TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
+        }
 
-        // //clear arr to reuse
-        // for(int i = 0 ; i < 100; i++){
-        //     for( int j = 0; j < 100; j++){
-        //         arr[i][j] = NULL;
-        //     }
-        // }
+        //reset arr for re-use
+        for(int i = 0 ; i < 100; i++){
+            for( int j = 0; j < 100; j++){
+                arr[i][j] = NULL;
+            }
+        }
     }
-        //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
         //Fclose(output);
         //free_merkle_tree(leafNodes);
-    //print_block(block, count, fileNames);
+        //print_block(block, count, fileNames);
 }
 

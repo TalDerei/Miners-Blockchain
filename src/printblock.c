@@ -1,11 +1,8 @@
-#include <stdio.h>
-#include "block.h"
-#include "hash.h"
-#include "merkleTree.h"
-#include <string.h>
-#include "sha256.h"
+/* HEADER FILE FOR FUCNTIONS ASSOCIATED WITH MERKLE TREE */
 
-void printblock(block* B_ptr, int ID_K, FILE* out){
+#include "printBlock.h"
+
+void serialize_block(Block* B_ptr, int ID_K, FILE* out){
  fprintf(out, "header: \n");
  fprintf(out, "PreviousHash: %s, RootHash: %s", B_ptr->header->previousHash, B_ptr->header->rootHash);
  fprintf(out, "");

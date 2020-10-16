@@ -1,20 +1,20 @@
 #######iD is:1
-left child pointer is:0x7fb408c09010
+left child pointer is:0x7f91c7600580
 left edge is: a
 hash is:ee50ca6746681cb4886bb744aebb973df3af3982e714f76d3565b05c2b60c1d1
-right child pointer is:0x7fb408c09130
+right child pointer is:0x7f91c76006a0
 right edge is: eeeee
 #######iD is:2
-left child pointer is:0x7fb408c08bb0
+left child pointer is:0x7f91c7600140
 left edge is: a
 hash is:637cdb8607d9034452a28ce4469f86a84ae338b4cdf4c7262d6708567aa8d8b
-right child pointer is:0x7fb408c08cd0
+right child pointer is:0x7f91c7600260
 right edge is: dddd
 #######iD is:4
-left child pointer is:0x7fb409808200
+left child pointer is:0x7f91c8800000
 left edge is: a
 hash is:f2c03eb727ffc3cbdfbb71456859dc48828944c36d259e341b62371433d134
-right child pointer is:0x7fb409808320
+right child pointer is:0x7f91c8800120
 right edge is: bb
 #######iD is:8
 left child pointer is:0x0
@@ -27,10 +27,10 @@ hash is:3b64db95cb55c763391c70718489ae18b4112d78330de38e33b4c98c3deaf
 right child pointer is:0x0
 leaf node
 #######iD is:5
-left child pointer is:0x7fb409808440
+left child pointer is:0x7f91c8800240
 left edge is: ccc
 hash is:7533f28f80d5a7496151acc217fd7150e15327a655a394adcafa3d21b4e6ef4
-right child pointer is:0x7fb409808560
+right child pointer is:0x7f91c8800360
 right edge is: dddd
 #######iD is:10
 left child pointer is:0x0
@@ -43,12 +43,12 @@ hash is:5bf8aa57fc5a6bc547decf1cc6db63f1deb55a3c6c5df497d631fb3d95e1abf
 right child pointer is:0x0
 leaf node
 #######iD is:3
-left child pointer is:0x7fb408c08df0
+left child pointer is:0x7f91c7600380
 hash is:b053af77781a8f711444b712f42972acc5b9e6db343c2520705936e970eb3486
 right child pointer is:0x0
 leaf node
 #######iD is:6
-left child pointer is:0x7fb409808680
+left child pointer is:0x7f91c8800480
 hash is:eeee351e52b90a3f5c427fce7295890dfc088d1801cee45ef9a63afcd368a6
 right child pointer is:0x0
 leaf node

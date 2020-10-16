@@ -1,4 +1,5 @@
 /* IMPLEMENTATION OF MERKLE TREE */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -177,10 +178,8 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 	}
 }
 
-/*void print_internal_node(){
-
-}*/
-
-/* free_merkle_tree(InternalNode *internalNodes) {
+/*
+free_merkle_tree(InternalNode *internalNodes) {
 	free(internalNodes);
-} */
+}
+*/
