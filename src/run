@@ -1,0 +1,12 @@
+#!/bin/bash
+#Bash Shell Script
+#RUN 
+
+#Set EXECUTE PERMISSIONS
+chmod 755 run
+
+#Set path for bash script
+export PATH="$PATH:."
+
+#Run executable
+prog
