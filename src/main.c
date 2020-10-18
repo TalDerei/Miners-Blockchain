@@ -52,6 +52,18 @@ int main(int argc, char *argv[]) {
         arr[i] = malloc(100);
     }
 
+    //output_blockchain = serialization of the blockchain
+    char output_fileName[] = "output.blockchain.txt";
+    FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary formate
+
+    //outputMerkleTree for printing merkle tree
+	FILE *outputMerkleTree; 
+	outputMerkleTree = fopen("output.merkletree.txt","w"); 
+
+    //outputBlock for printing block
+    FILE *output_block; 
+	output_block = fopen("output.block.txt","w");
+
     unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
     strncpy(pointerToZero, "0", 1);
     Block **block = (Block **)malloc(count * sizeof(Block *));
@@ -84,24 +96,18 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");
 
-        //output file for printing merkle tree
-		FILE *outputMerkleTree; 
-		outputMerkleTree = fopen("output.merkletree.txt","w"); 
 		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
-    	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree);
-		fclose(outputMerkleTree); 
+    	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); //print merkle tree
+        
+        //print_block(block, 1, outputBlock); //print block
 
-        //output file for printing block
-        FILE *outputBlock; 
-		outputBlock = fopen("output.block.txt","w");
-		
         //create individual blocks part of the blockchain 
         if(i != 0){
             printf("CREATE BLOCK: \n");
-            create_block(block[i], TreeRoot[i], block[i-1], outputBlock);
+            create_block(block[i], TreeRoot[i], block[i-1], output_block, output_blockchain);
         }else{
             printf("INITIALIZE BLOCK: \n");
-            initialize_block(block[i], TreeRoot[i], pointerToZero, outputBlock); //first block, previous block pointing to 0
+            initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0
         }
 
         //reset arr for re-use
@@ -112,15 +118,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    int *block_count = 0; 
-    char output_fileName[] = "output.blockchain.txt";
-    FILE *output_blockchain; 
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++){
         block2[i] = (Block *) malloc(sizeof(Block2));
     }
-	output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary formate 
-    serialize_blockchain(block, output_blockchain, count); 
     //rebuild_block(output_fileName, block_count, block2);
 
     //Fclose(output);

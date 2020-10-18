@@ -3,13 +3,16 @@
 #include "printBlock.h"
 
 //create block consisting of block header and transaction array
-void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *outputBlock) {
+void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *output_block, FILE *output_blockchain) {
     printf("entered initialize initialize_block \n");
     printf("pointerToZero is: %c\n", *pointerToZero); 
     initialize_header(block, Treeroot, pointerToZero);
     block->rootHash = Treeroot; //pointer to full merkletree
     //print_block(block, 1, outputBlock); //print block
     //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
+    
+    //output_blockchain for serializing block 
+    serialize_blockchain(block, output_blockchain); 
 }
 
 void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
@@ -38,7 +41,7 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     block->header->target = 0.5;
 }
 
-void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *outputBlock) {
+void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *output_block, FILE *output_blockchain) {
     printf("entered create block\n");
     populate_header(block, Treeroot, prevBlock);
     block->rootHash = Treeroot;    
@@ -46,6 +49,9 @@ void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *
     //print_block(block, 1, outputBlock); //print block
     //don't need to malloc header --> malloced block already
     //turned function prototypes in void and passing in block directly
+    
+    //output_blockchain for serializing block 
+    serialize_blockchain(block, output_blockchain); 
 }
 
 //populate the header with 5-elements

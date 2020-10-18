@@ -5,7 +5,7 @@
 
 #include "block.h"
 
-void serialize_blockchain(Block **, FILE *, int);     //Fwrite binary-data blockchain to output file
+void serialize_blockchain(Block *, FILE *);     //Fwrite binary-data blockchain to output file
 void rebuild_block(char [], int *, Block **);   //1. need to read back in unsigned chars from file produced by serialize blockchain. 
                                                  //2. link block (doubly linked list in read_block)
                                                  //3. rebuild blockchain by initialization + populate blocks 
