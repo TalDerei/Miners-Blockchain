@@ -1,15 +1,15 @@
-/* HEADER FILE FOR PRINTBLOCK.C */
+/* HEADER FILE FOR PRINTING BLOCK */
 
 #ifndef PRINTBLOCK_DEF
 #define PRINTBLOCK_DEF
 
 #include <stdio.h>
-#include "block.h"
-#include "hash.h"
-#include "merkleTree.h"
 #include <string.h>
+#include "block.h"
+#include "merkleTree.h"
+#include "hash.h"
 #include "sha256.h"
 
-void serialize_block(Block*, int, FILE*);
+void print_block(Block*, int, FILE*);
 
 #endif

@@ -1,22 +1,25 @@
 /* IMPLEMENTATION OF BLOCKS IN BLOCKCHAIN (LINKEDLIST) */
 
 #include <stdlib.h>
-#include "block.h"
-#include "merkleTree.h"
-#include "sha256.h"
-#include "time.h"
-#include "hash.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include "block.h"
+#include "merkleTree.h"
+#include "printMerkleTree.h"
+#include "printBlock.h"
+#include "sha256.h"
+#include "time.h"
+#include "hash.h"
 
 //create block consisting of block header and transaction array
-void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
+void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *outputBlock) {
     printf("entered initialize initialize_block \n");
     printf("pointerToZero is: %c\n", *pointerToZero); 
     initialize_header(block, Treeroot, pointerToZero);
     block->rootHash = Treeroot; //pointer to full merkletree
-    //print_merkle_tree(Treeroot, 1);
+    //print_block(block, 1, outputBlock); //print block
+    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
 }
 
 void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
@@ -45,11 +48,12 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     block->header->target = 0.5;
 }
 
-void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock) {
+void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *outputBlock) {
     printf("entered create block\n");
     populate_header(block, Treeroot, prevBlock);
     block->rootHash = Treeroot;    
-    //print_merkle_tree(Treeroot, 1);
+    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
+    //print_block(block, 1, outputBlock); //print block
     //don't need to malloc header --> malloced block already
     //turned function prototypes in void and passing in block directly
 }

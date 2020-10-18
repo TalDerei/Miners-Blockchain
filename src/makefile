@@ -1,5 +1,5 @@
-prog: main.o merkleTree.o readFile.o sha256.o hash.o sort.o block.o
-	gcc -g -o prog merkleTree.o readFile.o sha256.o hash.o block.o sort.o main.o
+prog: main.o merkleTree.o readFile.o sha256.o hash.o sort.o block.o printMerkleTree.o printBlock.o
+	gcc -g -o prog merkleTree.o readFile.o sha256.o hash.o block.o sort.o printMerkleTree.o printBlock.o main.o
 
 main.o: main.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c main.c
@@ -21,6 +21,12 @@ hash.o: hash.h sha256.h hash.c
 
 block.o: block.h merkleTree.h sha256.h block.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c block.c
+
+printMerkleTree.o: printMerkleTree.h printMerkleTree.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c printMerkleTree.c
+
+printBlock.o: printBlock.h sha256.h printBlock.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c printBlock.c
 
 clean:
 	rm -f prog

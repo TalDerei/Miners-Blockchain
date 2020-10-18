@@ -5,10 +5,13 @@
 #include <string.h>
 #include "merkleTree.h"
 #include "block.h"
+#include "printBlock.h"
+#include "printMerkleTree.h"
 #include "sha256.h"
 #include "readFile.h"
 #include "sort.h"
 #include "hash.h"
+//#include "serialize.h"
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
@@ -80,19 +83,25 @@ int main(int argc, char *argv[]) {
             printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
         }
         printf("\n");
-		FILE *output; 
-		output = fopen("output.block.txt","w");  //txt version works!!
+
+        //output file for printing merkle tree
+		FILE *outputMerkleTree; 
+		outputMerkleTree = fopen("output.merkletree.txt","w"); 
 		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
-    	print_merkle_tree(TreeRoot[i], 1, output);
-		fclose(output); 
+    	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree);
+		fclose(outputMerkleTree); 
+
+        //output file for printing block
+        FILE *outputBlock; 
+		outputBlock = fopen("output.block.txt","w");
 		
         //create individual blocks part of the blockchain 
         if(i != 0){
             printf("CREATE BLOCK: \n");
-            create_block(block[i], TreeRoot[i], block[i-1]);
+            create_block(block[i], TreeRoot[i], block[i-1], outputBlock);
         }else{
             printf("INITIALIZE BLOCK: \n");
-            initialize_block(block[i], TreeRoot[i], pointerToZero); //first block, previous block pointing to 0
+            initialize_block(block[i], TreeRoot[i], pointerToZero, outputBlock); //first block, previous block pointing to 0
         }
 
         //reset arr for re-use
@@ -102,8 +111,20 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-        //Fclose(output);
-        //free_merkle_tree(leafNodes);
-        //print_block(block, count, fileNames);
+
+    /*int *block_count = 0; 
+    char output_fileName[] = "output_blockchain.txt";
+    FILE *output_blockchain; 
+    Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
+    for( int i = 0; i < count ; i ++){
+        block2[i] = (Block *) malloc(sizeof(Block2));
+    }
+	output_blockchain = fopen(output_fileName,"w");  
+    serialize_blockchain(block, output_blockchain); 
+    rebuild_block(output_fileName, block_count, block2);*/
+
+    //Fclose(output);
+    //free_merkle_tree(leafNodes);
+    //print_block(block, count, fileNames);
 }
 

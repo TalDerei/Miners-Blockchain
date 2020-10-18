@@ -23,11 +23,12 @@ struct block {
 };
 typedef struct block Block;
 
-void create_block(Block *, InternalNode *, Block *);
-void initialize_block(Block *, InternalNode *, unsigned char *);
+void create_block(Block *, InternalNode *, Block *, FILE *);
+void initialize_block(Block *, InternalNode *, unsigned char *, FILE *);
 void populate_header(Block *, InternalNode *, Block *);
 void initialize_header(Block *, InternalNode *, unsigned char *);
 void generate_nonce(Header *, InternalNode *);
 int *timestamp();
 
 #endif
+
