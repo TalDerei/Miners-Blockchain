@@ -1,10 +1,6 @@
 /* IMPLEMENTATION OF READING USER FILE AND SORTING CONTENTS */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "readFile.h"
-#include "sort.h"
 
 FILE *Fopen(const char *file, const char *permission) {
     FILE *fp = fopen(file, permission);

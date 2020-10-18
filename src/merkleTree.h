@@ -25,7 +25,7 @@ struct node {
 typedef struct node InternalNode;
 
 void createLeafNodes(LeafNode *, char **, int);
-void convertLeaftoInternal(InternalNode *, LeafNode *LeafNode, int count);
+void convertLeaftoInternal(InternalNode *, LeafNode *, int);
 InternalNode *merkleTreeRoot(InternalNode *, int);
 
 #endif

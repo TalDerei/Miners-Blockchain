@@ -1,13 +1,12 @@
 /* IMPLEMENTATION OF MERKLE TREE */
 
+#include "printMerkleTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "merkleTree.h"
 #include "sha256.h"
 #include "hash.h"
-#include "printMerkleTree.h"
 
 void createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){

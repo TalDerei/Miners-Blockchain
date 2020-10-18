@@ -7,11 +7,11 @@
 #include "block.h"
 #include "printBlock.h"
 #include "printMerkleTree.h"
+#include "serialize.h"
 #include "sha256.h"
 #include "readFile.h"
 #include "sort.h"
 #include "hash.h"
-//#include "serialize.h"
 #define BUFFER 100
 
 int main(int argc, char *argv[]) {
@@ -112,16 +112,16 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /*int *block_count = 0; 
-    char output_fileName[] = "output_blockchain.txt";
+    int *block_count = 0; 
+    char output_fileName[] = "output.blockchain.txt";
     FILE *output_blockchain; 
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++){
         block2[i] = (Block *) malloc(sizeof(Block2));
     }
-	output_blockchain = fopen(output_fileName,"w");  
-    serialize_blockchain(block, output_blockchain); 
-    rebuild_block(output_fileName, block_count, block2);*/
+	output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary formate 
+    serialize_blockchain(block, output_blockchain, count); 
+    //rebuild_block(output_fileName, block_count, block2);
 
     //Fclose(output);
     //free_merkle_tree(leafNodes);

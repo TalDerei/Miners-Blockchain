@@ -1,16 +1,6 @@
 /* IMPLEMENTATION OF BLOCKS IN BLOCKCHAIN (LINKEDLIST) */
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include "block.h"
-#include "merkleTree.h"
-#include "printMerkleTree.h"
 #include "printBlock.h"
-#include "sha256.h"
-#include "time.h"
-#include "hash.h"
 
 //create block consisting of block header and transaction array
 void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *outputBlock) {

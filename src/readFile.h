@@ -3,6 +3,11 @@
 #ifndef READFILE_DEF
 #define READFILE_DEF
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "sort.h"
+
 FILE *Fopen(const char *, const char *);
 void Fclose(FILE *);
 size_t Fread(void *, size_t, size_t, FILE *); 
