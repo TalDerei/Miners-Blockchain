@@ -26,8 +26,10 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 
 	if (root->leftChild != NULL) {
 		print_merkle_tree(root->leftChild, 2*ID, output);
+        fprintf(output, "leftChild is: %s\n", root->leftChild);
 	}
 	if (root->rightChild != NULL) {
 		print_merkle_tree(root->rightChild, 2*ID+1, output);
+        fprintf(output, "rightChild is: %s\n", root->rightChild);
 	}
 }

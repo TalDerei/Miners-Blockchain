@@ -23,6 +23,12 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     // printf("header is fine! previous hash works %s\n", block->header->previousHash);
     // printf("\n-------Treeroot is (within initialize_header): ----\n");
 
+    // printf("\n-------FUCK!!!!!!!!!!!!!!!!!!!!!!!!!: previousHash---------\n");
+    //     for (int n = 0; n < 1; n++) {
+    //         printf("%x", (unsigned char) block->header->previousHash[n]);
+    // }
+    // exit(0);
+
     unsigned char *temp = hash(Treeroot->hash);
     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
        		printf("%x", temp[n]);
@@ -60,13 +66,18 @@ void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock) {
     printf("entered populate_header\n");
 
     block->header->previousHash = hash(prevBlock->rootHash);
+    // printf("\n-------FUCK!!!!!!!!!!!!!!!!!!!!!!!!!: previousHash---------\n");
+    //     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+    //         printf("%x", (unsigned char) block->header->previousHash[n]);
+    // }
+    // exit(0);
     //hash of the root of the current block 
     strncpy(block->header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
     //timestamp
     block->header->timestamp = timestamp();
     //nonce with 50% difficulty target
     generate_nonce(block->header, Treeroot);
-    //targete value
+    //target value
     block->header->target = 0.5;
 }
 

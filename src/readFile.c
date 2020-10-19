@@ -17,7 +17,7 @@ void Fclose(FILE *fp) {
     }
 }
 
-size_t Fread(void * buffer, size_t size, size_t nmemb, FILE *file) {
+size_t Fread(void *buffer, size_t size, size_t nmemb, FILE *file) {
     size_t readBytes = fread(buffer, size, nmemb, file);
     if (readBytes == 0) {
         printf("empty file!!!!!!!");
