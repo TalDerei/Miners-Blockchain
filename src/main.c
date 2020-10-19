@@ -111,6 +111,11 @@ int main(int argc, char *argv[]) {
             initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0
         }
 
+        //file operations -- fclose, fopen -- reading and writing binary data
+        fclose(output_blockchain);
+        FILE *write_blockchain2 = fopen(output_fileName, "rb");
+        rebuild_block(write_blockchain2, block);
+
         //reset arr for re-use
         for(int i = 0 ; i < 100; i++){
             for( int j = 0; j < 100; j++){
@@ -119,6 +124,12 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    //rebuild_block outside of for-loop
+    //file operations -- fclose, fopen -- reading and writing binary data
+    // fclose(output_blockchain);
+    // FILE *write_blockchain2 = fopen(output_fileName, "rb");
+    // rebuild_block(write_blockchain2, block);
+    
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++) {
         block2[i] = (Block *) malloc(sizeof(Block2));

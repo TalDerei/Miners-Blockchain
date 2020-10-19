@@ -8,7 +8,7 @@
 
 //header struct
 struct header {
-  unsigned char* previousHash; 
+  unsigned char *previousHash; 
   unsigned char rootHash[32];
   int timestamp;
   double target;
