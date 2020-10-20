@@ -2,52 +2,61 @@
 
 #include "serialize.h"
 
-void serialize_blockchain(Block *block, FILE *write_blockchain) {
+void serialize_first_blockchain(Block * block, FILE * write_blockchain){
+
+}
+
+void rebuild_first_block(FILE * write_blockchain, Block2 * block){
+
+}
+
+void serialize_blockchain(Block *block, FILE *write_blockchain {
     //serialize block's merkleTree to file
     printf("\n-------HEADER: previousHash---------\n");
-    Fwrite(block->header->previousHash, sizeof(unsigned char), sizeof(block->header->previousHash), write_blockchain);
+    Fwrite(block->header->previousHash, sizeof(unsigned char), 1, write_blockchain);
     printf("\n-------HEADER: rootHash---------\n");
-    Fwrite(block->header->rootHash, sizeof(unsigned char), sizeof(block->header->rootHash), write_blockchain);
+    Fwrite(block->header->rootHash, sizeof(unsigned char), 32, write_blockchain);
     printf("\n-------HEADER: timestamp---------\n");
-    Fwrite(&(block->header->timestamp), sizeof(unsigned int), sizeof(block->header->timestamp), write_blockchain);
+    Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
     printf("\n-------HEADER: target---------\n");
-    Fwrite(&(block->header->target), sizeof(double), sizeof(block->header->target), write_blockchain);
+    Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
     printf("\n-------HEADER: nonce---------\n");
-    Fwrite(&(block->header->nonce), sizeof(unsigned int), sizeof(block->header->nonce), write_blockchain);
+    Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
 
     //serialize block's header contents to file
-    printf("\n-------MERKLETREE: hash of Merkle Tree---------\n");  
-    print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
+    //printf("\n-------MERKLETREE: hash of Merkle Tree---------\n");  
+    //print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
 
+    printf("PrevHash is: %c\n",*(block->header->previousHash));
     printf("rootHash is: \n");
     for(int i=0 ; i < SHA256_BLOCK_SIZE; i++){
-        printf("%x",(unsigned char)block->rootHash->hash[i]);
+        printf("%x",(unsigned char)block->header->rootHash[i]);
     }
+    printf("\nserialize_blockchain: Nonce is: %u", block->header->nonce);
     printf("\n");
 } 
 
-void rebuild_block(FILE *output_blockchain, Block *block) {
-    unsigned char buffer_previousHash[sizeof(unsigned char)];
+void rebuild_block(FILE *output_blockchain, Block2 *block) {
+    unsigned char buffer_previousHash[1];
     unsigned char buffer_rootHash[32];
-    long long buffer_timestamp[sizeof(int)];
-    long long buffer_target[sizeof(double)];
-    long long buffer_nonce[sizeof(int)];
+    int buffer_timestamp[1];
+    double buffer_target[1];
+    unsigned int buffer_nonce[1];
 
-    fread(buffer_previousHash, sizeof(unsigned char), sizeof(buffer_previousHash), output_blockchain);
+    fread(buffer_previousHash, sizeof(unsigned char), 1, output_blockchain);
     printf("previousHash is: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-    for(int i = 0; i < sizeof(buffer_previousHash) / sizeof(unsigned char); i ++){
-        printf("%x",(unsigned char)buffer_previousHash[i]); 
+    for(int i = 0; i < 1; i ++){
+        printf("%c",buffer_previousHash[i]); 
     }
 
     printf("\n");
     printf("rootHash is: ___________________________________\n");
     fread(buffer_rootHash, sizeof(unsigned char), sizeof(buffer_rootHash), output_blockchain);
     for(int i=0 ; i < sizeof(buffer_rootHash); i ++){
-        printf("%x",(unsigned char)buffer_rootHash[i]);
+        printf("%x",buffer_rootHash[i]);
     }
-    exit(0);
-
     printf("\n");
+    
     printf("timestamp is: #################################\n");
     fread(buffer_timestamp, sizeof(int), 1, output_blockchain);
     printf("%d",(int)buffer_timestamp[0]); 
@@ -55,12 +64,13 @@ void rebuild_block(FILE *output_blockchain, Block *block) {
     printf("\n");
     printf("target is: ***********************************\n");
     fread(buffer_target, sizeof(double), 1, output_blockchain);
-    printf("%f",(double)buffer_target[0]); 
+    printf("%f",buffer_target[0]); 
 
     printf("\n");
     printf("nonce is: $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
-    fread(buffer_nonce, sizeof(int), 1, output_blockchain);
-    printf("%u",(unsigned int)buffer_nonce[0]); 
-    
+    fread(buffer_nonce, sizeof(unsigned int), 1, output_blockchain);
+    printf("%u",buffer_nonce[0]); 
+    printf("\n");
+    exit(0);
     //fclose(output_blockchain);
 }

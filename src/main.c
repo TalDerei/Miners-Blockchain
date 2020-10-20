@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     //output_blockchain = serialization of the blockchain
     char output_fileName[] = "output.blockchain.txt";
     FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary format
-    Fwrite(&count, sizeof(int), sizeof(count), output_blockchain);
+    //Fwrite(&count, sizeof(int), sizeof(count), output_blockchain);
 
     //outputMerkleTree for printing merkle tree
 	FILE *outputMerkleTree; 
@@ -113,8 +113,7 @@ int main(int argc, char *argv[]) {
 
         //file operations -- fclose, fopen -- reading and writing binary data
         fclose(output_blockchain);
-        FILE *write_blockchain2 = fopen(output_fileName, "rb");
-        rebuild_block(write_blockchain2, block);
+
 
         //reset arr for re-use
         for(int i = 0 ; i < 100; i++){
@@ -129,11 +128,13 @@ int main(int argc, char *argv[]) {
     // fclose(output_blockchain);
     // FILE *write_blockchain2 = fopen(output_fileName, "rb");
     // rebuild_block(write_blockchain2, block);
-    
+    FILE *write_blockchain2 = fopen(output_fileName, "rb");
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++) {
         block2[i] = (Block *) malloc(sizeof(Block2));
+        rebuild_block(write_blockchain2, block2[i]);
     }
+    
     //validation goes here!
     //rebuild_block(output_fileName, block_count, block2);
 

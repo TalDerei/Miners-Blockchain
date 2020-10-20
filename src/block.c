@@ -12,7 +12,7 @@ void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *point
     //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
     
     //output_blockchain for serializing block 
-    serialize_blockchain(block, output_blockchain); 
+    serialize_first_blockchain(block, output_blockchain); 
 }
 
 void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
@@ -96,7 +96,7 @@ void generate_nonce(Header* header, InternalNode *Treeroot) {
     srand(time(0)); //seed rand() 
     while (1) {
         header->nonce = rand(); //turn into MACRO
-        printf("\n nonce is: %d\n", header->nonce);
+        printf("\n *********** nonce is: %u\n", header->nonce);
         unsigned int temp = header->nonce; //&temp or *temp = &(header->nonce) in order to make it pass by reference because memcpy expects a pointer
         unsigned char tempstr[SHA256_BLOCK_SIZE + sizeof(unsigned int)];//36 char[] (nonce + treeroot->hash)
         memcpy(tempstr, &temp, sizeof(unsigned int));
