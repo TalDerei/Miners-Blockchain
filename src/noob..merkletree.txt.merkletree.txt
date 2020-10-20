@@ -1,0 +1,34 @@
+#######iD is:1
+left edge is: 543
+hash is:2cf16790dc3e463e4ab8fff4c3aeeca67557e3e92c97b2e885199914e883139
+right edge is: 12345
+#######iD is:2
+left edge is: 543
+hash is:8711556331903c2c36424e374e4ae628c13f0d5ea8e68b1ffab5a77e91d40c2
+right edge is: 1234
+#######iD is:4
+hash is:18beb4813723e788a1d79bcbf882538ec813aa19ded2e9c21cbf8bed6bee3
+leafNode value is: 543
+leaf node
+leftChild is: ¾´7#çˆ¡×›ËøSÈªŞÒéÂ¿¾Ö¾ã
+#######iD is:5
+hash is:3ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4
+leafNode value is: 1234
+leaf node
+rightChild is: ¬gBóá\vá¥âUğg•6#È³ˆ´Eùx×ÈFô
+leftChild is: ‡Uc1<Ãd$ãtä®bŒğÕêh±ÿ«Zwé@Â
+#######iD is:3
+left edge is: 5432
+hash is:c95ee66a7b2a83eb9f7afa7c618316f975fbd42cf34772163c3126fce946e4c
+right edge is: 12345
+#######iD is:6
+hash is:4aeb7ad6d5d37a41c4c5ce6562bf9e3caf05a42d931cef4d9e2a6ca623194d
+leafNode value is: 5432
+leaf node
+leftChild is: JëzÖÕÓzL\æV+ùãÊğZBÙ1ÎôÙâ¦¦#M
+#######iD is:7
+hash is:5994471abb1112afcc18159f6cc74b4f511b9986da59b3caf5a9c173cacfc5
+leafNode value is: 12345
+leaf node
+rightChild is: Y”G»*üÁYöÌt´õ¹˜ÚY³Êõ©ÁsÊÏÅ
+rightChild is: É^æj{*ƒëŸzú|aƒùuûÔ,óGrcÃoÎ”nL

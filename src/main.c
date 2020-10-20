@@ -17,29 +17,23 @@
 int main(int argc, char *argv[]) {
     int count;
     printf("input the number of files you want opened: "); 
-	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 1;
+	scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+    //count = 1;
     printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
     for(int i = 0; i < count; i++){
         fileNames[i] = (char *)malloc(BUFFER);
     }
-    fileNames[0] = "input.txt";
+    //fileNames[0] = "input.txt";
     //fileNames[1] = "input2.txt";
     
-    // for (int i = 0; i < count; i ++){
-    //     printf("enter the filename[%d]: ", i); 
-    //     scanf("%s", fileNames[i]);
-        // fileNames[0] = "input.txt";
-        // fileNames[1] = "input2.txt";
-
-        //int k = strlen(fileNames[i]);
-        /*for (int j = 0; j < k; j++) {
-            printf("Filename entered: %c \n", fileNames[i][j]);
-        }*/
-    //     printf("Filename entered: %s \n", fileNames[i]);
-    // }
+    for (int i = 0; i < count; i ++){
+        printf("enter the filename[%d]: ", i); 
+        scanf("%s", fileNames[i]);
+        int k = strlen(fileNames[i]);
+        printf("Filename entered: %s", fileNames[i]);
+    }
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames, count);
     for(int i = 0 ; i < count; i++){
@@ -55,37 +49,8 @@ int main(int argc, char *argv[]) {
     //output_blockchain = serialization of the blockchain
     char output_fileName[] = "output.blockchain.txt";
     FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary format
-    //Fwrite(&count, sizeof(int), sizeof(count), output_blockchain);
-
-    /*
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int main() {
-    int count = 1;
-    char fileName[] = "t.tjjjjj.txt";
-    int fileNameCounter = strlen(fileName) - 4;
-    char actualFileName[count][255];
-    if(fileName[fileNameCounter] != '.' || fileName[fileNameCounter+1] != 't' || fileName[fileNameCounter+2] != 'x' || fileName[fileNameCounter+3] != 't'){
-        printf("file name is not correct. Run the program again. (too lazy to let user reeneter)\n");
-        exit(0);
-    }
-    for(int i =0; i < fileNameCounter; i++){
-        actualFileName[0][i] = fileName[i];
-    }
-    printf("result before strcat is: \n");
-    printf("%s\n", actualFileName[0]);
-    strcat(actualFileName[0], ".merkletree.txt");
-    printf("result after strcat is: \n");
-    printf("%s\n", actualFileName[0]);
-}
-    */
-    //outputMerkleTree for printing merkle tree
 
     char actualFileName[count][255];//This is the array storing the actual file name for all merkle trees
-
-
     unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
     strncpy(pointerToZero, "0", 1);
     Block **block = (Block **)malloc(count * sizeof(Block *));
@@ -94,17 +59,20 @@ int main() {
     InternalNode **TreeRoot = (InternalNode **)malloc(count * sizeof(InternalNode *));
     for(int i = 0; i < count; i++){
         int fileNameCounter = strlen(fileNames[i]) - 4;
+        printf("fileNameCounter is %d\n", fileNameCounter);
+        for(int i = 0; i < fileNameCounter; i++){
+            actualFileName[count - 1][i] = fileNames[count - 1][i];
+        }
+        strcat(actualFileName[count - 1], ".merkletree.txt");
+        printf("file name after strcat is: \n");
+        printf("%s\n", actualFileName[count - 1]);
 
         FILE *outputMerkleTree; 
-        outputMerkleTree = fopen("output.merkletree.txt","w"); 
+        outputMerkleTree = fopen(actualFileName[count - 1],"w"); 
+        
         //outputBlock for printing block -- FIX!!!!!!!!!
         FILE *output_block; 
         output_block = fopen("output.block.txt","w");
-
-
-
-
-
 
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
@@ -114,7 +82,7 @@ int main() {
         for (int k = 0; k < lineNum[i]; k++) {
             for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
                 if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
-                    printf("0%x", (unsigned char) leafNodes[i][k].hash[j]);
+                    printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
                 }else{
                     printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
                 }

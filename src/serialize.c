@@ -2,8 +2,7 @@
 
 #include "serialize.h"
 
-void serialize_first_blockchain(Block * block, FILE * write_blockchain){
-
+void serialize_first_blockchain(Block *block, FILE *write_blockchain){
     printf("\n$$$$$$$$$$$$$$$$$$$$ serialize_first_blockchain $$$$$$$$$$$$$$$$$$$$$$$$\n");
     //serialize block's merkleTree to file
     printf("\n-------HEADER: previousHash---------\n");
@@ -30,7 +29,7 @@ void serialize_first_blockchain(Block * block, FILE * write_blockchain){
     printf("\n");
 }
 
-void rebuild_first_block(FILE * output_blockchain, Block2 * block){
+void rebuild_first_block(FILE *output_blockchain, Block2 *block){
     printf("\n$$$$$$$$$$$$$$$$$$$$ rebuild_first_block $$$$$$$$$$$$$$$$$$$$$$$$\n");
     unsigned char buffer_previousHash[1];
     unsigned char buffer_rootHash[32];
