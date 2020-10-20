@@ -16,24 +16,24 @@
 
 int main(int argc, char *argv[]) {
     int count;
-    printf("input the number of files you want opened: "); 
-	scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    //count = 1;
-    printf("number of files entered: %d\n", count); 
+    //printf("input the number of files you want opened: "); 
+	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+    count = 2;
+    //printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
     for(int i = 0; i < count; i++){
         fileNames[i] = (char *)malloc(BUFFER);
     }
-    //fileNames[0] = "input.txt";
-    //fileNames[1] = "input2.txt";
+    fileNames[0] = "input.txt";
+    fileNames[1] = "input2.txt";
     
-    for (int i = 0; i < count; i ++){
-        printf("enter the filename[%d]: ", i); 
-        scanf("%s", fileNames[i]);
-        int k = strlen(fileNames[i]);
-        printf("Filename entered: %s", fileNames[i]);
-    }
+    // for (int i = 0; i < count; i ++){
+    //     printf("enter the filename[%d]: ", i); 
+    //     scanf("%s", fileNames[i]);
+    //     int k = strlen(fileNames[i]);
+    //     printf("Filename entered: %s", fileNames[i]);
+    // }
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames, count);
     for(int i = 0 ; i < count; i++){
@@ -52,6 +52,12 @@ int main(int argc, char *argv[]) {
 
     char actualFileNameMerkleTree[count][255]; //array for storing file names for merkle trees
     char actualFileNameBlock[count][255]; //array for stotring file names for blocks
+    for(int i = 0 ; i < count; i++){
+        for( int j = 0; j < 266; j++){
+            actualFileNameMerkleTree[i][j] = NULL;
+            actualFileNameBlock[i][j] = NULL;
+        }   
+    }
 
     unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
     strncpy(pointerToZero, "0", 1);
@@ -60,29 +66,30 @@ int main(int argc, char *argv[]) {
     InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
     InternalNode **TreeRoot = (InternalNode **)malloc(count * sizeof(InternalNode *));
     for(int i = 0; i < count; i++){
+        printf("\n\n\n\n\n\n\n\n\n\n");
         int fileNameCounter = strlen(fileNames[i]) - 4;
         printf("fileNameCounter is %d\n", fileNameCounter);
-        for(int i = 0; i < fileNameCounter; i++){
-            actualFileNameMerkleTree[count - 1][i] = fileNames[count - 1][i];
+        for(int j = 0; j < fileNameCounter; j++){
+            actualFileNameMerkleTree[i][j] = fileNames[i][j];
         }
-        strcat(actualFileNameMerkleTree[count - 1], ".merkletree.txt");
+        strcat(actualFileNameMerkleTree[i], ".merkletree.txt");
         printf("file name after strcat is: \n");
-        printf("%s\n", actualFileNameMerkleTree[count - 1]);
+        printf("%s\n", actualFileNameMerkleTree[i]);
 
         //output for printing merkle tree to file
         FILE *outputMerkleTree; 
-        outputMerkleTree = fopen(actualFileNameMerkleTree[count - 1],"w"); 
+        outputMerkleTree = fopen(actualFileNameMerkleTree[i],"w"); 
 
-        for(int i = 0; i < fileNameCounter; i++){
-            actualFileNameBlock[count - 1][i] = fileNames[count - 1][i];
+        for(int j = 0; j < fileNameCounter; j++){
+            actualFileNameBlock[i][j] = fileNames[i][j];
         }
-        strcat(actualFileNameBlock[count - 1], ".block.txt");
+        strcat(actualFileNameBlock[i], ".block.txt");
         printf("file name after strcat is: \n");
-        printf("%s\n", actualFileNameBlock[count - 1]);
+        printf("%s\n", actualFileNameBlock[i]);
         
         // //outputBlock for printing block to file
         FILE *output_block; 
-        output_block = fopen(actualFileNameBlock,"w");
+        output_block = fopen(actualFileNameBlock[i],"w");
 
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));

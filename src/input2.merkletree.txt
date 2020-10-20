@@ -1,0 +1,59 @@
+#######iD is:1
+left edge is: 1
+hash is:48bd8ed4cd921d081314874615134e9f74b82ba7cccb7dc05054d065829dd0
+right edge is: 666666
+#######iD is:2
+left edge is: 1
+hash is:732d471b6b41f3a1572bbbf93ce28cb9f8bcfbd5bffe3e36611fbcd7c57f37d
+right edge is: 4444
+#######iD is:4
+left edge is: 1
+hash is:937b1df9cdd43bbce1ab0ec83f7b2f5f9f053538caa395855da0a7b87495d3
+right edge is: 22
+#######iD is:8
+hash is:1092f3da81f464785385eaeeae92393bc1e307b2916a1e6ed70b10fbb2d5
+leafNode value is: 1
+leaf node
+leftChild is: ’óÚFxS…®êé#“¼0{)¡æíp±
+#######iD is:9
+hash is:2e4d79272666ff5528a23c667b12b19740cf4b914c8ca7d2b35563679e9f9a4
+leafNode value is: 22
+leaf node
+rightChild is: .My'&fÿU(¢<f{±—@ÏK‘LŒ§Ò³UcgŸš
+leftChild is: “{ùÍÔ;Î°ìƒ÷²õùğS8Ê£•…] §¸t•Ó
+#######iD is:5
+left edge is: 333
+hash is:7692fd4135b6f942dbde37a7e01ea734c884eb686c14d22c7b39885e49d73dc2
+right edge is: 4444
+#######iD is:10
+hash is:898c1d5c5ef1743a2e1e79dc569d4622bf828424e5fde49d26f042d9333e1f
+leafNode value is: 333
+leaf node
+leftChild is: ‰ÁÕÅïC¢áçÅiÔb+ø(BN_Ş&ğBÙ3>
+#######iD is:11
+hash is:fa35c4d7a14a1648356ba63013729e627d7169c73a29d6d384a55b51272276
+leafNode value is: 4444
+leaf node
+rightChild is: ú5Ä×¡JH5k¦07)æ'×œs¢m„¥[Q'"v
+rightChild is: v’ıA5¶ùBÛŞ7§à§4È„ëhlÒ,{9ˆ^I×=Â
+leftChild is: s-GkAó¡W+»ù<(ËŸ‹Ï½[ÿããfûÍ|Wó}
+#######iD is:3
+left edge is: 55555
+hash is:74d6f6149b8437e6398235cc468a5ff887687a528809da442518e91489c2b5
+right edge is: 666666
+#######iD is:6
+left edge is: 55555
+hash is:254916e516b5ae33c4c7d515fab2c8143a1cd87963d0a25453ba51e69546
+right edge is: 666666
+#######iD is:12
+hash is:c66be4cfa7e69f0e526b05c144cce23e8c72e0e33e691b3fed7a608d2a215
+leafNode value is: 55555
+leaf node
+leftChild is: Æ¾Lú~iğå&°ÁDÌâ>Œràã>i?íz`Ò¢
+#######iD is:13
+hash is:ac6e43e690b93aa854c8d3207d94c9fc2a8ffbe49971f7a08e6a5a9f534ffe
+leafNode value is: 666666
+leaf node
+rightChild is: ¬nCæ¹:¨TÈÓ ÙLŸÂ¨ÿ¾™q÷ jZŸSOş
+leftChild is: %Iåµ®3ÄÇÕú²È:Ø	cĞ¢TSºQ•F
+rightChild is: tÖö›„7æ9‚5Äh¥ÿˆv‡¥(€¤BQ‘H	Âµ
