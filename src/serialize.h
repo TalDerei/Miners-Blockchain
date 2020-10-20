@@ -22,23 +22,10 @@ struct block2 {
 };
 typedef struct block2 Block2;
 
-
-void serialize_blockchain(Block *, FILE *);     //Fwrite binary-data blockchain to output file
-void rebuild_block(FILE *, Block2 *);          //1. need to read back in unsigned chars from file produced by serialize blockchain. 
-                                                 //2. link block (doubly linked list in read_block)
-                                                 //3. rebuild blockchain by initialization + populate blocks 
-                                                 //arugments: filename, pointer to block_counter, and array of blocks
+void serialize_blockchain(Block *, FILE *);     
+void rebuild_block(FILE *, Block2 *);          
 void serialize_first_blockchain(Block *, FILE *);
 void rebuild_first_block(FILE *, Block2 *); 
-
 void rebuild_merkleTree(Block *);
-//1. read in merkle Tree array representation
-//2. sort by ID
-//3. search for key-word leaf node
-//4. rebuild bottom-up
-//5. reassign pointers to children nodes 
-
-//writing unsigned chars and reading-in unsigned chars
-
 
 #endif

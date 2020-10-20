@@ -118,7 +118,6 @@ int main(int argc, char *argv[]) {
 
 		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
     	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); //print merkle tree
-        
         //print_block(block, 1, outputBlock); //print block
 
         //create individual blocks part of the blockchain 
@@ -129,8 +128,6 @@ int main(int argc, char *argv[]) {
             printf("INITIALIZE BLOCK: \n");
             initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0
         }
-
-        //file operations -- fclose, fopen -- reading and writing binary data
         
         //reset arr for re-use
         for(int i = 0 ; i < 100; i++){
@@ -141,24 +138,33 @@ int main(int argc, char *argv[]) {
     }
 
     fclose(output_blockchain);
-    //rebuild_block outside of for-loop
-    //file operations -- fclose, fopen -- reading and writing binary data
-    // fclose(output_blockchain);
-    // FILE *write_blockchain2 = fopen(output_fileName, "rb");
-    // rebuild_block(write_blockchain2, block);
+    
+    //inserting serialized data into blocks (Block2)
     FILE *write_blockchain2 = fopen(output_fileName, "rb");
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++) {
-        block2[i] = (Block *) malloc(sizeof(Block2));
+        block2[i] = (Block2 *) malloc(sizeof(Block2));
         if(i == 0){
             rebuild_first_block(write_blockchain2, block2[i]);
         }else{
             rebuild_block(write_blockchain2, block2[i]);
         }
     }
+
+    //validation starts here:
     
-    //validation goes here!
-    //rebuild_block(output_fileName, block_count, block2);
+    //Fwrite binary-data blockchain to output file
+    //1. need to read back in unsigned chars from file produced by serialize blockchain. 
+    //2. link block (doubly linked list in read_block)
+    //3. rebuild blockchain by initialization + populate blocks 
+    //arugments: filename, pointer to block_counter, and array of blocks
+
+    //rebuild_merkle_tree:
+    //1. read in merkle Tree array representation
+    //2. sort by ID
+    //3. search for key-word leaf node
+    //4. rebuild bottom-up
+    //5. reassign pointers to children nodes 
 
     //Fclose(output);
     //free_merkle_tree(leafNodes);

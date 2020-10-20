@@ -1,57 +1,0 @@
-#######iD is:1
-left edge is: a
-hash is:537af43e60db4b86ff45261f5e3cc2254d2281ee73a9c852458365ed7ba4ec0
-right edge is: eeeee
-#######iD is:2
-left edge is: a
-hash is:79a11d2b08f268ede2b5a3df15fc35fbea038924fd2b4a42a61325c45bef33
-right edge is: dddd
-#######iD is:4
-left edge is: a
-hash is:a0cdbcdb2d56c941c21ff5638f4d147e32892f4bb2ace9ca54ba2fd147653b
-right edge is: bb
-#######iD is:8
-hash is:ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb
-leafNode value is: a
-leaf node
-leftChild is: Ê—Ê½ÊúÂ1³š#ÜM§†ïø|Nr¹€w…¯îH»
-#######iD is:9
-hash is:3b64db95cb55c763391c70718489ae18b4112d78330de38e33b4c98c3deaf
-leafNode value is: bb
-leaf node
-rightChild is: ;dÛ•ËUÇc9pqHšá‹A×ƒ0ã;L˜ÃŞ¯
-leftChild is:  Í¼Û-VÉAÂV8ôÑGã(’ô»*Îœ¥K¢ıv;
-#######iD is:5
-left edge is: ccc
-hash is:7533f28f80d5a7496151acc217fd7150e15327a655a394adcafa3d21b4e6ef4
-right edge is: dddd
-#######iD is:10
-hash is:64daa44ad493ff28a96effab6e77f1732a3d97d83241581b37dbd7a7a490fe
-leafNode value is: ccc
-leaf node
-leftChild is: dÚ¤JÔ“ÿ(©nÿ«nwñs*=—Ø2AX7Û×
-zI
-#######iD is:11
-hash is:5bf8aa57fc5a6bc547decf1cc6db63f1deb55a3c6c5df497d631fb3d95e1abf
-leafNode value is: dddd
-leaf node
-rightChild is: [øªWüZkÅGŞÏÆÛcñëU£ÆÅßI}c³Ù^¿
-rightChild is: u3ò€Õ§IaQ¬ÂıqPáS'
-eZ9JÜ¯£ÒNnô
-leftChild is: y¡+
-#######iD is:3
-hash is:b053af77781a8f711444b712f42972acc5b9e6db343c2520705936e970eb3486
-leafNode value is: eeeee
-leaf node
-#######iD is:6
-hash is:eeee351e52b90a3f5c427fce7295890dfc088d1801cee45ef9a63afcd368a6
-leafNode value is: eeeee
-leaf node
-#######iD is:12
-hash is:766faacd628539962c6464ec047994482dc5dee9a1cb77847abefc3e88a1c
-leafNode value is: eeeee
-leaf node
-leftChild is: fú
-Ö(S™bÆFNÀG™D‚Ü]îš·xG«ïÃèŠ
-leftChild is: îîQå+£õÄ'üç)XßÀˆÑ€îEïšc¯Í6Š
-rightChild is: °S¯wxqD·ô)r¬Å¹æÛ4<% pY6épë4†

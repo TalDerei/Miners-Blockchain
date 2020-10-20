@@ -14,12 +14,12 @@ right edge is: bb
 hash is:ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb
 leafNode value is: a
 leaf node
-leftChild is: Ê—Ê½ÊúÂ1³š#ÜM§†ïø|Nr¹€w…¯îH»
+leftChild is: Ê—Ê½ÊúÂ1³š#ÜM§†ïø|Nr¹€w…¯îH»ğª‹ÿ
 #######iD is:9
 hash is:3b64db95cb55c763391c70718489ae18b4112d78330de38e33b4c98c3deaf
 leafNode value is: bb
 leaf node
-rightChild is: ;dÛ•ËUÇc9pqHšá‹A×ƒ0ã;L˜ÃŞ¯
+rightChild is: ;dÛ•ËUÇc9pqHšá‹A×ƒ0ã;L˜ÃŞ¯½¬‹ÿ
 leftChild is:  Í¼Û-VÉAÂV8ôÑGã(’ô»*Îœ¥K¢ıv;
 #######iD is:5
 left edge is: ccc
@@ -35,7 +35,7 @@ zI
 hash is:5bf8aa57fc5a6bc547decf1cc6db63f1deb55a3c6c5df497d631fb3d95e1abf
 leafNode value is: dddd
 leaf node
-rightChild is: [øªWüZkÅGŞÏÆÛcñëU£ÆÅßI}c³Ù^¿
+rightChild is: [øªWüZkÅGŞÏÆÛcñëU£ÆÅßI}c³Ù^¿N­‹ÿ
 rightChild is: ¦ ^ar¶*{ç‘OvJ›KŠƒGt+Jëß#î7Òl
 leftChild is: ‡Iß¢5H3f!ÆL (guQƒÁUÜü=ˆ{}ÓşP
 #######iD is:3
