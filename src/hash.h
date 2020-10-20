@@ -3,6 +3,7 @@
 #ifndef HASH_DEF
 #define HASH_DEF
 
-unsigned char* hash(char []);
+unsigned char* hash(unsigned char *);
+unsigned char* hash64(unsigned char *);
 
 #endif

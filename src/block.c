@@ -29,10 +29,10 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     // }
     // exit(0);
 
-    unsigned char *temp = hash(Treeroot->hash);
+    unsigned char *temp = Treeroot->hash;
     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
        		printf("%x", temp[n]);
-	} 
+	}
     strncpy(block->header->rootHash, temp , SHA256_BLOCK_SIZE);//SOMETHING is preventing the acess to temp or header->rootHash. Need debug
     printf("\nhello NOOBS!!!!!!!!!!!!!!!!");
 

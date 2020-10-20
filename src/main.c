@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int count;
     //printf("input the number of files you want opened: "); 
 	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 2;
+    count = 1;
     //printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         fileNames[i] = (char *)malloc(BUFFER);
     }
     fileNames[0] = "input.txt";
-    fileNames[1] = "input2.txt";
+    //fileNames[1] = "input2.txt";
     
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 

@@ -74,16 +74,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			}
 			printf("\n");
 			memcpy(temp+SHA256_BLOCK_SIZE, leafNodes[i+1].hash, SHA256_BLOCK_SIZE);//up until this point, this is corret
-			unsigned char *temphash = hash(temp);
-			printf("temphash is: \n");
-			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-				if ((unsigned char)temphash[n] <= 0x0f) {
-						printf("0%x", temphash[n]);
-				}else{
-						printf("%x", temphash[n]);
-				}
-			}
-			memcpy(newInternal[j].hash, hash(temp), SHA256_BLOCK_SIZE); //memory shift by SHA256_BLOCK_SIZE
+			memcpy(newInternal[j].hash, hash64(temp), SHA256_BLOCK_SIZE); //memory shift by SHA256_BLOCK_SIZE
 			printf(".....temp after strcat is: \n");
 			for (int n = 0; n < 2*SHA256_BLOCK_SIZE; n++) {
 				if ((unsigned char)temp[n] <= 0x0f) {
