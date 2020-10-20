@@ -50,7 +50,9 @@ int main(int argc, char *argv[]) {
     char output_fileName[] = "output.blockchain.txt";
     FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary format
 
-    char actualFileName[count][255];//This is the array storing the actual file name for all merkle trees
+    char actualFileNameMerkleTree[count][255]; //array for storing file names for merkle trees
+    char actualFileNameBlock[count][255]; //array for stotring file names for blocks
+
     unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
     strncpy(pointerToZero, "0", 1);
     Block **block = (Block **)malloc(count * sizeof(Block *));
@@ -61,18 +63,26 @@ int main(int argc, char *argv[]) {
         int fileNameCounter = strlen(fileNames[i]) - 4;
         printf("fileNameCounter is %d\n", fileNameCounter);
         for(int i = 0; i < fileNameCounter; i++){
-            actualFileName[count - 1][i] = fileNames[count - 1][i];
+            actualFileNameMerkleTree[count - 1][i] = fileNames[count - 1][i];
         }
-        strcat(actualFileName[count - 1], ".merkletree.txt");
+        strcat(actualFileNameMerkleTree[count - 1], ".merkletree.txt");
         printf("file name after strcat is: \n");
-        printf("%s\n", actualFileName[count - 1]);
+        printf("%s\n", actualFileNameMerkleTree[count - 1]);
 
+        //output for printing merkle tree to file
         FILE *outputMerkleTree; 
-        outputMerkleTree = fopen(actualFileName[count - 1],"w"); 
+        outputMerkleTree = fopen(actualFileNameMerkleTree[count - 1],"w"); 
+
+        for(int i = 0; i < fileNameCounter; i++){
+            actualFileNameBlock[count - 1][i] = fileNames[count - 1][i];
+        }
+        strcat(actualFileNameBlock[count - 1], ".block.txt");
+        printf("file name after strcat is: \n");
+        printf("%s\n", actualFileNameBlock[count - 1]);
         
-        //outputBlock for printing block -- FIX!!!!!!!!!
+        // //outputBlock for printing block to file
         FILE *output_block; 
-        output_block = fopen("output.block.txt","w");
+        output_block = fopen(actualFileNameBlock,"w");
 
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
