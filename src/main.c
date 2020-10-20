@@ -57,13 +57,34 @@ int main(int argc, char *argv[]) {
     FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary format
     //Fwrite(&count, sizeof(int), sizeof(count), output_blockchain);
 
-    //outputMerkleTree for printing merkle tree
-	FILE *outputMerkleTree; 
-	outputMerkleTree = fopen("output.merkletree.txt","w"); 
+    /*
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-    //outputBlock for printing block -- FIX!!!!!!!!!
-    FILE *output_block; 
-	output_block = fopen("output.block.txt","w");
+int main() {
+    int count = 1;
+    char fileName[] = "t.tjjjjj.txt";
+    int fileNameCounter = strlen(fileName) - 4;
+    char actualFileName[count][255];
+    if(fileName[fileNameCounter] != '.' || fileName[fileNameCounter+1] != 't' || fileName[fileNameCounter+2] != 'x' || fileName[fileNameCounter+3] != 't'){
+        printf("file name is not correct. Run the program again. (too lazy to let user reeneter)\n");
+        exit(0);
+    }
+    for(int i =0; i < fileNameCounter; i++){
+        actualFileName[0][i] = fileName[i];
+    }
+    printf("result before strcat is: \n");
+    printf("%s\n", actualFileName[0]);
+    strcat(actualFileName[0], ".merkletree.txt");
+    printf("result after strcat is: \n");
+    printf("%s\n", actualFileName[0]);
+}
+    */
+    //outputMerkleTree for printing merkle tree
+
+    char actualFileName[count][255];//This is the array storing the actual file name for all merkle trees
+
 
     unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
     strncpy(pointerToZero, "0", 1);
@@ -72,6 +93,19 @@ int main(int argc, char *argv[]) {
     InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
     InternalNode **TreeRoot = (InternalNode **)malloc(count * sizeof(InternalNode *));
     for(int i = 0; i < count; i++){
+        int fileNameCounter = strlen(fileNames[i]) - 4;
+
+        FILE *outputMerkleTree; 
+        outputMerkleTree = fopen("output.merkletree.txt","w"); 
+        //outputBlock for printing block -- FIX!!!!!!!!!
+        FILE *output_block; 
+        output_block = fopen("output.block.txt","w");
+
+
+
+
+
+
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
         block[i] = (Block *)malloc(sizeof(Block)); //mallocing for block (pointer to root and header) -- 16 Bytes
@@ -112,9 +146,7 @@ int main(int argc, char *argv[]) {
         }
 
         //file operations -- fclose, fopen -- reading and writing binary data
-        fclose(output_blockchain);
-
-
+        
         //reset arr for re-use
         for(int i = 0 ; i < 100; i++){
             for( int j = 0; j < 100; j++){
@@ -123,6 +155,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    fclose(output_blockchain);
     //rebuild_block outside of for-loop
     //file operations -- fclose, fopen -- reading and writing binary data
     // fclose(output_blockchain);
@@ -132,7 +165,11 @@ int main(int argc, char *argv[]) {
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++) {
         block2[i] = (Block *) malloc(sizeof(Block2));
-        rebuild_block(write_blockchain2, block2[i]);
+        if(i == 0){
+            rebuild_first_block(write_blockchain2, block2[i]);
+        }else{
+            rebuild_block(write_blockchain2, block2[i]);
+        }
     }
     
     //validation goes here!
