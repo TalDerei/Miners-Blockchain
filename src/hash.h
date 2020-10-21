@@ -5,5 +5,6 @@
 
 unsigned char* hash(unsigned char *);
 unsigned char* hash64(unsigned char *);
+unsigned char* hash112(unsigned char *);
 
 #endif

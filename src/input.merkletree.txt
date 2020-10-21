@@ -14,22 +14,13 @@ right edge is: bb
 hash is:00000000000000000000000000000000
 leafNode value is: a
 leaf node
-<<<<<<< HEAD
-leftChild is: Ê—Ê½ÊúÂ1³š#ÜM§†ïø|Nr¹€w…¯îH»ðª‹ÿ
-=======
 leftChild is: 
->>>>>>> Now will have shorter terminal output
 #######iD is:9
 hash is:00000000000000000000000000000000
 leafNode value is: bb
 leaf node
-<<<<<<< HEAD
-rightChild is: ;dÛ•ËUÇc9pqHšá‹A×ƒ0ãŽ;L˜ÃÞ¯½¬‹ÿ
-leftChild is:  Í¼Û-VÉAÂV8ôÑGã(’ô»*Îœ¥K¢ýv;
-=======
 rightChild is: 
 leftChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
->>>>>>> Now will have shorter terminal output
 #######iD is:5
 left edge is: ccc
 hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
@@ -43,15 +34,9 @@ leftChild is:
 hash is:00000000000000000000000000000000
 leafNode value is: dddd
 leaf node
-<<<<<<< HEAD
-rightChild is: [øªWüZkÅGÞÏÆÛcñëU£ÆÅßI}c³Ù^¿N­‹ÿ
-rightChild is: ¦ ^ar¶*{ç‘OvJ›KŠƒGt+JëßŽ#î7Òl
-leftChild is: ‡Ižß¢5H3f!ÆL (guQƒÁUÜü=ˆ{}ÓþP
-=======
 rightChild is: 
 rightChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
 leftChild is: ÛVN
->>>>>>> Now will have shorter terminal output
 #######iD is:3
 hash is:75d7682c8b5955557b2ef33654f31512b9b3edd17f74b5bf422ccabbd7537e1a
 leafNode value is: eeeee

@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
         //create individual blocks part of the blockchain 
         if(i != 0){
             //printf("CREATE BLOCK: \n");
-            create_block(block[i], TreeRoot[i], block[i-1], output_block, output_blockchain);
+            create_block(block[i], TreeRoot[i], block[i-1], output_block, output_blockchain, pointerToZero);
         }else{
             //printf("INITIALIZE BLOCK: \n");
             initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0

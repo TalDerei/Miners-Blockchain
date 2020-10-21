@@ -1,6 +1,8 @@
 /* IMPLEMENTATION OF BLOCKS IN BLOCKCHAIN (LINKEDLIST) */
 
 #include "printBlock.h"
+#include "stdbool.h"
+#define BlockSize (3*SHA256_BLOCK_SIZE + 4*sizeof(int))
 
 //create block consisting of block header and transaction array
 void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *output_block, FILE *output_blockchain) {
@@ -47,9 +49,9 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     block->header->target = 0.5;
 }
 
-void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *output_block, FILE *output_blockchain) {
+void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *output_block, FILE *output_blockchain, unsigned char *pointerToZero) {
     //printf("******create_block********\n");
-    populate_header(block, Treeroot, prevBlock);
+    populate_header(block, Treeroot, prevBlock, pointerToZero);
     block->rootHash = Treeroot;    
     //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
     //print_block(block, 1, outputBlock); //print block
@@ -60,11 +62,41 @@ void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *
 }
 
 //populate the header with 5-elements
-void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock) {
+void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock, unsigned char *pointerToZero) {
     //hash of the previous root hash of the previous block
     //printf("******populate_header********\n");
 
-    block->header->previousHash = hash(prevBlock->rootHash);
+        
+    unsigned char *BlockConcat = malloc(BlockSize);
+    printf("BlockSize is: %d\n", BlockSize);
+    //Don't know if this needed.....In some previous case, we saw some trash when we malloc
+    for(int i = 0; i < BlockSize; i++){
+        BlockConcat[i] = '\0';
+    }
+
+    bool isSecondBlock = prevBlock->header->previousHash == pointerToZero;
+    if(isSecondBlock){
+        memcpy(BlockConcat, prevBlock->header->previousHash,1);
+        memcpy(BlockConcat+1, prevBlock->header->rootHash,SHA256_BLOCK_SIZE);
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE, &(prevBlock->header->timestamp),sizeof(int));
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE + sizeof(int), &(prevBlock->header->target),sizeof(double));
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE + sizeof(int) + sizeof(double), &(prevBlock->header->nonce),sizeof(unsigned int));
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE + 2*sizeof(int) + sizeof(double), prevBlock->rootHash,SHA256_BLOCK_SIZE);
+    }else{
+        memcpy(BlockConcat, prevBlock->header->previousHash,SHA256_BLOCK_SIZE);
+        memcpy(BlockConcat+SHA256_BLOCK_SIZE, prevBlock->header->rootHash,SHA256_BLOCK_SIZE);
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE, &(prevBlock->header->timestamp),sizeof(int));
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE + sizeof(int), &(prevBlock->header->target),sizeof(double));
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE + sizeof(int) + sizeof(double), &(prevBlock->header->nonce),sizeof(unsigned int));
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE + 2*sizeof(int) + sizeof(double), prevBlock->rootHash,SHA256_BLOCK_SIZE);
+
+    }
+    // printf("Content in BlockConcat is: \n");
+    // for(int i = 0; i < BlockSize; i++){
+    //     printf("%x", BlockConcat[i]);
+    // }
+    // printf("\n");
+    block->header->previousHash = hash112(BlockConcat);
     // printf("\n-------FUCK!!!!!!!!!!!!!!!!!!!!!!!!!: previousHash---------\n");
     //     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
     //         printf("%x", (unsigned char) block->header->previousHash[n]);
