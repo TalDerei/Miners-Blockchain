@@ -1,0 +1,54 @@
+#######iD is:1
+left edge is: a
+hash is:314afe604c572f7ac7f4a5e5b7d45093e3cbb75e24c83186786f839de6295753
+right edge is: eeeee
+#######iD is:2
+left edge is: a
+hash is:db56114e0fdd4c1f85c892bf35ac9a89289aaecb1ebd0a96cde606a748b5d71
+right edge is: dddd
+#######iD is:4
+left edge is: a
+hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+right edge is: bb
+#######iD is:8
+hash is:00000000000000000000000000000000
+leafNode value is: a
+leaf node
+leftChild is: 8
+#######iD is:9
+hash is:00000000000000000000000000000000
+leafNode value is: bb
+leaf node
+rightChild is: 9
+leftChild is: 4
+#######iD is:5
+left edge is: ccc
+hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+right edge is: dddd
+#######iD is:10
+hash is:00000000000000000000000000000000
+leafNode value is: ccc
+leaf node
+leftChild is: 10
+#######iD is:11
+hash is:00000000000000000000000000000000
+leafNode value is: dddd
+leaf node
+rightChild is: 11
+rightChild is: 5
+leftChild is: 2
+#######iD is:3
+hash is:75d7682c8b5955557b2ef33654f31512b9b3edd17f74b5bf422ccabbd7537e1a
+leafNode value is: eeeee
+leaf node
+#######iD is:6
+hash is:5df6e0e2761359d3a827558e299fcc381534545f55cf43e41983f5d4c9456
+leafNode value is: eeeee
+leaf node
+#######iD is:12
+hash is:00000000000000000000000000000000
+leafNode value is: eeeee
+leaf node
+leftChild is: 12
+leftChild is: 6
+rightChild is: 3

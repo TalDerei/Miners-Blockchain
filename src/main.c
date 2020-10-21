@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         arr[i] = malloc(100);
     }
 
-    // output_blockchain = file containing the serialization of the blockchain
+    // output_blockchain = file containing the serialization of the blockchain                          
     char output_fileName[] = "output.blockchain.txt";
     FILE *output_blockchain = fopen(output_fileName,"wb");
 
@@ -61,7 +61,6 @@ int main(int argc, char *argv[]) {
         for(int j = 0; j < fileNameCounter; j++){
             actualFileNameMerkleTree[i][j] = fileNames[i][j];
         }
-        strcat(actualFileNameMerkleTree[i], ".merkletree.txt");
 
         // outputMerkleTree = file containing the contents of a merkle tree associatd with block[i]
         FILE *outputMerkleTree; 
@@ -86,7 +85,6 @@ int main(int argc, char *argv[]) {
         TreeRoot[i] = merkleTreeRoot(internalNode[i],lineNum[i]);
     	
         print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); 
-        // print_block(block, 1, outputBlock); //print block
 
         if(i != 0){
             // add another block to the blockchain
