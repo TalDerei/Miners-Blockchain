@@ -16,120 +16,86 @@
 
 int main(int argc, char *argv[]) {
     int count;
-    //printf("input the number of files you want opened: "); 
-	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 2;
-    //printf("number of files entered: %d\n", count); 
-
+    printf("input the number of files you want opened: "); 
+	scanf("%d",&count);
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
     for(int i = 0; i < count; i++){
         fileNames[i] = (char *)malloc(BUFFER);
     }
-    fileNames[0] = "input.txt";
-    fileNames[1] = "input2.txt";
-    
-    // for (int i = 0; i < count; i ++){
-    //     printf("enter the filename[%d]: ", i); 
-    //     scanf("%s", fileNames[i]);
-    //     int k = strlen(fileNames[i]);
-    //     printf("Filename entered: %s", fileNames[i]);
-    // }
+    for (int i = 0; i < count; i ++){
+        printf("enter the filename[%d]: ", i); 
+        scanf("%s", fileNames[i]);
+        int k = strlen(fileNames[i]);
+    }
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames, count);
-    // for(int i = 0 ; i < count; i++){
-    //     printf("########lineNum at %d is: %d\n", i, lineNum[i]);
-    // }
-
     char **arr = (char **)malloc(100* sizeof(char*));
     for (int i = 0; i < 100; i++)
     {
         arr[i] = malloc(100);
     }
 
-    //output_blockchain = serialization of the blockchain
+    // output_blockchain = file containing the serialization of the blockchain
     char output_fileName[] = "output.blockchain.txt";
-    FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary format
+    FILE *output_blockchain = fopen(output_fileName,"wb");
 
-    char actualFileNameMerkleTree[count][255]; //array for storing file names for merkle trees
-    char actualFileNameBlock[count][255]; //array for stotring file names for blocks
+    // arrays actualFileNameMerkleTree and actualFileNameBlock for storing file names for merkleTree and Block filenames
+    char actualFileNameMerkleTree[count][255]; 
+    char actualFileNameBlock[count][255]; 
     for(int i = 0 ; i < count; i++){
         for( int j = 0; j < 266; j++){
             actualFileNameMerkleTree[i][j] = NULL;
             actualFileNameBlock[i][j] = NULL;
         }   
     }
-
     unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
     strncpy(pointerToZero, "0", 1);
+
+    // Block **block, LeafNode **leafNodes, InternalNode **internalNode, InternalNode **TreeRoot are 2D arrays
     Block **block = (Block **)malloc(count * sizeof(Block *));
     LeafNode **leafNodes = (LeafNode **)malloc(count * sizeof(LeafNode *));
     InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
     InternalNode **TreeRoot = (InternalNode **)malloc(count * sizeof(InternalNode *));
     for(int i = 0; i < count; i++){
-        printf("\n\n\n");
         int fileNameCounter = strlen(fileNames[i]) - 4;
-        //printf("fileNameCounter is %d\n", fileNameCounter);
         for(int j = 0; j < fileNameCounter; j++){
             actualFileNameMerkleTree[i][j] = fileNames[i][j];
         }
         strcat(actualFileNameMerkleTree[i], ".merkletree.txt");
-        //printf("file name after strcat is: \n");
-        //printf("%s\n", actualFileNameMerkleTree[i]);
 
-        //output for printing merkle tree to file
+        // outputMerkleTree = file containing the contents of a merkle tree associatd with block[i]
         FILE *outputMerkleTree; 
         outputMerkleTree = fopen(actualFileNameMerkleTree[i],"w"); 
-
         for(int j = 0; j < fileNameCounter; j++){
             actualFileNameBlock[i][j] = fileNames[i][j];
         }
         strcat(actualFileNameBlock[i], ".block.txt");
-        //printf("file name after strcat is: \n");
-        //printf("%s\n", actualFileNameBlock[i]);
         
-        // //outputBlock for printing block to file
+        // output_block = file containing the contents of a block's header contents + merkle tree associatd with block[i]
         FILE *output_block; 
         output_block = fopen(actualFileNameBlock[i],"w");
 
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
-        block[i] = (Block *)malloc(sizeof(Block)); //mallocing for block (pointer to root and header) -- 16 Bytes
-        block[i]->header = malloc(sizeof(Header)); //mallocing for header contents
+        block[i] = (Block *)malloc(sizeof(Block)); //malloc for block[i]
+        block[i]->header = malloc(sizeof(Header)); //mallocing for header contents 
         createLeafNodes(leafNodes[i], arr, lineNum[i]);
-        // for (int k = 0; k < lineNum[i]; k++) {
-        //     for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
-        //         if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
-        //             printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
-        //         }else{
-        //             printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
-        //         }
-        //     }
-        //     printf("\n");
-        // }
         internalNode[i] = malloc(lineNum[i]*sizeof(InternalNode));
         convertLeaftoInternal(internalNode[i], leafNodes[i],lineNum[i]);
         TreeRoot[i] = malloc(sizeof(InternalNode));
         TreeRoot[i] = merkleTreeRoot(internalNode[i],lineNum[i]);
-        printf("\n-------root is: ----\n");
-        for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-            printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
-        }
-        printf("\n");
+    	
+        print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); 
+        // print_block(block, 1, outputBlock); //print block
 
-		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
-    	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); //print merkle tree
-        //print_block(block, 1, outputBlock); //print block
-
-        //create individual blocks part of the blockchain 
         if(i != 0){
-            //printf("CREATE BLOCK: \n");
+            // add another block to the blockchain
             create_block(block[i], TreeRoot[i], block[i-1], output_block, output_blockchain, pointerToZero);
         }else{
-            //printf("INITIALIZE BLOCK: \n");
-            initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0
+            // add first block to the blockchain
+            initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain);
         }
-        
-        //reset arr for re-use
+
         for(int i = 0 ; i < 100; i++){
             for( int j = 0; j < 100; j++){
                 arr[i][j] = NULL;
@@ -139,7 +105,7 @@ int main(int argc, char *argv[]) {
 
     fclose(output_blockchain);
     
-    //inserting serialized data into blocks (Block2)
+    // inserting serialized data into Block2 structure and rebuild blocks
     FILE *write_blockchain2 = fopen(output_fileName, "rb");
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
     for( int i = 0; i < count ; i ++) {
@@ -151,23 +117,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //validation starts here:
-    
-    //Fwrite binary-data blockchain to output file
-    //1. need to read back in unsigned chars from file produced by serialize blockchain. 
-    //2. link block (doubly linked list in read_block)
-    //3. rebuild blockchain by initialization + populate blocks 
-    //arugments: filename, pointer to block_counter, and array of blocks
-
-    //rebuild_merkle_tree:
-    //1. read in merkle Tree array representation
-    //2. sort by ID
-    //3. search for key-word leaf node
-    //4. rebuild bottom-up
-    //5. reassign pointers to children nodes 
-
-    //Fclose(output);
+    //Fclose(output_fileName);
     //free_merkle_tree(leafNodes);
-    //print_block(block, count, fileNames);
 }
 

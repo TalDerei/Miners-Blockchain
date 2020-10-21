@@ -1,246 +1,672 @@
 /* CONTAINS ENTIRE CODEBASE */
 
+/* ROOT -- MAIN.c */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "merkleTree.h"
+#include "block.h"
+#include "printBlock.h"
+#include "printMerkleTree.h"
+#include "serialize.h"
+#include "sha256.h"
+#include "readFile.h"
+#include "sort.h"
+#include "hash.h"
+#define BUFFER 100
+
+int main(int argc, char *argv[]) {
+    int count;
+    //printf("input the number of files you want opened: "); 
+	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+    count = 2;
+    //printf("number of files entered: %d\n", count); 
+
+    char **fileNames = (char **)malloc(count * sizeof(FILE *));
+    for(int i = 0; i < count; i++){
+        fileNames[i] = (char *)malloc(BUFFER);
+    }
+    fileNames[0] = "input.txt";
+    fileNames[1] = "input2.txt";
+    
+    // for (int i = 0; i < count; i ++){
+    //     printf("enter the filename[%d]: ", i); 
+    //     scanf("%s", fileNames[i]);
+    //     int k = strlen(fileNames[i]);
+    //     printf("Filename entered: %s", fileNames[i]);
+    // }
+    int * lineNum = malloc(count * sizeof(int));
+    lineNum = GetLineNumbers(fileNames, count);
+    // for(int i = 0 ; i < count; i++){
+    //     printf("########lineNum at %d is: %d\n", i, lineNum[i]);
+    // }
+
+    char **arr = (char **)malloc(100* sizeof(char*));
+    for (int i = 0; i < 100; i++)
+    {
+        arr[i] = malloc(100);
+    }
+
+    //output_blockchain = serialization of the blockchain
+    char output_fileName[] = "output.blockchain.txt";
+    FILE *output_blockchain = fopen(output_fileName,"wb"); //b = open file for writing in binary format
+
+    char actualFileNameMerkleTree[count][255]; //array for storing file names for merkle trees
+    char actualFileNameBlock[count][255]; //array for stotring file names for blocks
+    for(int i = 0 ; i < count; i++){
+        for( int j = 0; j < 266; j++){
+            actualFileNameMerkleTree[i][j] = NULL;
+            actualFileNameBlock[i][j] = NULL;
+        }   
+    }
+
+    unsigned char *pointerToZero = (unsigned char *)malloc(sizeof(char));
+    strncpy(pointerToZero, "0", 1);
+    Block **block = (Block **)malloc(count * sizeof(Block *));
+    LeafNode **leafNodes = (LeafNode **)malloc(count * sizeof(LeafNode *));
+    InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
+    InternalNode **TreeRoot = (InternalNode **)malloc(count * sizeof(InternalNode *));
+    for(int i = 0; i < count; i++){
+        printf("\n\n\n");
+        int fileNameCounter = strlen(fileNames[i]) - 4;
+        //printf("fileNameCounter is %d\n", fileNameCounter);
+        for(int j = 0; j < fileNameCounter; j++){
+            actualFileNameMerkleTree[i][j] = fileNames[i][j];
+        }
+        strcat(actualFileNameMerkleTree[i], ".merkletree.txt");
+        //printf("file name after strcat is: \n");
+        //printf("%s\n", actualFileNameMerkleTree[i]);
+
+        //output for printing merkle tree to file
+        FILE *outputMerkleTree; 
+        outputMerkleTree = fopen(actualFileNameMerkleTree[i],"w"); 
+
+        for(int j = 0; j < fileNameCounter; j++){
+            actualFileNameBlock[i][j] = fileNames[i][j];
+        }
+        strcat(actualFileNameBlock[i], ".block.txt");
+        //printf("file name after strcat is: \n");
+        //printf("%s\n", actualFileNameBlock[i]);
+        
+        // //outputBlock for printing block to file
+        FILE *output_block; 
+        output_block = fopen(actualFileNameBlock[i],"w");
+
+        ReadOneFile(arr, fileNames[i]);
+        leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
+        block[i] = (Block *)malloc(sizeof(Block)); //mallocing for block (pointer to root and header) -- 16 Bytes
+        block[i]->header = malloc(sizeof(Header)); //mallocing for header contents
+        createLeafNodes(leafNodes[i], arr, lineNum[i]);
+        // for (int k = 0; k < lineNum[i]; k++) {
+        //     for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
+        //         if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
+        //             printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
+        //         }else{
+        //             printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
+        //         }
+        //     }
+        //     printf("\n");
+        // }
+        internalNode[i] = malloc(lineNum[i]*sizeof(InternalNode));
+        convertLeaftoInternal(internalNode[i], leafNodes[i],lineNum[i]);
+        TreeRoot[i] = malloc(sizeof(InternalNode));
+        TreeRoot[i] = merkleTreeRoot(internalNode[i],lineNum[i]);
+        printf("\n-------root is: ----\n");
+        for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+            printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
+        }
+        printf("\n");
+
+		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
+    	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); //print merkle tree
+        //print_block(block, 1, outputBlock); //print block
+
+        //create individual blocks part of the blockchain 
+        if(i != 0){
+            //printf("CREATE BLOCK: \n");
+            create_block(block[i], TreeRoot[i], block[i-1], output_block, output_blockchain, pointerToZero);
+        }else{
+            //printf("INITIALIZE BLOCK: \n");
+            initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0
+        }
+        
+        //reset arr for re-use
+        for(int i = 0 ; i < 100; i++){
+            for( int j = 0; j < 100; j++){
+                arr[i][j] = NULL;
+            }
+        }
+    }
+
+    fclose(output_blockchain);
+    
+    //inserting serialized data into blocks (Block2)
+    FILE *write_blockchain2 = fopen(output_fileName, "rb");
+    Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
+    for( int i = 0; i < count ; i ++) {
+        block2[i] = (Block2 *) malloc(sizeof(Block2));
+        if(i == 0){
+            rebuild_first_block(write_blockchain2, block2[i]);
+        }else{
+            rebuild_block(write_blockchain2, block2[i]);
+        }
+    }
+
+    //validation starts here:
+    
+    //Fwrite binary-data blockchain to output file
+    //1. need to read back in unsigned chars from file produced by serialize blockchain. 
+    //2. link block (doubly linked list in read_block)
+    //3. rebuild blockchain by initialization + populate blocks 
+    //arugments: filename, pointer to block_counter, and array of blocks
+
+    //rebuild_merkle_tree:
+    //1. read in merkle Tree array representation
+    //2. sort by ID
+    //3. search for key-word leaf node
+    //4. rebuild bottom-up
+    //5. reassign pointers to children nodes 
+
+    //Fclose(output);
+    //free_merkle_tree(leafNodes);
+    //print_block(block, count, fileNames);
+}
+
+/* IMPLEMENTATION OF BLOCKS IN BLOCKCHAIN (LINKEDLIST) */
+
+#include "printBlock.h"
+#include "stdbool.h"
+#define BlockSize (3*SHA256_BLOCK_SIZE + 4*sizeof(int))
+
+//create block consisting of block header and transaction array
+void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *output_block, FILE *output_blockchain) {
+    //printf("******initialize_block********\n");
+    //printf("pointerToZero is: %c\n", *pointerToZero); 
+    initialize_header(block, Treeroot, pointerToZero);
+    block->rootHash = Treeroot; //pointer to full merkletree
+    //print_block(block, 1, outputBlock); //print block
+    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
+    
+    //output_blockchain for serializing block 
+    serialize_first_blockchain(block, output_blockchain); 
+}
+
+void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero) {
+    //previousHash initially pointing to 0
+    //printf("******initialize_header********\n");
+    //printf("pointerToZero is: %c\n", *pointerToZero);
+    block->header->previousHash = pointerToZero; //wtf -- why can't equal unsigned char * to unsigned char *???
+    // printf("header is fine! previous hash works %s\n", block->header->previousHash);
+    // printf("\n-------Treeroot is (within initialize_header): ----\n");
+
+    // printf("\n-------FUCK!!!!!!!!!!!!!!!!!!!!!!!!!: previousHash---------\n");
+    //     for (int n = 0; n < 1; n++) {
+    //         printf("%x", (unsigned char) block->header->previousHash[n]);
+    // }
+    // exit(0);
+
+    unsigned char *temp = Treeroot->hash;
+    // for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+    //    		printf("%x", temp[n]);
+	// }
+    strncpy(block->header->rootHash, temp , SHA256_BLOCK_SIZE);//SOMETHING is preventing the acess to temp or header->rootHash. Need debug
+    //printf("\nhello NOOBS!!!!!!!!!!!!!!!!");
+
+    //timestamp
+    block->header->timestamp = timestamp();
+    //nonce with 50% difficulty target
+    
+    generate_nonce(block->header, Treeroot);
+    //printf("nonce for first block is: %s\n", header->nonce);
+
+    //targete value
+    block->header->target = 0.5;
+}
+
+void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *output_block, FILE *output_blockchain, unsigned char *pointerToZero) {
+    //printf("******create_block********\n");
+    populate_header(block, Treeroot, prevBlock, pointerToZero);
+    block->rootHash = Treeroot;    
+    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
+    //print_block(block, 1, outputBlock); //print block
+    //don't need to malloc header --> malloced block already
+    //turned function prototypes in void and passing in block directly
+    //output_blockchain for serializing block 
+    serialize_blockchain(block, output_blockchain); 
+}
+
+//populate the header with 5-elements
+void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock, unsigned char *pointerToZero) {
+    //hash of the previous root hash of the previous block
+    //printf("******populate_header********\n");
+
+        
+    unsigned char *BlockConcat = malloc(BlockSize);
+    printf("BlockSize is: %d\n", BlockSize);
+    //Don't know if this needed.....In some previous case, we saw some trash when we malloc
+    for(int i = 0; i < BlockSize; i++){
+        BlockConcat[i] = '\0';
+    }
+
+    bool isSecondBlock = prevBlock->header->previousHash == pointerToZero;
+    if(isSecondBlock){
+        memcpy(BlockConcat, prevBlock->header->previousHash,1);
+        memcpy(BlockConcat+1, prevBlock->header->rootHash,SHA256_BLOCK_SIZE);
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE, &(prevBlock->header->timestamp),sizeof(int));
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE + sizeof(int), &(prevBlock->header->target),sizeof(double));
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE + sizeof(int) + sizeof(double), &(prevBlock->header->nonce),sizeof(unsigned int));
+        memcpy(BlockConcat+1+SHA256_BLOCK_SIZE + 2*sizeof(int) + sizeof(double), prevBlock->rootHash,SHA256_BLOCK_SIZE);
+    }else{
+        memcpy(BlockConcat, prevBlock->header->previousHash,SHA256_BLOCK_SIZE);
+        memcpy(BlockConcat+SHA256_BLOCK_SIZE, prevBlock->header->rootHash,SHA256_BLOCK_SIZE);
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE, &(prevBlock->header->timestamp),sizeof(int));
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE + sizeof(int), &(prevBlock->header->target),sizeof(double));
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE + sizeof(int) + sizeof(double), &(prevBlock->header->nonce),sizeof(unsigned int));
+        memcpy(BlockConcat+2*SHA256_BLOCK_SIZE + 2*sizeof(int) + sizeof(double), prevBlock->rootHash,SHA256_BLOCK_SIZE);
+
+    }
+    // printf("Content in BlockConcat is: \n");
+    // for(int i = 0; i < BlockSize; i++){
+    //     printf("%x", BlockConcat[i]);
+    // }
+    // printf("\n");
+    block->header->previousHash = hash112(BlockConcat);
+    // printf("\n-------FUCK!!!!!!!!!!!!!!!!!!!!!!!!!: previousHash---------\n");
+    //     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+    //         printf("%x", (unsigned char) block->header->previousHash[n]);
+    // }
+    // exit(0);
+    //hash of the root of the current block 
+    strncpy(block->header->rootHash, hash(Treeroot->hash), SHA256_BLOCK_SIZE);
+    //timestamp
+    block->header->timestamp = timestamp();
+    //nonce with 50% difficulty target
+    generate_nonce(block->header, Treeroot);
+    //target value
+    block->header->target = 0.5;
+}
+
+//return unix-time in seconds
+int *timestamp() {
+    time_t seconds;
+    seconds = time(NULL);
+    if (seconds == -1) {
+        printf("time error");
+        exit(0); //neccessary exit(0);
+    }
+    return seconds;
+}
+
+void generate_nonce(Header* header, InternalNode *Treeroot) {
+    printf("\n******generate_nonce********\n");
+    srand(time(0)); //seed rand() 
+    while (1) {
+        header->nonce = rand(); //turn into MACRO
+        unsigned int temp = header->nonce; //&temp or *temp = &(header->nonce) in order to make it pass by reference because memcpy expects a pointer
+        unsigned char tempstr[SHA256_BLOCK_SIZE + sizeof(unsigned int)];//36 char[] (nonce + treeroot->hash)
+        memcpy(tempstr, &temp, sizeof(unsigned int));
+        memcpy(tempstr + sizeof(unsigned int), Treeroot->hash, SHA256_BLOCK_SIZE);//use memcpy instead to avoid /0 problem
+        //strcat -- 0000\0 00000000000000000000000000000000\0 and will cut off after \0, use memcpy with pointer aritmetic to concatnate buffers
+        // printf("\n!!!!!!!!!!!!!!!tempstr is:");
+        // for( int i =0; i < sizeof(tempstr) / (sizeof(unsigned char)); ++i){ //unsigned char shoul dbe 1 but it can vary
+        //     printf("%x", tempstr[i]); //doesn't have null terminators anymore
+        // }
+        // printf("\n");
+        // for (int n = 0; n < SHA256_BLOCK_SIZE; ++n) {
+        //     printf("%x", (unsigned char) Treeroot->hash[n]);
+        // }
+        // printf("\n");
+        unsigned char *hashResult = hash(tempstr);
+        if (hashResult[0] <= 0x7f) { //turn into MACRO, 0x7f -- 01111111
+            printf("nonce is: %u\n", header->nonce);
+            return;
+        }
+    }
+} 
+
+/* HEADER FILE FOR BLOCK.C */
+
+#ifndef BLOCK_DEF
+#define BLOCK_DEF
+
+#include "sha256.h"
+#include "merkleTree.h"
+//header struct
+struct header {
+  unsigned char *previousHash; 
+  unsigned char rootHash[32];
+  int timestamp;
+  double target;
+  unsigned int nonce;
+};
+typedef struct header Header;
+
+//block struct
+struct block {
+  Header *header;
+  InternalNode *rootHash;
+};
+typedef struct block Block;
+
+void create_block(Block *, InternalNode *, Block *, FILE *, FILE *, unsigned char *);
+void initialize_block(Block *, InternalNode *, unsigned char *, FILE *, FILE *);
+void populate_header(Block *, InternalNode *, Block *, unsigned char *);
+void initialize_header(Block *, InternalNode *, unsigned char *);
+void generate_nonce(Header *, InternalNode *);
+int *timestamp();
+
+#endif
+
+/* HASH IMPLEMENTATION */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include "sha256.h"
 #include "merkleTree.h"
-#include "node.h"
+#include "hash.h"
+#define BlockSize (3*SHA256_BLOCK_SIZE + 4*sizeof(int))
 
-char *hash(char arr[]) {
-    printf ("content passed in: %s\n", arr);
-
-    BYTE *buf = malloc(sizeof(BYTE));
+unsigned char *hash(unsigned char *arr) {
+    //printf("content passed in: %s\n", arr);
+    BYTE* buf = malloc(SHA256_BLOCK_SIZE);
 	SHA256_CTX ctx;
 
-    //initialize, update, and final functions to produce hash digest
+    //initialize, update, and final functions to produce 32-byte hash digest
 	sha256_init(&ctx); 
 	sha256_update(&ctx, arr, strlen(arr));
 	sha256_final(&ctx, buf);
-    return buf;
+    // printf ("\ncontent passed out:\n");
+    // for(int i = 0 ; i < SHA256_BLOCK_SIZE; i++){
+    //     printf("%x", buf[i]);
+    // }
+    // printf("\n");
+    return (unsigned char *)buf;
 }
 
-prog: main.o merkleTree.o readFile.o sort.o sha256.o hash.o
-	gcc -g -o prog merkleTree.o readFile.o sort.o sha256.o hash.o main.o
+//for some reason, when passing in a strcat of two hashes, it reads strlen(arr) 30 instead of 64
+//So we hard coded 64 into the code with 2*SHA256_BLOCK_SIZE
+//This has to do with strlen()!
+unsigned char *hash64(unsigned char *arr) {
+    //printf("content passed in: %s\n", arr);
+    BYTE* buf = malloc(SHA256_BLOCK_SIZE);
+	SHA256_CTX ctx;
 
-sort.o: merkleTree.h sort.c
+    //initialize, update, and final functions to produce 32-byte hash digest
+	sha256_init(&ctx); 
+	sha256_update(&ctx, arr, 2*SHA256_BLOCK_SIZE);
+	sha256_final(&ctx, buf);
+    // printf ("\ncontent passed out:\n");
+    // for(int i = 0 ; i < SHA256_BLOCK_SIZE; i++){
+    //     printf("%x", buf[i]);
+    // }
+    // printf("\n");
+    return (unsigned char *)buf;
+}
+
+
+unsigned char *hash112(unsigned char *arr) {
+    //printf("content passed in: %s\n", arr);
+    BYTE* buf = malloc(SHA256_BLOCK_SIZE);
+	SHA256_CTX ctx;
+
+    //initialize, update, and final functions to produce 32-byte hash digest
+	sha256_init(&ctx); 
+	sha256_update(&ctx, arr, BlockSize);
+	sha256_final(&ctx, buf);
+    // printf ("\ncontent passed out:\n");
+    // for(int i = 0 ; i < SHA256_BLOCK_SIZE; i++){
+    //     printf("%x", buf[i]);
+    // }
+    // printf("\n");
+    return (unsigned char *)buf;
+}
+
+/* HEADER FILE FOR HASH IMPLEMENTATION */
+
+#ifndef HASH_DEF
+#define HASH_DEF
+
+unsigned char* hash(unsigned char *);
+unsigned char* hash64(unsigned char *);
+unsigned char* hash112(unsigned char *);
+
+#endif
+
+prog: main.o merkleTree.o readFile.o sha256.o hash.o sort.o block.o printMerkleTree.o printBlock.o serialize.o
+	gcc -g -o prog merkleTree.o readFile.o sha256.o hash.o block.o sort.o printMerkleTree.o printBlock.o serialize.o main.o
+
+main.o: main.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c main.c
+
+sort.o: sort.h sort.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c sort.c
 
-readFile.o: merkleTree.h node.h sha256.h readFile.c
+readFile.o: readFile.h sort.h readFile.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c readFile.c
 
-merkleTree.o: merkleTree.h node.h sha256.h merkleTree.c 
+merkleTree.o: merkleTree.h sha256.h merkleTree.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c merkleTree.c
 
 sha256.o: sha256.h sha256.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c sha256.c
 
-hash.o: merkletree.h hash.c
+hash.o: hash.h sha256.h hash.c
 	gcc -g -Wall -Wextra -Wwrite-strings -c hash.c
+
+block.o: block.h merkleTree.h sha256.h block.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c block.c
+
+printMerkleTree.o: printMerkleTree.h printMerkleTree.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c printMerkleTree.c
+
+printBlock.o: printBlock.h printBlock.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c printBlock.c
+
+serialize.o: serialize.h serialize.c
+	gcc -g -Wall -Wextra -Wwrite-strings -c serialize.c
 
 clean:
 	rm -f prog
 	rm -f *.o
 
 /* IMPLEMENTATION OF MERKLE TREE */
+
+#include "printMerkleTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "node.h"
-#include "merkleTree.h"
 #include "sha256.h"
-#define BUFFER 100
+#include "hash.h"
 
-LeafNode *createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
+void createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
+	printf("\n###### createLeafNodes ######\n");
 	for(int i = 0; i < count; i++){
-		printf("----\n");
-        strcpy(leafnode[i].value, SortedArray[i]);
-		printf("LeafNode value \n%s\n", leafnode[i].value);
-		//unsigned char *returned_str = hash(SortedArray[i]);
-		/* for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-       		printf("%x", (unsigned char)(returned_str[n]));
-			//printf("LeafNode hash \n %x\n", leafnode[i].hash); 
-		}  */
-		/*for (int j = 0; j < SHA256_BLOCK_SIZE; j++) { //wtf, cannot 
-			strcat(leafnode[i].hash, (unsigned char)(returned_str[j]));
-		}*/
-        //strcpy(leafnode[i].hash, *returned_str);//will need to apply the hash function here
-		strcpy(leafnode[i].hash, SortedArray[i]);
-		printf("\nLeafNode hash \n %x\n", leafnode[i].hash);
+		//printf("Sorted Array is: %s\n", SortedArray[i]);     
+		strcpy(leafnode[i].value, SortedArray[i]);//correct
+		printf("LeafNode value: %s\n", leafnode[i].value);//correct
+		unsigned char *returned_str = hash(SortedArray[i]);
+		for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+       		printf("%x", returned_str[n]);
+		}   
+		printf("\n");
+		// printf("**************\n");
+		// memcpy(leafnode[i].hash, returned_str, SHA256_BLOCK_SIZE);
+		// for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		// 	printf("%x", (unsigned char) leafnode[i].hash[n]);
+		// }
+		// printf("***********************\n");
+		//strcpy(leafnode[i].hash, SortedArray[i]);
+		//printf("\nLeafNode hash: %s\n", leafnode[i].hash);
     }
-    return leafnode;
 }
 
-InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count){
-	InternalNode *newInternal = malloc(count * sizeof(InternalNode));
+void convertLeaftoInternal(InternalNode *newInternal, LeafNode *LeafNode, int count){
 	for(int i = 0; i < count; i++){
-		strcpy(newInternal[i].hash, &LeafNode[i].hash);
-		strcpy(newInternal[i].leftEdge, &LeafNode[i].value);
-		strcpy(newInternal[i].rightEdge, &LeafNode[i].value);
+		//printf("!!!!!!!!!!leafNode[i] is: %s", LeafNode[i].value);
+		memcpy(newInternal[i].hash, &LeafNode[i].hash, SHA256_BLOCK_SIZE);
+		strncpy(newInternal[i].leftEdge, &LeafNode[i].value, 100);
+		//printf("\n*******************Left edge assigned is: %s\n", newInternal[i].leftEdge);
+		strncpy(newInternal[i].rightEdge, &LeafNode[i].value, 100);
+		//printf("\n*******************Right edge assigned is: %s\n", newInternal[i].rightEdge);
+		newInternal[i].leftChild = NULL;
+		newInternal[i].rightChild = NULL;
 	}
-	return newInternal;
 }
 
 InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	//get ceiling
-	printf("Count is: %d\n",count);
 	int parents = count/2 + count%2;
 	InternalNode *newInternal = malloc(((count/2)+(count%2))*sizeof(InternalNode));
-	
+	unsigned char *temp = (unsigned char *) malloc(2*SHA256_BLOCK_SIZE);
 	int j = 0;
 	for(int i = 0; i < count; i+=2){
-		printf("\nI = : %d\n",i);
-		if(i != count-1){
-			char *temp = &(leafNodes[i].hash);
-			printf("\ntemp is: %s\n" , temp);
-			printf("\ni+1 is: %s\n" , leafNodes[i+1].hash);
-			strcpy(newInternal[j].hash, strcat(temp, leafNodes[i+1].hash));
-			printf(".....temp after strcat is: %s", temp);
-			printf("\nStrcat test: %s\n",newInternal[j].hash);
-			//printf("dereference of newinternal is: *s compare to the origional: %s",*newInternal[j].hash);
+		if(i != count-1){	
+			memcpy(temp, leafNodes[i].hash, SHA256_BLOCK_SIZE);
+			memcpy(temp+SHA256_BLOCK_SIZE, leafNodes[i+1].hash, SHA256_BLOCK_SIZE);//up until this point, this is corret
+			memcpy(newInternal[j].hash, hash64(temp), SHA256_BLOCK_SIZE); //memory shift by SHA256_BLOCK_SIZE
 			newInternal[j].leftChild = &leafNodes[i].hash;
 			newInternal[j].rightChild = &leafNodes[i+1].hash;
-			strcpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge);
-			printf("\n---------The left edge is: %s\n",newInternal[j].leftEdge);
-			strcpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge);
-			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
+			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
+			strncpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge, 100);
 		}else{
-			char *temp = &(leafNodes[i].hash);
-			printf("\nZZZZZZZZZZZ ODD CASE: temp is: %s\n",temp);
-			strcpy(newInternal[j].hash,temp);//will need to apply the hash function here
+			unsigned char *temp = &(leafNodes[i].hash);
+			memcpy(newInternal[j].hash, hash(hash(temp)), SHA256_BLOCK_SIZE);
 			newInternal[j].leftChild = &leafNodes[i];
 			newInternal[j].rightChild = NULL;
-			strcpy(newInternal[j].rightEdge, &leafNodes[i].rightEdge);
-			strcpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge);
-			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
+			strncpy(newInternal[j].rightEdge, &leafNodes[i].rightEdge, 100);
+			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
 		}
 		j++;
 		if(parents == 1){
-			printf("\n*****Root is: %s\n", newInternal[0].hash);
-			printf("\n*****Root left edge  is: %s\n", newInternal[0].leftEdge);
-			printf("\n*****Root right edge  is: %s\n", newInternal[0].rightEdge);
 			return newInternal;
 		}
 	}
 	return merkleTreeRoot(newInternal, parents);
 }
 
-void print_merkle_tree(InternalNode *root, int ID) {
-	printf("\n ------------------------- leafNodes are: %s \n", root->hash[0]);
-	printf(root->leftChild);
-	if (root->leftChild != NULL) {
-		print_merkle_tree(root->leftChild, 2*ID);
+
+
+//This is a copy of the merkleTreeRoot that will print out to terminal all the info
+/*
+InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
+	printf("\n###### merkleTreeRoot ######\n");
+	//get ceiling
+	//printf("********Count is: %d\n",count);
+	int parents = count/2 + count%2;
+	InternalNode *newInternal = malloc(((count/2)+(count%2))*sizeof(InternalNode));
+	unsigned char *temp = (unsigned char *) malloc(2*SHA256_BLOCK_SIZE);
+	int j = 0;
+	for(int i = 0; i < count; i+=2){
+		printf("\nI = %d\n",i);
+		if(i != count-1){	
+			printf("\nhash[i] is: \n");
+			for	 (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+				printf("%x", (unsigned char) leafNodes[i].hash[n]);
+			}
+			printf("\n");
+			memcpy(temp, leafNodes[i].hash, SHA256_BLOCK_SIZE);
+			printf("\ntemp is: \n");
+			for (int n = 0; n < SHA256_BLOCK_SIZE; n ++) {
+				printf("%x", (unsigned char) temp[n]);
+			}
+			printf("\n");
+			printf("\ni+1 is: \n");
+			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+				if ((unsigned char)leafNodes[i+1].hash[n] <= 0x0f) {
+						printf("0%x", (unsigned char)leafNodes[i+1].hash[n]);
+				}else{
+						printf("%x", (unsigned char)leafNodes[i+1].hash[n]);
+				}
+			}
+			printf("\n");
+			memcpy(temp+SHA256_BLOCK_SIZE, leafNodes[i+1].hash, SHA256_BLOCK_SIZE);//up until this point, this is corret
+			memcpy(newInternal[j].hash, hash64(temp), SHA256_BLOCK_SIZE); //memory shift by SHA256_BLOCK_SIZE
+			printf(".....temp after strcat is: \n");
+			for (int n = 0; n < 2*SHA256_BLOCK_SIZE; n++) {
+				if ((unsigned char)temp[n] <= 0x0f) {
+						printf("0%x", temp[n]);
+				}else{
+						printf("%x", temp[n]);
+				}
+			}
+			printf("\nhash of the concatenation: \n");
+			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+				if ((unsigned char)newInternal[j].hash[n] <= 0x0f) {
+						printf("0%x", (unsigned char)newInternal[j].hash[n]);
+				}else{
+						printf("%x", (unsigned char)newInternal[j].hash[n]);
+				}
+			}
+			newInternal[j].leftChild = &leafNodes[i].hash;
+			newInternal[j].rightChild = &leafNodes[i+1].hash;
+			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
+			printf("\n---------The left edge is: %s\n",newInternal[j].leftEdge);
+			strncpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge, 100);
+			printf("\n---------The right edge is: %s\n",newInternal[j].rightEdge);
+		}else{
+			unsigned char *temp = &(leafNodes[i].hash);
+			printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ODD CASE: temp is:\n");
+			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+				printf("%x", (unsigned char) temp[n]);
+			}
+			printf("\n");
+			memcpy(newInternal[j].hash, hash(hash(temp)), SHA256_BLOCK_SIZE);
+			for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+				if ((unsigned char)newInternal[i].hash[n] <= 0x0f) {
+						printf("0%x", (unsigned char) newInternal[j].hash[n]);
+				}else{
+						printf("%x", (unsigned char) newInternal[j].hash[n]);
+				}
+			}
+			newInternal[j].leftChild = &leafNodes[i];
+			newInternal[j].rightChild = NULL;
+			strncpy(newInternal[j].rightEdge, &leafNodes[i].rightEdge, 100);
+			printf("\n!!!!!!!!!!!!Left edge assigned is: %s\n", newInternal[j].leftEdge);
+			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
+			printf("\n!!!!!!!!!!!!Right edge assigned is: %s\n",newInternal[j].rightEdge);
+		}
+		j++;
+		if(parents == 1){
+			//printf("\n*****Root left edge  is: %s\n", newInternal[0].leftEdge);
+			//printf("\n*****Root right edge  is: %s\n", newInternal[0].rightEdge);
+			//memcpy(returnedNode[0].hash, newInternal[0].hash,SHA256_BLOCK_SIZE);
+			return newInternal;
+		}
 	}
-	if (root->rightChild != NULL) {
-		print_merkle_tree(root->rightChild, 2*ID+1);
-	}
-} 
-
-/* free_merkle_tree(InternalNode *internalNodes) {
-	free(internalNodes);
-} */
-
-
-/* ROOT MAIN.c 
-CONTROL FLOW: (1) main will call function (e.g. read_input_file() inside inputFile.c to read-in 
-		     input file (plaintext) from user, and sort the file's contents with an algorithm 
-		     with efficient time complexity
-		 (2) main will then call function (e.g. build_tree() inside of merkleTree.c) to build
-		     an empty merkle tree.
-		 (3) main will then call a function (e.g. populate_tree() inside of merkleTree.c) in order
-		     to start populating the tree with the set of string inputted by the user.
-		 (4) From merkleTree.c, we'll have to call the hash function (e.g. hash() inside of sha_256.c)
-		     in order to hash the input, and then placing the hash inside the specified node
-		 (5) main will call a function (printTree() inside of merkleTree.c) in order to print out the tree
-		 (6) main will call a function (freeTree() inside of merkleTree.c) in order to free memory
-		     allocated to the merkleTree and its nodes.  
-*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "merkleTree.h"
-#include "sha256.h"
-#include "node.h"
-#define BUFFER 100
-
-int main(int argc, char *argv[]) {
-    char input[BUFFER];
-    printf("input the filename to be opened : ");
-	scanf("%s",input);	
-    
-    FILE *fp = Fopen(input, "r"); 
-    int count = (int) lineCount(fp);
-    printf("number of lines: %d\n", count);
-    char** arr = malloc(count * sizeof(char*));
-    for(int i = 0; i < count; i++){
-      arr[i] = malloc(100);
-    }
-
-    fp = Fopen(input, "r"); //open the file
-    int z = 0;
-    while (fgets(arr[z], 100, fp) != NULL) {
-        size_t len = strlen(arr[z]);
-        if( arr[z][len-1] == '\n') {
-            arr[z][len-1] = '\0';
-        }
-        printf ("elements are: %s", arr[z]);
-        z++;
-    }
-    printf("Total string put in arr is: %d\n",z);
-    Fclose(fp);
-
-    Sort(arr, count);
-
-    for(int i = 0; i < count; i++){
-      printf("Sorted array is: %s\n", arr[i]);
-    }
-
-    LeafNode *leafNodes = malloc(count*sizeof(LeafNode));
-    createLeafNodes(leafNodes, arr, count);
-    InternalNode *internalNode = malloc(count*sizeof(InternalNode));
-    internalNode = convertLeaftoInternal(leafNodes,count);
-    InternalNode *TreeRoot = malloc(sizeof(InternalNode));
-    TreeRoot = merkleTreeRoot(internalNode,count);
-    printf("\n**The returned value from merkleTreeRoot is %s\n",TreeRoot);
-    //print_merkle_tree(TreeRoot, 1);
-
-
-    //FILE *output = Fopen(strncat(output,".out.txt", 1), "w");    
-    //Fclose(output);
-    //free_merkle_tree(leafNodes);
+	return merkleTreeRoot(newInternal, parents);
 }
+*/
 
-/* HEADER FILE FOR FUCNTIONS ASSOCIATED WITH MERKLE TREE */
-#include "node.h"
 
-LeafNode *createLeafNodes(LeafNode *, char**, int);
-InternalNode *convertLeaftoInternal(LeafNode *LeafNode, int count);
-InternalNode *merkleTreeRoot(InternalNode *, int);
-void print_merkle_tree(InternalNode *, int);
-FILE *Fopen(const char *, const char *);
-void Fclose(FILE *);
-size_t Fread(void *, size_t, size_t, FILE *); 
-size_t Fwrite(void *, size_t, size_t, FILE *);
-void Sort(char**, int);
-char* hash(char arr[]);
+/*
+free_merkle_tree(InternalNode *internalNodes) {
+	free(internalNodes);
+}
+*/
 
-/* NODE STRUCTURE */	
+/* HEADER FILE FOR FUNCTIONS ASSOCIATED WITH MERKLE TREE */
 
-#ifndef NODE_DEF
-#define NODE_DEF
+#ifndef MERKLETREE_DEF
+#define MERKLETREE_DEF
+
+#include <stdio.h>
+#include "sha256.h"
+#define BUFFER 100
 
 //leaf node struct
 struct leaf_node {
-  char hash[64];
+  char hash[SHA256_BLOCK_SIZE + 1];
   char value[100];
 };
 typedef struct leaf_node LeafNode;
 
 //internal node struct
 struct node {
-  char hash[32];
+  char hash[2*SHA256_BLOCK_SIZE + 1];
   struct node *leftChild;
   struct node *rightChild;
   char leftEdge[100];
@@ -248,13 +674,101 @@ struct node {
 };
 typedef struct node InternalNode;
 
+void createLeafNodes(LeafNode *, char **, int);
+void convertLeaftoInternal(InternalNode *, LeafNode *, int);
+InternalNode *merkleTreeRoot(InternalNode *, int);
+
+#endif
+
+/* HEADER FILE FOR PRINTING BLOCK */
+
+#ifndef PRINTBLOCK_DEF
+#define PRINTBLOCK_DEF
+
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include "block.h"
+#include "merkleTree.h"
+#include "printMerkleTree.h"
+#include "printBlock.h"
+#include "sha256.h"
+#include "time.h"
+#include "hash.h"
+
+void print_block(Block*, int, FILE*);
+
+#endif
+
+/* IMPLEMENTATION FOR PRINTING BLOCK TO FILE*/
+
+#include "printBlock.h"
+
+//NEED TO FIX THIS FILE
+
+void print_block(Block* B_ptr, int ID_K, FILE* out){
+    printf("entered print_block!!!!!!!!!!!!!!!!!\n");
+    fprintf(out, "header: \n");
+    fprintf(out, "PreviousHash: %s, RootHash: %s", B_ptr->header->previousHash, B_ptr->header->rootHash);
+    fprintf(out, "");
+    fprintf(out, "TimeStamp: %d, Target: %s, nonce: %d", B_ptr->header->timestamp, B_ptr->header->target, B_ptr->header->nonce);
+    fprintf(out, "");
+    fprintf(out, "content: \n");
+    print_merkle_tree(B_ptr->rootHash, ID_K, out);
+}
+
+/* IMPLEMENTATION FOR PRINTING MERKLE TREE */
+
+#include "printMerkleTree.h"
+
+//NEED TO FIX THIS FILE
+
+void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
+	fprintf(output,"#######");
+	fprintf(output,"iD is:%d\n", ID);
+	
+	if(strcmp(root->leftEdge, root->rightEdge)){
+		fprintf(output,"left edge is: %s\n", root->leftEdge);
+	}
+	
+	fprintf(output,"hash is:");
+	for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		fprintf(output,"%x", (unsigned char) root->hash[n]);
+	}
+	fprintf(output,"\n");
+
+	if(strcmp(root->leftEdge, root->rightEdge)){
+		fprintf(output,"right edge is: %s\n", root->rightEdge);
+	}else{
+		fprintf(output, "leafNode value is: %s\n", root->leftEdge);
+		fprintf(output,"leaf node\n");
+	}
+
+	if (root->leftChild != NULL) {
+		print_merkle_tree(root->leftChild, 2*ID, output);
+        fprintf(output, "leftChild is: %d\n", 2*ID);
+	}
+	if (root->rightChild != NULL) {
+		print_merkle_tree(root->rightChild, 2*ID+1, output);
+        fprintf(output, "rightChild is: %d\n",  2*ID+1);
+	}
+}
+
+/* HEADER FILE FOR PRINTING MERKLE TREE */  
+
+#ifndef PRINT_MERKLETREE_DEF
+#define PRINT_MERKLETREE_DEF
+
+#include "merkleTree.h"
+
+void print_merkle_tree(InternalNode *, int, FILE *);
+
 #endif
 
 /* IMPLEMENTATION OF READING USER FILE AND SORTING CONTENTS */
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "merkleTree.h"
+
+#include "readFile.h"
 
 FILE *Fopen(const char *file, const char *permission) {
     FILE *fp = fopen(file, permission);
@@ -271,7 +785,7 @@ void Fclose(FILE *fp) {
     }
 }
 
-size_t Fread(void * buffer, size_t size, size_t nmemb, FILE *file) {
+size_t Fread(void *buffer, size_t size, size_t nmemb, FILE *file) {
     size_t readBytes = fread(buffer, size, nmemb, file);
     if (readBytes == 0) {
         printf("empty file!!!!!!!");
@@ -298,11 +812,283 @@ int lineCount(FILE * inputFile) {
     char character;
     for (character = getc(inputFile); character != EOF; character = getc(inputFile)) {
         if (character == '\n') { 
-            counter = counter + 1; 
+            counter = counter + 1;
         }
+    }
+    if(character != '\n'){
+        counter++;
     }
     return counter; 
 }  
+
+void ReadOneFile(char** arr, char *filename)
+{
+    //printf("file name %s\n", filename);
+    FILE *fp = Fopen(filename, "r");
+    int count = (int)lineCount(fp);
+    //printf("number of lines: %d\n", count);
+    
+    //***fp must be open twice OR use rewind() to reset pointer
+    fp = Fopen(filename, "r"); //open the file
+    int z = 0;
+    while ( fgets(arr[z], 100, fp) != NULL ){
+        size_t len = strlen(arr[z]);
+        if( arr[z][len-1] == '\n') {
+            arr[z][len-1] = '\0';
+        }
+        //printf ("elements are: %s", arr[z]);
+        z++;
+    }
+    //printf("Total string put in arr is: %d\n", z);
+    fclose(fp);
+
+    sort(arr, count);   
+
+    // for (int i = 0; i < count; i++)
+    // {
+    //     printf("Sorted array is: %s\n", arr[i]);
+    // }
+}
+
+int *GetLineNumbers(char **filename, int count) {
+    int *lineNum = (int *)malloc(count*sizeof(int));
+    FILE *fp;
+    for(int i = 0; i < count; i++){
+        fp = fopen(filename[i], "r");
+        lineNum[i] = (int) lineCount(fp);
+        //printf("!!!!!Assigned line number %d to %d\n", i, lineNum[i]);
+    }
+    return lineNum;
+}
+
+/* HEADER FILE FOR READFILE.C */
+
+#ifndef READFILE_DEF
+#define READFILE_DEF
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "sort.h"
+
+FILE *Fopen(const char *, const char *);
+void Fclose(FILE *);
+size_t Fread(void *, size_t, size_t, FILE *); 
+size_t Fwrite(void *, size_t, size_t, FILE *);
+void ReadOneFile(char**, char *);
+int *GetLineNumbers(char **, int);
+//size_t Fwrite(void *, size_t, size_t, FILE *);
+
+#endif
+
+
+!/bin/bash
+#Bash Shell Script
+#RECOMPILE
+
+#Set EXECUTE PERMISSIONS
+chmod 755 recompile
+
+#Set path for bash script
+export PATH="$PATH:."
+
+make clean;
+make;
+
+
+#!/bin/bash
+#Bash Shell Script
+#RUN 
+
+#Set EXECUTE PERMISSIONS
+chmod 755 run
+
+#Set path for bash script
+export PATH="$PATH:."
+
+#Run executable
+prog
+
+/* IMPLEMENTATION FOR SERIALIZING BLOCKCHAIN TO FILE */
+
+#include "serialize.h"
+
+void serialize_first_blockchain(Block *block, FILE *write_blockchain){
+    //printf("\n$$$$$$$$$$$$$$$$$$$$ serialize_first_blockchain $$$$$$$$$$$$$$$$$$$$$$$$\n");
+    //serialize block's merkleTree to file
+    //printf("\n-------HEADER: previousHash---------\n");
+    Fwrite(block->header->previousHash, sizeof(unsigned char), 1, write_blockchain);
+    //printf("\n-------HEADER: rootHash---------\n");
+    Fwrite(block->header->rootHash, sizeof(unsigned char), 32, write_blockchain);
+    //printf("\n-------HEADER: timestamp---------\n");
+    Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
+    //printf("\n-------HEADER: target---------\n");
+    Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
+    //printf("\n-------HEADER: nonce---------\n");
+    Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
+
+    //serialize block's header contents to file
+    //printf("\n-------MERKLETREE: hash of Merkle Tree---------\n");  
+    //print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
+
+    // printf("PrevHash is: %c\n",*(block->header->previousHash));
+    // printf("rootHash is: \n");
+    // for(int i=0 ; i < SHA256_BLOCK_SIZE; i++){
+    //     printf("%x",(unsigned char)block->header->rootHash[i]);
+    // }
+    // printf("\nserialize_blockchain: Nonce is: %u", block->header->nonce);
+    // printf("\n");
+}
+
+void rebuild_first_block(FILE *output_blockchain, Block2 *block){
+    printf("\n\n\n$$$$$$$$$$$$$$$$$$$$ rebuild_first_block $$$$$$$$$$$$$$$$$$$$$$$$\n");
+    unsigned char buffer_previousHash[1];
+    unsigned char buffer_rootHash[32];
+    int buffer_timestamp[1];
+    double buffer_target[1];
+    unsigned int buffer_nonce[1];
+
+    fread(buffer_previousHash, sizeof(unsigned char), 1, output_blockchain);
+    printf("previousHash is: \n");
+    for(int i = 0; i < 1; i ++){
+        printf("%c",buffer_previousHash[i]); 
+    }
+
+    printf("\n");
+    printf("rootHash is: \n");
+    fread(buffer_rootHash, sizeof(unsigned char), sizeof(buffer_rootHash), output_blockchain);
+    for(int i=0 ; i < sizeof(buffer_rootHash); i ++){
+        printf("%x",buffer_rootHash[i]);
+    }
+    printf("\n");
+    
+    printf("timestamp is: \n");
+    fread(buffer_timestamp, sizeof(int), 1, output_blockchain);
+    printf("%d",(int)buffer_timestamp[0]); 
+    
+    printf("\n");
+    printf("target is: \n");
+    fread(buffer_target, sizeof(double), 1, output_blockchain);
+    printf("%f",buffer_target[0]); 
+
+    printf("\n");
+    printf("nonce is: \n");
+    fread(buffer_nonce, sizeof(unsigned int), 1, output_blockchain);
+    printf("%u",buffer_nonce[0]); 
+    printf("\n");
+
+    //rebuild block from buffer
+    memcpy(block->previousHash, buffer_previousHash, 1);
+    memcpy(block->rootHashHeader, buffer_rootHash, SHA256_BLOCK_SIZE);
+    block->timestamp = buffer_timestamp[0];
+    block->target = buffer_target[0];
+    memcpy(block->rootHash, buffer_rootHash, SHA256_BLOCK_SIZE);
+    block->nonce = buffer_nonce[0];
+}
+
+void serialize_blockchain(Block *block, FILE *write_blockchain) {
+    //printf("\n$$$$$$$$$$$$$$$$$$$$ serialize_blockchain $$$$$$$$$$$$$$$$$$$$$$$$\n");
+    //serialize block's merkleTree to file
+    //printf("\n-------HEADER: previousHash---------\n");
+    Fwrite(block->header->previousHash, sizeof(unsigned char), 32, write_blockchain);
+    //printf("\n-------HEADER: rootHash---------\n");
+    Fwrite(block->header->rootHash, sizeof(unsigned char), 32, write_blockchain);
+    //printf("\n-------HEADER: timestamp---------\n");
+    Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
+    //printf("\n-------HEADER: target---------\n");
+    Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
+    //printf("\n-------HEADER: nonce---------\n");
+    Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
+
+    //serialize block's header contents to file
+    //printf("\n-------MERKLETREE: hash of Merkle Tree---------\n");  
+    //print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
+
+    // printf("PrevHash is: %c\n",*(block->header->previousHash));
+    // printf("rootHash is: \n");
+    // for(int i=0 ; i < SHA256_BLOCK_SIZE; i++){
+    //     printf("%x",(unsigned char)block->header->rootHash[i]);
+    // }
+    // printf("\n serialize_blockchain: Nonce is: %u", block->header->nonce);
+    // printf("\n");
+} 
+
+void rebuild_block(FILE *output_blockchain, Block2 *block) {
+    printf("\n\n\n$$$$$$$$$$$$$$$$$$$$ rebuild_block $$$$$$$$$$$$$$$$$$$$$$$$\n");
+    unsigned char buffer_previousHash[32];
+    unsigned char buffer_rootHash[32];
+    int buffer_timestamp[1];
+    double buffer_target[1];
+    unsigned int buffer_nonce[1];
+
+    fread(buffer_previousHash, sizeof(unsigned char), 32, output_blockchain);
+    printf("previousHash is: \n");
+    for(int i = 0; i < 32; i ++){
+        printf("%x",buffer_previousHash[i]); 
+    }
+
+    printf("\n");
+    printf("rootHash is: \n");
+    fread(buffer_rootHash, sizeof(unsigned char), sizeof(buffer_rootHash), output_blockchain);
+    for(int i=0 ; i < sizeof(buffer_rootHash); i ++){
+        printf("%x",buffer_rootHash[i]);
+    }
+    printf("\n");
+    
+    printf("timestamp is: \n");
+    fread(buffer_timestamp, sizeof(int), 1, output_blockchain);
+    printf("%d",(int)buffer_timestamp[0]); 
+    
+    printf("\n");
+    printf("target is: \n");
+    fread(buffer_target, sizeof(double), 1, output_blockchain);
+    printf("%f",buffer_target[0]); 
+
+    printf("\n");
+    printf("nonce is: \n");
+    fread(buffer_nonce, sizeof(unsigned int), 1, output_blockchain);
+    printf("%u",buffer_nonce[0]); 
+    printf("\n");
+
+    memcpy(block->previousHash, buffer_previousHash, SHA256_BLOCK_SIZE);
+    memcpy(block->rootHashHeader, buffer_rootHash, SHA256_BLOCK_SIZE);
+    block->timestamp = buffer_timestamp[0];
+    block->target = buffer_target[0];
+    memcpy(block->rootHash, buffer_rootHash, SHA256_BLOCK_SIZE);
+    block->nonce = buffer_nonce[0];
+}
+
+/* HEADER FILE FOR SERIALIZING BLOCK */
+
+#ifndef SERIALIZE_DEF
+#define SERIALIZE_DEF
+
+#include "block.h"
+#include "printMerkleTree.h"
+#include "readFile.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct block2 {
+  unsigned char previousHash[SHA256_BLOCK_SIZE]; 
+  unsigned char rootHashHeader[SHA256_BLOCK_SIZE];
+  int timestamp;
+  double target;
+  unsigned int nonce;
+  unsigned char rootHash[SHA256_BLOCK_SIZE];//same as line 15
+  struct block2 *prevBlock;
+  struct block2 *nextBlock;
+};
+typedef struct block2 Block2;
+
+void serialize_blockchain(Block *, FILE *);     
+void rebuild_block(FILE *, Block2 *);          
+void serialize_first_blockchain(Block *, FILE *);
+void rebuild_first_block(FILE *, Block2 *); 
+void rebuild_merkleTree(Block *);
+
+#endif
 
 /*********************************************************************
 * Filename:   sha256.c
@@ -464,6 +1250,7 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
 	}
 }
 
+
 /*********************************************************************
 * Filename:   sha256.h
 * Author:     Brad Conte (brad AT bradconte.com)
@@ -499,13 +1286,15 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[]);
 
 #endif   // SHA256_H
 
+/* IMPLEMENTATION FOR SORTING ALGORITHM -- BUBBLE SORT */
+
 #include <stdio.h>
 #include <string.h>
 #include "merkleTree.h"
-#include "node.h"
+#include "sort.h"
 
 /* Double Bubble-Sort: sorting by length and alphanumeric */
-void Sort(char** arr, int n) { 
+void sort(char** arr, int n) { 
    int i, j; 
    for (i = 0; i < n-1; i++)
    {
@@ -536,3 +1325,13 @@ void Sort(char** arr, int n) {
        }
    }
 } 
+
+
+/* HEADER FILE FOR SORT.C */
+
+#ifndef SORT_DEF
+#define SORT_DEF
+
+void sort(char**, int);
+
+#endif

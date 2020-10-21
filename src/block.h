@@ -5,6 +5,7 @@
 
 #include "sha256.h"
 #include "merkleTree.h"
+
 //header struct
 struct header {
   unsigned char *previousHash; 
