@@ -33,5 +33,13 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 		fprintf(output, "rightChild is NULL\n");
 		print_merkle_tree(root->leftChild, 2*ID, output);
 	}
+}
 
+void print_merkle_tree_value(char** arr,int lineNum, FILE *output){
+	fprintf(output, "%d\n", lineNum);
+	fprintf(output, "BEGVALUE\n");
+	for(int i = 0; i < lineNum; i++){
+		fprintf(output, "%s\n",  arr[i]);
+	}
+	fprintf(output, "ENDVALUE\n");
 }

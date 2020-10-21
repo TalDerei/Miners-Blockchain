@@ -1,3 +1,11 @@
+5
+BEGVALUE
+a
+bb
+ccc
+dddd
+eeeee
+ENDVALUE
 
 ID is:1
 left edge is: a
