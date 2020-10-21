@@ -15,6 +15,7 @@
 #include "time.h"
 #include "hash.h"
 
-void print_block(Block*, int, FILE*);
+void print_first_block(Block *, int, FILE *);
+void print_block(Block *, int, FILE *);
 
 #endif

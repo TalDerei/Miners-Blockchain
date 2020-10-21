@@ -2,13 +2,36 @@
 
 #include "printBlock.h"
 
-void print_block(Block* B_ptr, int ID_K, FILE* out){
-    printf("entered print_block!!!!!!!!!!!!!!!!!\n");
-    fprintf(out, "header: \n");
-    fprintf(out, "PreviousHash: %s, RootHash: %s", B_ptr->header->previousHash, B_ptr->header->rootHash);
-    fprintf(out, "");
-    fprintf(out, "TimeStamp: %d, Target: %s, nonce: %d", B_ptr->header->timestamp, B_ptr->header->target, B_ptr->header->nonce);
-    fprintf(out, "");
-    fprintf(out, "content: \n");
+void print_first_block(Block* B_ptr, int ID_K, FILE* out){
+    fprintf(out, "BEGIN BLOCK\n");
+    fprintf(out, "BEGIN HEADER\n");
+    fprintf(out, "%s\n", B_ptr->header->previousHash);
+    for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		fprintf(out,"%x", (unsigned char) B_ptr->header->rootHash[n]);
+	}
+    fprintf(out, "%d\n", B_ptr->header->timestamp);
+    fprintf(out, "%f\n", B_ptr->header->target);
+    fprintf(out, "%d\n", B_ptr->header->nonce);
+    fprintf(out, "END HEADER\n");
+    fprintf(out, "\n");
     print_merkle_tree(B_ptr->rootHash, ID_K, out);
+    fprintf(out, "END BLOCK\n");
+}
+
+void print_block(Block* B_ptr, int ID_K, FILE* out){
+    fprintf(out, "BEGIN BLOCK\n");
+    fprintf(out, "BEGIN HEADER\n");
+    for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		fprintf(out,"%x", (unsigned char) B_ptr->header->previousHash[n]);
+	}
+    for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
+		fprintf(out,"%x", (unsigned char) B_ptr->header->rootHash[n]);
+	}
+    fprintf(out, "%d\n", B_ptr->header->timestamp);
+    fprintf(out, "%f\n", B_ptr->header->target);
+    fprintf(out, "%d\n", B_ptr->header->nonce);
+    fprintf(out, "END HEADER\n");
+    fprintf(out, "\n");
+    print_merkle_tree(B_ptr->rootHash, ID_K, out);
+    fprintf(out, "END BLOCK\n");
 }

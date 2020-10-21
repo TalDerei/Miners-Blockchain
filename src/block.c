@@ -8,10 +8,9 @@
 void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *pointerToZero, FILE *output_block, FILE *output_blockchain) {
     initialize_header(block, Treeroot, pointerToZero);
     block->rootHash = Treeroot; // pointer to tree of merkle tree
-    //print_block(block, 1, outputBlock); //print block
-    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
     
-    // serialize the first block to disk in the blockchain
+    // print and serialize the first block to disk in the blockchain
+    print_first_block(block, 1, output_block);
     serialize_first_blockchain(block, output_blockchain); 
 }
 
@@ -30,10 +29,9 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
 void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *output_block, FILE *output_blockchain, unsigned char *pointerToZero) {
     populate_header(block, Treeroot, prevBlock, pointerToZero);
     block->rootHash = Treeroot;    
-    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
-    //print_block(block, 1, outputBlock); //print block
-
-    // serialize subsequent blocks to disk in the blockchain
+    
+    // print and serialize subsequent blocks to disk in the blockchain    
+    print_block(block, 1, output_block); 
     serialize_blockchain(block, output_blockchain); 
 }
 

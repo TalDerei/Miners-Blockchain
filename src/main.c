@@ -35,8 +35,8 @@ int main(int argc, char *argv[]) {
         arr[i] = malloc(100);
     }
 
-    // output_blockchain = file containing the serialization of the blockchain                          
-    char output_fileName[] = "output.blockchain.txt";
+    // output_blockchain = file containing the serialization of the blockchain
+    char output_fileName[] = "serialization.blockchain.txt";
     FILE *output_blockchain = fopen(output_fileName,"wb");
 
     // arrays actualFileNameMerkleTree and actualFileNameBlock for storing file names for merkleTree and Block filenames
@@ -61,6 +61,7 @@ int main(int argc, char *argv[]) {
         for(int j = 0; j < fileNameCounter; j++){
             actualFileNameMerkleTree[i][j] = fileNames[i][j];
         }
+        strcat(actualFileNameMerkleTree[i], ".out.txt"); //contains the output for merkle tree
 
         // outputMerkleTree = file containing the contents of a merkle tree associatd with block[i]
         FILE *outputMerkleTree; 
@@ -68,7 +69,7 @@ int main(int argc, char *argv[]) {
         for(int j = 0; j < fileNameCounter; j++){
             actualFileNameBlock[i][j] = fileNames[i][j];
         }
-        strcat(actualFileNameBlock[i], ".block.txt");
+        strcat(actualFileNameBlock[i], ".block.txt"); //contains the output for the entire block contents
         
         // output_block = file containing the contents of a block's header contents + merkle tree associatd with block[i]
         FILE *output_block; 
@@ -115,7 +116,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //Fclose(output_fileName);
-    //free_merkle_tree(leafNodes);
+    // Fclose(output_blockchain);
+    // Fclose(write_blockchain2);
+    // free_merkle_tree(leafNodes);
 }
 

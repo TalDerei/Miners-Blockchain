@@ -1,0 +1,104 @@
+#######iD is:1
+left edge is: 
+hash is:543a85144411bba2b2c27d653bd1e98656bab4b4328c16549156feb3583a6
+right edge is: ilpakomcjf
+#######iD is:2
+left edge is: 
+hash is:22fff04c326c05df4ecb8c7374da1c9f37e512c8cdcf97d509216db27ef
+right edge is: mksdijfie
+#######iD is:4
+left edge is: 
+hash is:a8eb15bcb198ed3239915d76c8b4ee89d2d0fa129193212c5ced3d832b618
+right edge is: qmkzz
+#######iD is:8
+left edge is: 
+hash is:4a1ffcf6315336747ec9a0ae4d75527f68d0e136251c9c6446a253873b6ab24e
+right edge is: kddks
+#######iD is:16
+hash is:0000000011000000000000000110000000
+leafNode value is: 
+leaf node
+leftChild is: 16
+#######iD is:17
+hash is:ffffff00000000ffffffffffffffff00000000d7aa8b7fff
+leafNode value is: kddks
+leaf node
+rightChild is: 17
+leftChild is: 8
+#######iD is:9
+left edge is: mdksd
+hash is:d2c5d4162889e38799386fb8ec1fbfeba849152e5ad5fdd7ef0bf1e6b4612b
+right edge is: qmkzz
+#######iD is:18
+hash is:e4b5ff7f0038aa8b7fff7f00d89adeb5ff7f008eaa8b7fff7f0078ca
+leafNode value is: mdksd
+leaf node
+leftChild is: 18
+#######iD is:19
+hash is:08eab8b7fff7f003868e1b5ff7f0073ad8b7fff7f005820e5b5ff7f0
+leafNode value is: qmkzz
+leaf node
+rightChild is: 19
+rightChild is: 9
+leftChild is: 4
+#######iD is:5
+left edge is: djisdby
+hash is:8a50f2615fa4dc27ab4398b2412b0871c25dbcd07cd480664ef6f224406dc5
+right edge is: mksdijfie
+#######iD is:10
+left edge is: djisdby
+hash is:e947a476424b9ed9d1d81d244dbe7d6c17af2b05ded9ee3ba5d148facaffff
+right edge is: dksndks
+#######iD is:20
+hash is:ff7f001894deb5ff7f004ad0a55ff7f00d82ee7b5ff7f0079ac8b7f
+leafNode value is: djisdby
+leaf node
+leftChild is: 20
+#######iD is:21
+hash is:a1e8b5ff7f006eaa8b7fff7f00789adeb5ff7f0038d0a55ff7f0038
+leafNode value is: dksndks
+leaf node
+rightChild is: 21
+leftChild is: 10
+#######iD is:11
+left edge is: jsdksndk
+hash is:2577183e6625c0a793bace8fa39671041a2d7b0f968bc8706df0e7642d10
+right edge is: mksdijfie
+#######iD is:22
+hash is:00ffffffffffffffff0000000025aa8b7fff7f00389bdeb5ff7f
+leafNode value is: jsdksndk
+leaf node
+leftChild is: 22
+#######iD is:23
+hash is:7fff7f00d897deb5ff7f00ffffffffffffffff00000000ffffff
+leafNode value is: mksdijfie
+leaf node
+rightChild is: 23
+rightChild is: 11
+rightChild is: 5
+leftChild is: 2
+#######iD is:3
+left edge is: ajoskamcnf
+hash is:8da12912ab76e8966528fa8eeef06cbf5e7e9d23ad9d29c3e5f7bc1be27d1
+right edge is: ilpakomcjf
+#######iD is:6
+left edge is: ajoskamcnf
+hash is:2d5b9f1526f3cca380c9182d6bf255ccb4334bfcf21e8d383815bc1ec5299c
+right edge is: ilpakomcjf
+#######iD is:12
+left edge is: ajoskamcnf
+hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+right edge is: ilpakomcjf
+#######iD is:24
+hash is:00000000000000000000000000000000
+leafNode value is: ajoskamcnf
+leaf node
+leftChild is: 24
+#######iD is:25
+hash is:00000000000000000000000000000000
+leafNode value is: ilpakomcjf
+leaf node
+rightChild is: 25
+leftChild is: 12
+leftChild is: 6
+rightChild is: 3
