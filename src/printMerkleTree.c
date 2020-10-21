@@ -11,7 +11,7 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 	if(strcmp(root->leftEdge, root->rightEdge)){
 		fprintf(output,"left edge is: %s\n", root->leftEdge);
 	}
-
+	
 	fprintf(output,"hash is:");
 	for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
 		fprintf(output,"%x", (unsigned char) root->hash[n]);
@@ -27,10 +27,10 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 
 	if (root->leftChild != NULL) {
 		print_merkle_tree(root->leftChild, 2*ID, output);
-        fprintf(output, "leftChild is: %s\n", root->leftChild);
+        fprintf(output, "leftChild is: %d\n", 2*ID);
 	}
 	if (root->rightChild != NULL) {
 		print_merkle_tree(root->rightChild, 2*ID+1, output);
-        fprintf(output, "rightChild is: %s\n", root->rightChild);
+        fprintf(output, "rightChild is: %d\n",  2*ID+1);
 	}
 }

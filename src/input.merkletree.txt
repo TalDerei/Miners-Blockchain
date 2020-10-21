@@ -14,13 +14,13 @@ right edge is: bb
 hash is:00000000000000000000000000000000
 leafNode value is: a
 leaf node
-leftChild is: 
+leftChild is: 8
 #######iD is:9
 hash is:00000000000000000000000000000000
 leafNode value is: bb
 leaf node
-rightChild is: 
-leftChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
+rightChild is: 9
+leftChild is: 4
 #######iD is:5
 left edge is: ccc
 hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
@@ -29,14 +29,14 @@ right edge is: dddd
 hash is:00000000000000000000000000000000
 leafNode value is: ccc
 leaf node
-leftChild is: 
+leftChild is: 10
 #######iD is:11
 hash is:00000000000000000000000000000000
 leafNode value is: dddd
 leaf node
-rightChild is: 
-rightChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
-leftChild is: ÛVN
+rightChild is: 11
+rightChild is: 5
+leftChild is: 2
 #######iD is:3
 hash is:75d7682c8b5955557b2ef33654f31512b9b3edd17f74b5bf422ccabbd7537e1a
 leafNode value is: eeeee
@@ -49,7 +49,6 @@ leaf node
 hash is:00000000000000000000000000000000
 leafNode value is: eeeee
 leaf node
-leftChild is: 
-leftChild is: ]öàâvYÓ
-‚uŽ)ŸÌSEEõ\ô>A˜?]L”V
-rightChild is: u×h,‹YUU{.ó6Tó¹³íÑtµ¿B,Ê»×S~
+leftChild is: 12
+leftChild is: 6
+rightChild is: 3

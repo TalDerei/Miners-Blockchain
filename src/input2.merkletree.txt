@@ -14,13 +14,13 @@ right edge is: 1
 hash is:00000000000000000000000000000000
 leafNode value is: 
 leaf node
-leftChild is: 
+leftChild is: 8
 #######iD is:9
 hash is:00000000000000000000000000000000
 leafNode value is: 1
 leaf node
-rightChild is: 
-leftChild is: õ¥ıBÑj 0'˜ïnÓ	—›C
+rightChild is: 9
+leftChild is: 4
 #######iD is:5
 left edge is: 22
 hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
@@ -29,14 +29,14 @@ right edge is: 333
 hash is:00000000000000000000000000000000
 leafNode value is: 22
 leaf node
-leftChild is: 
+leftChild is: 10
 #######iD is:11
 hash is:00000000000000000000000000000000
 leafNode value is: 333
 leaf node
-rightChild is: 
-rightChild is: õ¥ıBÑj 0'˜ïnÓ	—›C
-leftChild is: ÛVN
+rightChild is: 11
+rightChild is: 5
+leftChild is: 2
 #######iD is:3
 left edge is: 4444
 hash is:3d19b447cc1d5f33fa564cceecc5d23343ef4d344ffc0b85025e9b5fe061e0
@@ -49,13 +49,13 @@ right edge is: 55555
 hash is:00000000000000000000000000000000
 leafNode value is: 4444
 leaf node
-leftChild is: 
+leftChild is: 12
 #######iD is:13
 hash is:00000000000000000000000000000000
 leafNode value is: 55555
 leaf node
-rightChild is: 
-leftChild is: õ¥ıBÑj 0'˜ïnÓ	—›C
+rightChild is: 13
+leftChild is: 6
 #######iD is:7
 hash is:5df6e0e2761359d3a827558e299fcc381534545f55cf43e41983f5d4c9456
 leafNode value is: 666666
@@ -64,7 +64,6 @@ leaf node
 hash is:00000000000000000000000000000000
 leafNode value is: 666666
 leaf node
-leftChild is: 
-rightChild is: ]öàâvYÓ
-‚u)ŸÌSEEõ\ô>A˜?]L”V
-rightChild is: =´GÌ_3úVÌîÌ]#4>ôÓDÿÀ¸P%é_àaà
+leftChild is: 14
+rightChild is: 7
+rightChild is: 3
