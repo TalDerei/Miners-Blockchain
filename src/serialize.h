@@ -11,12 +11,12 @@
 #include <string.h>
 
 struct block2 {
-  unsigned char previousHash[32]; 
-  unsigned char rootHashHeader[32];
+  unsigned char previousHash[SHA256_BLOCK_SIZE]; 
+  unsigned char rootHashHeader[SHA256_BLOCK_SIZE];
   int timestamp;
   double target;
   unsigned int nonce;
-  unsigned char *rootHash;
+  unsigned char rootHash[SHA256_BLOCK_SIZE];//same as line 15
   struct block2 *prevBlock;
   struct block2 *nextBlock;
 };

@@ -44,40 +44,42 @@ int lineCount(FILE * inputFile) {
     char character;
     for (character = getc(inputFile); character != EOF; character = getc(inputFile)) {
         if (character == '\n') { 
-            counter = counter + 1; 
+            counter = counter + 1;
         }
+    }
+    if(character != '\n'){
+        counter++;
     }
     return counter; 
 }  
 
 void ReadOneFile(char** arr, char *filename)
 {
-    printf("file name %s\n", filename);
+    //printf("file name %s\n", filename);
     FILE *fp = Fopen(filename, "r");
     int count = (int)lineCount(fp);
-    printf("number of lines: %d\n", count);
+    //printf("number of lines: %d\n", count);
     
     //***fp must be open twice OR use rewind() to reset pointer
     fp = Fopen(filename, "r"); //open the file
     int z = 0;
-    while ( fgets(arr[z], 100, fp) != NULL )
-    {
+    while ( fgets(arr[z], 100, fp) != NULL ){
         size_t len = strlen(arr[z]);
         if( arr[z][len-1] == '\n') {
             arr[z][len-1] = '\0';
         }
-        printf ("elements are: %s", arr[z]);
+        //printf ("elements are: %s", arr[z]);
         z++;
     }
-    printf("Total string put in arr is: %d\n", z);
+    //printf("Total string put in arr is: %d\n", z);
     fclose(fp);
 
     sort(arr, count);   
 
-    for (int i = 0; i < count; i++)
-    {
-        printf("Sorted array is: %s\n", arr[i]);
-    }
+    // for (int i = 0; i < count; i++)
+    // {
+    //     printf("Sorted array is: %s\n", arr[i]);
+    // }
 }
 
 int *GetLineNumbers(char **filename, int count) {
@@ -86,7 +88,7 @@ int *GetLineNumbers(char **filename, int count) {
     for(int i = 0; i < count; i++){
         fp = fopen(filename[i], "r");
         lineNum[i] = (int) lineCount(fp);
-        printf("!!!!!Assigned line number %d to %d\n", i, lineNum[i]);
+        //printf("!!!!!Assigned line number %d to %d\n", i, lineNum[i]);
     }
     return lineNum;
 }

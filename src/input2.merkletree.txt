@@ -1,59 +1,70 @@
 #######iD is:1
-left edge is: 1
-hash is:c12d55768b4cd2aba73d42b0f176c32d22a5dd0c076278694af78673d026
+left edge is: 
+hash is:e4ffcf9d6f5764a5ecf13e294f1982cc61e07a5fe5b1d3d53e73b4e7f3616d32
 right edge is: 666666
 #######iD is:2
-left edge is: 1
-hash is:7529e66f074b47b2eb45c36cb30b68efbba5fb195b7cf95673457191e4d212
-right edge is: 4444
+left edge is: 
+hash is:db56114e0fdd4c1f85c892bf35ac9a89289aaecb1ebd0a96cde606a748b5d71
+right edge is: 333
 #######iD is:4
-left edge is: 1
-hash is:69a465283f1049abd07a2783452e28fee811f1ebe36a55af2124db3219a4d99
-right edge is: 22
+left edge is: 
+hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+right edge is: 1
 #######iD is:8
-hash is:1092f3da81f464785385eaeeae92393bc1e307b2916a1e6ed70b10fbb2d5
+hash is:00000000000000000000000000000000
+leafNode value is: 
+leaf node
+leftChild is: 
+#######iD is:9
+hash is:00000000000000000000000000000000
 leafNode value is: 1
 leaf node
-leftChild is: ’óÚFxS…®êé#“¼0{)¡æíp±
-#######iD is:9
-hash is:2e4d79272666ff5528a23c667b12b19740cf4b914c8ca7d2b35563679e9f9a4
+rightChild is: 
+leftChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
+#######iD is:5
+left edge is: 22
+hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+right edge is: 333
+#######iD is:10
+hash is:00000000000000000000000000000000
 leafNode value is: 22
 leaf node
-rightChild is: .My'&fÿU(¢<f{±—@ÏK‘LŒ§Ò³UcgžŸš
-leftChild is: i¤e(?I«Ðz'4Râî¾6¥ZòM³!šM™
-#######iD is:5
-left edge is: 333
-hash is:e57e1d4fb4b7519c9ed9bb05090fcd1218e1be38ad393b5ea3fcd4dc6ff1a9
-right edge is: 4444
-#######iD is:10
-hash is:898c1d5c5ef1743a2e1e79dc569d4622bf828424e5fde49d26f042d9333e1f
+leftChild is: 
+#######iD is:11
+hash is:00000000000000000000000000000000
 leafNode value is: 333
 leaf node
-leftChild is: ‰ÁÕÅïC¢áçÅiÔb+ø(BN_Þ&ðBÙ3>
-#######iD is:11
-hash is:fa35c4d7a14a1648356ba63013729e627d7169c73a29d6d384a55b51272276
-leafNode value is: 4444
-leaf node
-rightChild is: ú5Ä×¡JH5k¦07)æ'×œs¢m„¥[Q'"v
-rightChild is: å~O´·Q	Éí›°PüÑ!ŽãŠ9;^£üÔÜoñ©
-leftChild is: u)æo
+rightChild is: 
+rightChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
+leftChild is: ÛVN
 #######iD is:3
-left edge is: 55555
-hash is:61f7af4d8127fa40d99a3854ea69e981b939b443696dd7d0a311b25666c815b0
+left edge is: 4444
+hash is:3d19b447cc1d5f33fa564cceecc5d23343ef4d344ffc0b85025e9b5fe061e0
 right edge is: 666666
 #######iD is:6
-left edge is: 55555
-hash is:7d03d9377c2f3b4ab253b79aa740ee7f4bef678f502516d4a3ec74f2f6df4f
-right edge is: 666666
+left edge is: 4444
+hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+right edge is: 55555
 #######iD is:12
-hash is:c66be4cfa7e69f0e526b05c144cce23e8c72e0e33e691b3fed7a608d2a215
+hash is:00000000000000000000000000000000
+leafNode value is: 4444
+leaf node
+leftChild is: 
+#######iD is:13
+hash is:00000000000000000000000000000000
 leafNode value is: 55555
 leaf node
-leftChild is: Æ¾Lú~iðå&°ÁDÌâ>Œràã>i?íz`Ò¢
-#######iD is:13
-hash is:ac6e43e690b93aa854c8d3207d94c9fc2a8ffbe49971f7a08e6a5a9f534ffe
+rightChild is: 
+leftChild is: õ¥ýBÑj 0'˜ïnÓ	—›C
+#######iD is:7
+hash is:5df6e0e2761359d3a827558e299fcc381534545f55cf43e41983f5d4c9456
 leafNode value is: 666666
 leaf node
-rightChild is: ¬nCæ¹:¨TÈÓ ÙLŸÂ¨ÿ¾™q÷ ŽjZŸSOþ
-leftChild is: }
-rightChild is: a÷¯M'ú@Ùš8Têié¹9´Cim×Ð£²VfÈ°
+#######iD is:14
+hash is:00000000000000000000000000000000
+leafNode value is: 666666
+leaf node
+leftChild is: 
+rightChild is: ]öàâvYÓ
+‚uŽ)ŸÌSEEõ\ô>A˜?]L”V
+rightChild is: =´GÌ_3úVÌîÌ]#4>ôÓDÿÀ¸P%é_àaà

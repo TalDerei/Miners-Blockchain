@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int count;
     //printf("input the number of files you want opened: "); 
 	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 1;
+    count = 2;
     //printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         fileNames[i] = (char *)malloc(BUFFER);
     }
     fileNames[0] = "input.txt";
-    //fileNames[1] = "input2.txt";
+    fileNames[1] = "input2.txt";
     
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 
@@ -36,9 +36,9 @@ int main(int argc, char *argv[]) {
     // }
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames, count);
-    for(int i = 0 ; i < count; i++){
-        printf("########lineNum at %d is: %d\n", i, lineNum[i]);
-    }
+    // for(int i = 0 ; i < count; i++){
+    //     printf("########lineNum at %d is: %d\n", i, lineNum[i]);
+    // }
 
     char **arr = (char **)malloc(100* sizeof(char*));
     for (int i = 0; i < 100; i++)
@@ -66,15 +66,15 @@ int main(int argc, char *argv[]) {
     InternalNode **internalNode = (InternalNode **)malloc(count *sizeof(InternalNode *));
     InternalNode **TreeRoot = (InternalNode **)malloc(count * sizeof(InternalNode *));
     for(int i = 0; i < count; i++){
-        printf("\n\n\n\n\n\n\n\n\n\n");
+        printf("\n\n\n");
         int fileNameCounter = strlen(fileNames[i]) - 4;
-        printf("fileNameCounter is %d\n", fileNameCounter);
+        //printf("fileNameCounter is %d\n", fileNameCounter);
         for(int j = 0; j < fileNameCounter; j++){
             actualFileNameMerkleTree[i][j] = fileNames[i][j];
         }
         strcat(actualFileNameMerkleTree[i], ".merkletree.txt");
-        printf("file name after strcat is: \n");
-        printf("%s\n", actualFileNameMerkleTree[i]);
+        //printf("file name after strcat is: \n");
+        //printf("%s\n", actualFileNameMerkleTree[i]);
 
         //output for printing merkle tree to file
         FILE *outputMerkleTree; 
@@ -84,8 +84,8 @@ int main(int argc, char *argv[]) {
             actualFileNameBlock[i][j] = fileNames[i][j];
         }
         strcat(actualFileNameBlock[i], ".block.txt");
-        printf("file name after strcat is: \n");
-        printf("%s\n", actualFileNameBlock[i]);
+        //printf("file name after strcat is: \n");
+        //printf("%s\n", actualFileNameBlock[i]);
         
         // //outputBlock for printing block to file
         FILE *output_block; 
@@ -96,16 +96,16 @@ int main(int argc, char *argv[]) {
         block[i] = (Block *)malloc(sizeof(Block)); //mallocing for block (pointer to root and header) -- 16 Bytes
         block[i]->header = malloc(sizeof(Header)); //mallocing for header contents
         createLeafNodes(leafNodes[i], arr, lineNum[i]);
-        for (int k = 0; k < lineNum[i]; k++) {
-            for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
-                if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
-                    printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
-                }else{
-                    printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
-                }
-            }
-            printf("\n");
-        }
+        // for (int k = 0; k < lineNum[i]; k++) {
+        //     for (int j = 0; j < SHA256_BLOCK_SIZE; j++) {
+        //         if ((unsigned char)leafNodes[i][k].hash[j] <= 0x0f) {
+        //             printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
+        //         }else{
+        //             printf("%x", (unsigned char) leafNodes[i][k].hash[j]);
+        //         }
+        //     }
+        //     printf("\n");
+        // }
         internalNode[i] = malloc(lineNum[i]*sizeof(InternalNode));
         convertLeaftoInternal(internalNode[i], leafNodes[i],lineNum[i]);
         TreeRoot[i] = malloc(sizeof(InternalNode));
@@ -122,10 +122,10 @@ int main(int argc, char *argv[]) {
 
         //create individual blocks part of the blockchain 
         if(i != 0){
-            printf("CREATE BLOCK: \n");
+            //printf("CREATE BLOCK: \n");
             create_block(block[i], TreeRoot[i], block[i-1], output_block, output_blockchain);
         }else{
-            printf("INITIALIZE BLOCK: \n");
+            //printf("INITIALIZE BLOCK: \n");
             initialize_block(block[i], TreeRoot[i], pointerToZero, output_block, output_blockchain); //first block, previous block pointing to 0
         }
         

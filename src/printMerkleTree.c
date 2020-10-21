@@ -2,10 +2,11 @@
 
 #include "printMerkleTree.h"
 
+//NEED TO FIX THIS FILE
+
 void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 	fprintf(output,"#######");
 	fprintf(output,"iD is:%d\n", ID);
-	
 	
 	if(strcmp(root->leftEdge, root->rightEdge)){
 		fprintf(output,"left edge is: %s\n", root->leftEdge);
