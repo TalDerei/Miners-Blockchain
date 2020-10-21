@@ -1,69 +1,84 @@
-#######iD is:1
+
+ID is:1
 left edge is: 
-hash is:e4ffcf9d6f5764a5ecf13e294f1982cc61e07a5fe5b1d3d53e73b4e7f3616d32
+hash is: c69bb4c39abec33ce09ab5c5dc5e115d1d5b1f4fc5c9a3d82a23c13cbb2134a
 right edge is: 666666
-#######iD is:2
+leftChild is: 2
+rightChild is: 3
+
+ID is:2
 left edge is: 
-hash is:db56114e0fdd4c1f85c892bf35ac9a89289aaecb1ebd0a96cde606a748b5d71
+hash is: c7ab8222805bc80c2a4daaaaf92accc1bc4cf8fee1cb5a47cf9ef9313
 right edge is: 333
-#######iD is:4
+leftChild is: 4
+rightChild is: 5
+
+ID is:4
 left edge is: 
-hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+hash is: febf6da58314e824cb37c284b1f7e71cfc378e218a2c25863accbc1f8cf
 right edge is: 1
-#######iD is:8
-hash is:00000000000000000000000000000000
+leftChild is: 8
+rightChild is: 9
+
+ID is:8
+hash is: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 leafNode value is: 
 leaf node
-leftChild is: 8
-#######iD is:9
-hash is:00000000000000000000000000000000
+
+ID is:9
+hash is: 1092f3da81f464785385eaeeae92393bc1e307b2916a1e6ed70b10fbb2d5
 leafNode value is: 1
 leaf node
-rightChild is: 9
-leftChild is: 4
-#######iD is:5
+
+ID is:5
 left edge is: 22
-hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+hash is: d61097503c4c331fc43a721c42d150770b067ea5fbcd05ca2aaad36e5d8d9
 right edge is: 333
-#######iD is:10
-hash is:00000000000000000000000000000000
+leftChild is: 10
+rightChild is: 11
+
+ID is:10
+hash is: 2e4d79272666ff5528a23c667b12b19740cf4b914c8ca7d2b35563679e9f9a4
 leafNode value is: 22
 leaf node
-leftChild is: 10
-#######iD is:11
-hash is:00000000000000000000000000000000
+
+ID is:11
+hash is: 898c1d5c5ef1743a2e1e79dc569d4622bf828424e5fde49d26f042d9333e1f
 leafNode value is: 333
 leaf node
-rightChild is: 11
-rightChild is: 5
-leftChild is: 2
-#######iD is:3
+
+ID is:3
 left edge is: 4444
-hash is:3d19b447cc1d5f33fa564cceecc5d23343ef4d344ffc0b85025e9b5fe061e0
+hash is: 4be15c68437b1602f9eb06bbdd61ed19617a7d695cbf4d41ca6535bf6fd3fcc
 right edge is: 666666
-#######iD is:6
+leftChild is: 6
+rightChild is: 7
+
+ID is:6
 left edge is: 4444
-hash is:f5a5fd42d16a20302798ef6ed39979b4303d2320d9f0e8ea9831a92759fb4b
+hash is: b7e9739f5d1117daaee7df840ece210b34426cb41d7f97c8bd9a2f27b9a509b
 right edge is: 55555
-#######iD is:12
-hash is:00000000000000000000000000000000
+leftChild is: 12
+rightChild is: 13
+
+ID is:12
+hash is: fa35c4d7a14a1648356ba63013729e627d7169c73a29d6d384a55b51272276
 leafNode value is: 4444
 leaf node
-leftChild is: 12
-#######iD is:13
-hash is:00000000000000000000000000000000
+
+ID is:13
+hash is: c66be4cfa7e69f0e526b05c144cce23e8c72e0e33e691b3fed7a608d2a215
 leafNode value is: 55555
 leaf node
-rightChild is: 13
-leftChild is: 6
-#######iD is:7
-hash is:5df6e0e2761359d3a827558e299fcc381534545f55cf43e41983f5d4c9456
-leafNode value is: 666666
-leaf node
-#######iD is:14
-hash is:00000000000000000000000000000000
-leafNode value is: 666666
-leaf node
+
+ID is:7
+left edge is: 666666
+hash is: 55ee69d0b198c668ff2ae4ce8345eb3b8766bc8aabed1ad0c327687575feae56
+right edge is: 666666
 leftChild is: 14
-rightChild is: 7
-rightChild is: 3
+rightChild is NULL
+
+ID is:14
+hash is: ac6e43e690b93aa854c8d3207d94c9fc2a8ffbe49971f7a08e6a5a9f534ffe
+leafNode value is: 666666
+leaf node
