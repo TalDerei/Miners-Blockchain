@@ -4,7 +4,7 @@
 
 /* serialize_first_block serializes the first block from memory to disk (header contents and merkle tree) */
 void serialize_first_blockchain(Block *block, FILE *write_blockchain){
-    /* write data in binary representation to disk */
+    /* ***write data in BINARY representation to disk -- the data will look garbaled*** */
     Fwrite(block->header->previousHash, sizeof(unsigned char), 1, write_blockchain);
     Fwrite(block->header->rootHash, sizeof(unsigned char), 32, write_blockchain);
     Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);

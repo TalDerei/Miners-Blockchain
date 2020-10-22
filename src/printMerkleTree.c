@@ -18,7 +18,7 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 		fprintf(output,"right edge is: %s\n", root->rightEdge);
 	}else{
 		fprintf(output, "leafNode value is: %s\n", root->leftEdge);
-		fprintf(output,"leaf node\n");
+		fprintf(output,"leaf node\n\n");
 	}
 
 	if (root->rightChild != NULL) {
@@ -35,7 +35,7 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 
 /* print original file contents */
 void print_merkle_tree_value(char** arr,int lineNum, FILE *output){
-	fprintf(output, "%d\n", lineNum);
+	/* fprintf(output, "%d\n", lineNum); */
 	fprintf(output, "BEGVALUE\n");
 	for(int i = 0; i < lineNum; i++){
 		fprintf(output, "%s\n",  arr[i]);

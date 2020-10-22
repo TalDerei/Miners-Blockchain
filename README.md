@@ -22,6 +22,12 @@ and 2. Phase 3 in-progress.
 `Phase 2:`  Consruct a blockchain containing Merkle/Patricia trees and header contents in a linked-list structure.
 `Phase 3: ` Validation of the blockchain and proof of membership/non-membership.
 
+## Text Files (.txt)
+We've included two standard text-files, `input.txt` and `input2.txt` respectively, to serve as standard references. 
+Each input file will output 3 SEPERATE files: (1) `name_of_file.out.txt` containing the merkle tree, (2) `name_of_file.block.txt`
+containing the block contents (merkle tree and block header), and (3) `serialization.blockchain.txt` containing the serialized
+data (residing on disk) associated with all the files inputted. 
+
 *** IGNORE THE TYPE-CASTING WARNINGS FOR NOW ***
 
 # Contributors
