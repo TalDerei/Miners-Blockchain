@@ -20,7 +20,7 @@ void createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 		}   
 		printf("\n");
 		// printf("**************\n");
-		// memcpy(leafnode[i].hash, returned_str, SHA256_BLOCK_SIZE);
+		memcpy(leafnode[i].hash, returned_str, SHA256_BLOCK_SIZE);
 		// for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
 		// 	printf("%x", (unsigned char) leafnode[i].hash[n]);
 		// }

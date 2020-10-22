@@ -44,12 +44,12 @@ int lineCount(FILE * inputFile) {
     char character;
     for (character = getc(inputFile); character != EOF; character = getc(inputFile)) {
         if (character == '\n') { 
-            counter = counter + 1;
+            counter++;
         }
     }
-    if(character != '\n'){
-        counter++;
-    }
+    // if(character != '\n'){
+    //     counter++;
+    // }
     return counter; 
 }  
 
