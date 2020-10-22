@@ -1,7 +1,5 @@
 /* CONTAINS ENTIRE CODEBASE */
 
-/* ROOT -- MAIN.c */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

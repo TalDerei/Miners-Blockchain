@@ -9,8 +9,10 @@
 #include "hash.h"
 #define BlockSize (3*SHA256_BLOCK_SIZE + 4*sizeof(int))
 
+/* different hash function depending on the size of the data passed-in */
+
 unsigned char *hash(unsigned char *arr) {
-    BYTE* buf = malloc(SHA256_BLOCK_SIZE);
+    BYTE* buf = (BYTE *)malloc(SHA256_BLOCK_SIZE);
 	SHA256_CTX ctx;
 
     //initialize, update, and final functions to produce 32-byte hash digest
@@ -21,7 +23,7 @@ unsigned char *hash(unsigned char *arr) {
 }
 
 unsigned char *hash64(unsigned char *arr) {
-    BYTE* buf = malloc(SHA256_BLOCK_SIZE);
+    BYTE* buf = (BYTE *)malloc(SHA256_BLOCK_SIZE);
 	SHA256_CTX ctx;
 
     //initialize, update, and final functions to produce 32-byte hash digest
@@ -33,7 +35,7 @@ unsigned char *hash64(unsigned char *arr) {
 
 
 unsigned char *hash112(unsigned char *arr) {
-    BYTE* buf = malloc(SHA256_BLOCK_SIZE);
+    BYTE* buf = (BYTE *)malloc(SHA256_BLOCK_SIZE);
 	SHA256_CTX ctx;
 
     //initialize, update, and final functions to produce 32-byte hash digest

@@ -8,16 +8,16 @@
 #include "sha256.h"
 #include "hash.h"
 
-// createLeafNodes will create the leaf nodes of merkle tree
+/* createLeafNodes will create the leaf nodes of merkle tree */
 void createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){
-		strcpy(leafnode[i].value, SortedArray[i]);
+		strcpy(leafnode[i].value, SortedArray[i]); 					/* copy value into leafnode */
 		unsigned char *returned_str = hash(SortedArray[i]);
-		memcpy(leafnode[i].hash, returned_str, SHA256_BLOCK_SIZE);
+		memcpy(leafnode[i].hash, returned_str, SHA256_BLOCK_SIZE);  /* copy hash into leafnode */
     }
 }
 
-// convertLeaftoInternal will convert leaf nodes to internal nodes to simplify recursion
+/* convertLeaftoInternal will convert leaf nodes to internal nodes to simplify recursion in merkleTreeRoot() function */
 void convertLeaftoInternal(InternalNode *newInternal, LeafNode *LeafNode, int count){
 	for(int i = 0; i < count; i++){
 		memcpy(newInternal[i].hash, &LeafNode[i].hash, SHA256_BLOCK_SIZE);
@@ -28,7 +28,7 @@ void convertLeaftoInternal(InternalNode *newInternal, LeafNode *LeafNode, int co
 	}
 }
 
-// merkleTreeRoot constructs merkle tree
+/* merkleTreeRoot constructs merkle tree */
 InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	int parents = count/2 + count%2;
 	InternalNode *newInternal = malloc(((count/2)+(count%2))*sizeof(InternalNode));
@@ -44,6 +44,7 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 			strncpy(newInternal[j].leftEdge, &leafNodes[i].leftEdge, 100);
 			strncpy(newInternal[j].rightEdge, &leafNodes[i+1].rightEdge, 100);
 		}else{
+			/* odd case for single leafnode */
 			unsigned char *temp = &(leafNodes[i].hash);
 			memcpy(newInternal[j].hash, hash(hash(temp)), SHA256_BLOCK_SIZE);
 			newInternal[j].leftChild = &leafNodes[i];
@@ -58,9 +59,3 @@ InternalNode *merkleTreeRoot(InternalNode *leafNodes, int count){
 	}
 	return merkleTreeRoot(newInternal, parents);
 }
-
-/*
-free_merkle_tree(InternalNode *internalNodes) {
-	free(internalNodes);
-}
-*/

@@ -2,44 +2,49 @@
 
 #include "readFile.h"
 
+/* Fopen (wrapper for fopen) for opening file with error handling */
 FILE *Fopen(const char *file, const char *permission) {
     FILE *fp = fopen(file, permission);
     if (fp == NULL) {
-        printf("error opening!!!!!!!!");
+        printf("error opening file!");
         exit(0);
     }
     return fp;
 }
 
+/* Fclose (wrapper for fclose) for closing file with error handling */
 void Fclose(FILE *fp) {
     if (fp && !fclose(fp)) {
-        printf("error closing file");
+        printf("error closing file!");
     }
 }
 
+/* Fread (wrapper for fread) for reading from file with error handling */
 size_t Fread(void *buffer, size_t size, size_t nmemb, FILE *file) {
     size_t readBytes = fread(buffer, size, nmemb, file);
     if (readBytes == 0) {
-        printf("empty file!!!!!!!");
+        printf("file is empty!");
     }
     if (ferror(file)) {
-        printf("error reading file!!!!!!");
+        printf("error reading file!");
     }
     return readBytes;
 }
 
+/* Fwrite (wrapper for fwrite) for writing to file with error handling */
 size_t Fwrite(void *buffer, size_t size, size_t nmemb, FILE *file) {
     size_t writtenBytes = 0;
     while ((writtenBytes = fwrite(buffer, size, nmemb, file) == 0)) {
         if (ferror(file) | fileno(file)) {
-            printf("error writing to file!!!!!!");
+            printf("error writing to file!");
             exit(0);
         }
     }
     return writtenBytes;
 }
 
-int lineCount(FILE * inputFile) {
+/* returns number of lines in a file */
+int lineCount(FILE *inputFile) {
     int counter = 0;
     char character;
     for (character = getc(inputFile); character != EOF; character = getc(inputFile)) {
@@ -47,17 +52,15 @@ int lineCount(FILE * inputFile) {
             counter = counter + 1;
         }
     }
-    // if(character != '\n'){
-    //     counter++;
-    // }
     return counter; 
 }  
 
+/* reads the contents of a file */
 void ReadOneFile(char** arr, char *filename)
 {
     FILE *fp = Fopen(filename, "r");
     int count = (int)lineCount(fp);    
-    fp = Fopen(filename, "r"); //open file again or rewind() to reset pointer
+    fp = Fopen(filename, "r");                  /* open file again or rewind() to reset pointer */
     int z = 0;
     while ( fgets(arr[z], 100, fp) != NULL ){
         size_t len = strlen(arr[z]);
@@ -71,6 +74,7 @@ void ReadOneFile(char** arr, char *filename)
     sort(arr, count);   
 }
 
+/* calling function for reading number of lines in a file */
 int *GetLineNumbers(char **filename, int count) {
     int *lineNum = (int *)malloc(count*sizeof(int));
     FILE *fp;
