@@ -1,0 +1,22 @@
+2
+BEGVALUE
+a
+bb
+ENDVALUE
+
+ID is:1
+left edge is: a
+hash is: a0cdbcdb2d56c941c21ff5638f4d147e32892f4bb2ace9ca54ba2fd147653b
+right edge is: bb
+leftChild is: 2
+rightChild is: 3
+
+ID is:2
+hash is: ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb
+leafNode value is: a
+leaf node
+
+ID is:3
+hash is: 3b64db95cb55c763391c70718489ae18b4112d78330de38e33b4c98c3deaf
+leafNode value is: bb
+leaf node

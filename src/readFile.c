@@ -47,9 +47,9 @@ int lineCount(FILE * inputFile) {
             counter = counter + 1;
         }
     }
-    if(character != '\n'){
-        counter++;
-    }
+    // if(character != '\n'){
+    //     counter++;
+    // }
     return counter; 
 }  
 

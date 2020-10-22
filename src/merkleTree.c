@@ -13,6 +13,7 @@ void createLeafNodes(LeafNode *leafnode, char **SortedArray, int count) {
 	for(int i = 0; i < count; i++){
 		strcpy(leafnode[i].value, SortedArray[i]);
 		unsigned char *returned_str = hash(SortedArray[i]);
+		memcpy(leafnode[i].hash, returned_str, SHA256_BLOCK_SIZE);
     }
 }
 

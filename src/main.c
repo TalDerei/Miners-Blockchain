@@ -84,7 +84,8 @@ int main(int argc, char *argv[]) {
         convertLeaftoInternal(internalNode[i], leafNodes[i],lineNum[i]);
         TreeRoot[i] = malloc(sizeof(InternalNode));
         TreeRoot[i] = merkleTreeRoot(internalNode[i],lineNum[i]);
-    	
+
+        print_merkle_tree_value(arr, lineNum[i] , outputMerkleTree);    	
         print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); 
 
         if(i != 0){
