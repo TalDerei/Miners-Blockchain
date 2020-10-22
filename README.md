@@ -1,12 +1,8 @@
 # CSE 297 Team Miners Repository
 This is the repository where all the work for "Team Miners" from CSE 297 (Fall 2020) will be committed.
 
-## Phase 1
-Construct Merkle/Patricia tree over a set of strings from a user-defined input file.
-Haoluo Fu: Input
-Tal Derei, Xinhao Liu: Tree
-Yifan She: SHA-256
-Chengshuo Huang: Printing
+## Phase 2
+Construct a blockchain containing Merkle/Patricia trees and header contents in a linked-list structure.
 
 # Contributors
 - Tal Derei <tad222@lehigh.edu>
