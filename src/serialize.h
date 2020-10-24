@@ -16,7 +16,7 @@ struct block2 {
   int timestamp;
   double target;
   unsigned int nonce;
-  unsigned char rootHash[SHA256_BLOCK_SIZE];//same as line 15
+  unsigned char rootHash[SHA256_BLOCK_SIZE];
   struct block2 *prevBlock;
   struct block2 *nextBlock;
 };

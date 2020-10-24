@@ -10,8 +10,7 @@ void initialize_block(Block *block, InternalNode *Treeroot, unsigned char *point
     //printf("pointerToZero is: %c\n", *pointerToZero); 
     initialize_header(block, Treeroot, pointerToZero);
     block->rootHash = Treeroot; //pointer to full merkletree
-    //print_block(block, 1, outputBlock); //print block
-    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
+    print_block(block, 1, output_block); //print block
     
     //output_blockchain for serializing block 
     serialize_first_blockchain(block, output_blockchain); 
@@ -53,8 +52,7 @@ void create_block(Block *block, InternalNode *Treeroot, Block *prevBlock, FILE *
     //printf("******create_block********\n");
     populate_header(block, Treeroot, prevBlock, pointerToZero);
     block->rootHash = Treeroot;    
-    //print_merkle_tree(Treeroot, 1, outputBlock); //print merkle tree
-    //print_block(block, 1, outputBlock); //print block
+    print_block(block, 1, output_block); //print block
     //don't need to malloc header --> malloced block already
     //turned function prototypes in void and passing in block directly
     //output_blockchain for serializing block 

@@ -36,9 +36,9 @@ int main(int argc, char *argv[]) {
     // }
     int * lineNum = malloc(count * sizeof(int));
     lineNum = GetLineNumbers(fileNames, count);
-    // for(int i = 0 ; i < count; i++){
-    //     printf("########lineNum at %d is: %d\n", i, lineNum[i]);
-    // }
+    for(int i = 0 ; i < count; i++){
+        printf("########lineNum at %d is: %d\n", i, lineNum[i]);
+    }
 
     char **arr = (char **)malloc(100* sizeof(char*));
     for (int i = 0; i < 100; i++)
@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
     //inserting serialized data into blocks (Block2)
     FILE *write_blockchain2 = fopen(output_fileName, "rb");
     Block2 **block2= (Block **)malloc(count * sizeof(Block2 *));
-    for( int i = 0; i < count ; i ++) {
+    for(int i = 0; i < count ; i ++) {
         block2[i] = (Block2 *) malloc(sizeof(Block2));
         if(i == 0){
             rebuild_first_block(write_blockchain2, block2[i]);
@@ -152,7 +152,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //validation starts here:
+    //validation of the blockchain
+    // for (int i = 0; i < count; i++) {
+    //     validation(block2[i], out)
+    // }
     
     //Fwrite binary-data blockchain to output file
     //1. need to read back in unsigned chars from file produced by serialize blockchain. 
