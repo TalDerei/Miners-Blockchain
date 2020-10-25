@@ -152,9 +152,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    int validation_result; 
     //validation goes here:
     for (int i = 0; i < count; i++) {
-        validation(block2[i], actualFileNameMerkleTree[i][255], actualFileNameBlock[i][255]);
+        // printf("actualFileNameMerkleTree: %s\n", actualFileNameMerkleTree[i]);
+        // printf("actualFileNameBlock: %s\n", actualFileNameBlock[i]);
+        validation_result = VALIDATION(block2[i], actualFileNameMerkleTree[i], actualFileNameBlock[i]);
+        //exit(0);
+        //printf("%d", validation_result);
     }
 
     //check the header contents, except the previous hash
