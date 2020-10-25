@@ -4,7 +4,7 @@
 #define BUFFER 100
 
 int validation(Block2 *block2, char actualFileNameMerkleTree[], char actualFileNameBlock[]) {
-    if (validate_header(block2[i], actualFileNameBlock[i]) && validate_merkleTree(block2[i], actualFileNameMerkleTree[i])) {
+    if (validate_header(block2, actualFileNameBlock) && validate_merkle_tree(block2, actualFileNameMerkleTree)) {
         return 1;
     }
     else {
@@ -38,7 +38,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[]) {
         return 0;
     }
     fread(buffer_target, sizeof(double), 1, outputBlock);
-    if(memcmp(block2->target, buffer_target, sizeof(double))) {
+    if(memcmp(&(block2->target), buffer_target, sizeof(double))) {
         printf("*******************error with target\n");
         return 0;
     }
@@ -55,31 +55,35 @@ int validate_merkle_tree(Block2 *block2, char actualFileNameMerkleTree[]) {
     outputMerkleTree = fopen(actualFileNameMerkleTree,"w");
 
     char bufferCount[1];
-    char *compareBuffer = (char *)malloc(BUFFER);
+    char *compareBuffer = (char *)malloc(BUFFER); //compareBuffer hold the line of actualFileNameMerkleTree and compares with merkleTreeRoot
 
     //read original file contents
-    fgets(bufferCount[0], sizeof(char), outputMerkleTree));
+    fgets(bufferCount[0], sizeof(char), outputMerkleTree);
     char **bufferValue = (char **)malloc(sizeof(char*));
     for (int i = 0; i < (int)bufferCount[0]; i++){
         bufferValue[i] = (char *)malloc(BUFFER);
         fgets(bufferValue[i], BUFFER, outputMerkleTree);
     }
 
-    internalNode[i] = (InternalNode *)malloc(bufferCount[0] * sizeof(InternalNode)); 
-    leafNodes[i] = (LeafNode *)malloc(bufferCount[0] * sizeof(LeafNode));
+    InternalNode *internalNode = (InternalNode *)malloc(bufferCount[0] * sizeof(InternalNode)); 
+    LeafNode *leafNodes = (LeafNode *)malloc(bufferCount[0] * sizeof(LeafNode));
     
     //createLeafNodes, convertLeaftoInternal, merkleTreeRoot -- 3 function calls
-    createLeafNodes(leafNodes[i], bufferValue, bufferCount[0]);
-    convertLeaftoInternal(internalNode[i], leafNodes[i], bufferCount[0]);
-    InternalNode *merkleTreeRoot = merkleTreeRoot(bufferValue[i], bufferCount[0]); 
-    compareMerkleTree(merkleTreeRoot, outputMerkleTree, compareBuffer, 1);
+    createLeafNodes(leafNodes, bufferValue, bufferCount[0]);
+    convertLeaftoInternal(internalNode, leafNodes, bufferCount[0]);
+    InternalNode *root = merkleTreeRoot(internalNode, (int)bufferCount[0]); 
+    compareMerkleTree(merkleTreeRoot, outputMerkleTree, compareBuffer,1);
 }
 
-int compareMerkleTree(InternalNode *merkleTreeRoot, FILE *outputMerkleTree, char *compareBuffer, int id) {
-    fprintf(output,"ID is: %d\n", ID);
-    fgets(compareBuffer, BUFFER, outputMerkleTree);
-    compareBuffer = substring(compareBuffer, 7);
-    strcmp(merkleTreeRoot, compareBuffer)
+int compareMerkleTree(InternalNode *merkleTreeRoot, FILE *fp, char *compareBuffer, int ID) {
+    int len;
+    fgets(compareBuffer, BUFFER, fp);
+    len = strlen(compareBuffer);
+    if( compareBuffer[len-1] == '\n') {
+        compareBuffer[len-1] == '\0';
+    }
+    strcmp(compareBuffer+7, (char)ID);
+    //fprintf(output,"ID is: %d\n", ID);
 
 	if(root->leftChild != NULL || root->rightChild != NULL){
 		fprintf(output,"left edge is: %s\n", root->leftEdge);
@@ -117,9 +121,7 @@ for(int i = 0 ; i < BUFFER; i++){
     }
 }
 
-
-void substring(char* str, int index){
-    char* new = malloc(BUFFER);
-
-    str = new;
+void substring(char* buffer, int index) {
+    *(buffer+index) = *(buffer+index);
+    // *(buffer+index+1) = '\0';
 }
