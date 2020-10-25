@@ -8,11 +8,6 @@ void print_first_block(Block *B_ptr, int ID_K, FILE *out){
     fprintf(out, "BEGIN HEADER\n");
     fprintf(out, "previous hash is: %s\n", B_ptr->header->previousHash);
     fprintf(out, "\n");
-        fprintf(out, "\n");
-    fprintf(out, "\n");
-    fprintf(out, "\n");
-    fprintf(out, "\n");
-
     fprintf(out, "\nroot hash is: ");
     for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
 		fprintf(out,"%x", (unsigned char) B_ptr->header->rootHash[n]);

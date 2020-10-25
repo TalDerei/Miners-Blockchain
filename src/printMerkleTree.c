@@ -2,11 +2,9 @@
 
 #include "printMerkleTree.h"
 
-//NEED TO FIX THIS FILE
-
+/* printing out merkle tree associated with file contents */
 void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
-	//printf("------------ entered print_merkle_tree ------------\n");
-	fprintf(output,"\nID is:%d\n", ID);
+	fprintf(output,"ID is: %d\n", ID);
 	if(root->leftChild != NULL || root->rightChild != NULL){
 		fprintf(output,"left edge is: %s\n", root->leftEdge);
 	}
@@ -35,11 +33,10 @@ void print_merkle_tree(InternalNode *root, int ID, FILE *output) {
 	}
 }
 
+/* print original file contents */
 void print_merkle_tree_value(char** arr,int lineNum, FILE *output){
-	fprintf(output, "%d\n", lineNum);
-	fprintf(output, "BEGVALUE\n");
+	fprintf(output, "%d\n", lineNum); 
 	for(int i = 0; i < lineNum; i++){
 		fprintf(output, "%s\n",  arr[i]);
 	}
-	fprintf(output, "ENDVALUE\n");
 }

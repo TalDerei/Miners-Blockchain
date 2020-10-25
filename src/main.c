@@ -152,10 +152,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //validation of the blockchain
+    //validation goes here:
     // for (int i = 0; i < count; i++) {
-    //     validation(block2[i], out)
+    //     bool validation(block2[i], actualFileNameMerkleTree[i][255], actualFileNameBlock[i][255]);
     // }
+
+    //check the header contents, except the previous hash
+    //check the merkle tree -- comparing good merkle tree (in file) to bad merkle tree (in another file)
+    //compare line 11 in merkletree.txt to root hash in block.txt -- immutability
     
     //Fwrite binary-data blockchain to output file
     //1. need to read back in unsigned chars from file produced by serialize blockchain. 
