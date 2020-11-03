@@ -29,12 +29,16 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     unsigned char buffer_not_first_previousHash[64];
     unsigned char buffer_rootHash[64];
     int buffer_timestamp[8];
-    double buffer_target[1];
-    unsigned int buffer_nonce[1];
+    double buffer_target[8];
+    unsigned int buffer_nonce[10];
     unsigned char temp1_rootHash[100];
     unsigned char temp2_rootHash[100];
     unsigned char temp1_timestamp[100];
     unsigned char temp2_timestamp[100];
+    unsigned char temp1_target[100];
+    unsigned char temp2_target[100];
+    unsigned char temp1_nonce[100];
+    unsigned char temp2_nonce[100];
 
     FILE *outputBlock; 
     outputBlock = fopen(actualFileNameBlock,"rb");
@@ -73,7 +77,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
                 fprintf(bufferRoothash, "%c", (unsigned char)buffer_rootHash[n]);
         }
     }
-    printf("\n");
+
     FILE *block2Roothash; 
     block2Roothash = fopen("block2Output.txt","w+b");
     for (int i = 0; i < SHA256_BLOCK_SIZE; i++) {
@@ -145,8 +149,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
         printf("%c", temp1_timestamp[a]);
         a++;
     }
-
-    printf("temp2_timestamp is: \n");
+    printf("\ntemp2_timestamp is: \n");
     int c = 0;
     char d;
     while((d=fgetc(block2Timestamp))!=EOF) {
@@ -154,8 +157,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
         printf("%c", temp2_timestamp[c]);
         c++;
     }
-    printf("\n");
-    printf("temp1_timestamp is:\n");
+    printf("\ntemp1_timestamp is:\n");
     for (int i = 0; i < sizeof(temp1_timestamp); i++) {
         printf("%c", (unsigned char)temp1_timestamp[i]);
     }
@@ -178,16 +180,61 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 
+    //target
+    fseek(outputBlock, 17, SEEK_CUR);
+    fgets(buffer_target, BUFFER, outputBlock);
+    FILE *bufferTarget; 
+    bufferTarget = fopen("bufferOutput.txt","w+b");
+    printf("buffer_target is: %f", buffer_target);
+    double target_converted = atof(buffer_target);
+    fprintf(bufferTarget, "%f", (double)target_converted);
 
-    
-    // printf("size of block2->target is: %d\n", sizeof(block2->target));
-    
-    // printf("size of temp is: %d\n", sizeof(temp));
-    // if(memcmp(&(block2->target), temp, sizeof(temp))) {
-    //     printf("*******************error with target\n");
-    //     // return 0;
-    // }
-    // exit(0);
+    FILE *block2Target; 
+    block2Target = fopen("block2Output.txt","w+b");
+    fprintf(block2Target, "%f", (double)block2->target);
+
+    rewind(bufferTarget);
+    rewind(block2Target);
+    printf("temp1_target is: \n");
+    int e = 0;
+    char f;
+    while((f=fgetc(bufferTarget))!=EOF) {
+        temp1_target[e] = f;
+        printf("%c", temp1_target[e]);
+        e++;
+    }
+    printf("\temp1_target is: \n");
+    int g = 0;
+    char h;
+    while((h=fgetc(block2Target))!=EOF) {
+        temp2_target[g] = h;
+        printf("%c", temp2_target[g]);
+        g++;
+    }
+    printf("\ntemp1_target is:\n");
+    for (int i = 0; i < sizeof(temp1_target); i++) {
+        printf("%c", (unsigned char)temp1_target[i]);
+    }
+    printf("\ntemp2_target is:\n");
+    for (int i = 0; i < sizeof(temp2_target); i++) {
+        printf("%c", (unsigned char)temp2_target[i]);
+    }
+    printf("\nsize of temp1_target is: %d\n", sizeof(temp1_target));
+    printf("size of temp2_target is: %d\n", sizeof(temp2_target));
+
+    int retTarget = memcmp(temp1_target, temp2_target, 8);
+    printf("value of retTarget is: %d\n", retTarget);
+
+    if(retTimestamp != 0) {
+    printf("*******************error with target\n");
+        return 0;
+    }
+    remove("bufferOutput.txt");
+    remove("block2Output.txt");
+
+
+
+
 
 
     // fread(buffer_nonce, sizeof(unsigned int), 1, outputBlock);
