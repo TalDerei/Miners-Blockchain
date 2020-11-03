@@ -2,9 +2,9 @@ BEGIN BLOCK
 BEGIN HEADER
 previous hash is: 0
 root hash is: 3f7f1658dc0654e4cf01a0f653a37cdb86ffe112780eca63a50b8bd24ffdea4c
-timestamp is: 1604435828
+timestamp is: 1604436108
 target value is: 0.500000
-nonce is: 1948289464
+nonce is: 1854030420
 END HEADER
 ID is: 1
 left edge is: a

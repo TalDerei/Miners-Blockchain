@@ -48,22 +48,22 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     fseek(outputBlock, 43, SEEK_SET);
     if (counter == 0) {
         fread(buffer_first_previousHash, sizeof(unsigned char), sizeof(buffer_first_previousHash), outputBlock);
-        printf("buffer_first_previousHash is: ");
-        for(int i = 0; i < 1; i++){
-            printf("%c", (unsigned char) buffer_first_previousHash[i]);
-        }
-        printf("\n");
+        // printf("buffer_first_previousHash is: ");
+        // for(int i = 0; i < 1; i++){
+        //     printf("%c", (unsigned char) buffer_first_previousHash[i]);
+        // }
+        // printf("\n");
     }
     else {
         fread(buffer_not_first_previousHash, sizeof(unsigned char), sizeof(buffer_not_first_previousHash), outputBlock);
-        for (int n = 0; n < sizeof(buffer_not_first_previousHash); n++) {
-            if ((unsigned char)buffer_not_first_previousHash[n] <= 0x0f) {
-                printf("0%c", (unsigned char)buffer_not_first_previousHash[n]);
-            } else{
-                printf("%c", (unsigned char)buffer_not_first_previousHash[n]);
-            }
-        }
-        printf("\n");
+        // for (int n = 0; n < sizeof(buffer_not_first_previousHash); n++) {
+        //     if ((unsigned char)buffer_not_first_previousHash[n] <= 0x0f) {
+        //         printf("0%c", (unsigned char)buffer_not_first_previousHash[n]);
+        //     } else{
+        //         printf("%c", (unsigned char)buffer_not_first_previousHash[n]);
+        //     }
+        // }
+        // printf("\n");
     }
 
     //roothash
@@ -91,35 +91,20 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
 
     rewind(bufferRoothash);
     rewind(block2Roothash);
-    printf("\temp1_rootHash is: \n");
-    int i=0;
-    char l;
+
+    int i=0; char l;
     while((l=fgetc(bufferRoothash))!=EOF) {
         temp1_rootHash[i] = l;
-        printf("%c", temp1_rootHash[i]);
+        //printf("%c", temp1_rootHash[i]);
         i++;
     }
-    printf("\ntemp2_rootHash: \n");
-    int j =0;
-    char t;
+    int j =0; char t;
     while((t=fgetc(block2Roothash))!=EOF) {
         temp2_rootHash[j] = t;
-        printf("%c", temp2_rootHash[j]);
+        //printf("%c", temp2_rootHash[j]);
         j++;
     }
-    printf("\ntemp1_rootHash is:\n");
-    for (int i = 0; i < sizeof(temp1_rootHash); i++) {
-        printf("%c", (unsigned char)temp1_rootHash[i]);
-    }
-    printf("\ntemp2_rootHash is:\n");
-    for (int i = 0; i < sizeof(temp2_rootHash); i++) {
-        printf("%c", (unsigned char)temp2_rootHash[i]);
-    }
-    printf("\nsize of temp1_rootHash is: %d\n", sizeof(temp1_rootHash));
-    printf("size of temp2_rootHash is: %d\n", sizeof(temp2_rootHash));
-
     int retRoothash = memcmp(temp1_rootHash, temp2_rootHash, sizeof(buffer_rootHash));
-    printf("value of ret is: %d\n", retRoothash);
     if(retRoothash != 0) {
     printf("Error with roothash***********************************\n");
         return 0;
@@ -142,38 +127,21 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
 
     rewind(bufferTimestamp);
     rewind(block2Timestamp);
-    printf("temp1_timestamp is: \n");
-    int a = 0;
-    char b;
+
+    int a = 0; char b;
     while((b=fgetc(bufferTimestamp))!=EOF) {
         temp1_timestamp[a] = b;
-        printf("%c", temp1_timestamp[a]);
+        //printf("%c", temp1_timestamp[a]);
         a++;
     }
-    printf("\ntemp2_timestamp is: \n");
-    int c = 0;
-    char d;
+    int c = 0; char d;
     while((d=fgetc(block2Timestamp))!=EOF) {
         temp2_timestamp[c] = d;
-        printf("%c", temp2_timestamp[c]);
+        //printf("%c", temp2_timestamp[c]);
         c++;
     }
-    printf("\ntemp1_timestamp is:\n");
-    for (int i = 0; i < sizeof(temp1_timestamp); i++) {
-        printf("%c", (unsigned char)temp1_timestamp[i]);
-    }
-    printf("\ntemp2_timestamp is:\n");
-    for (int i = 0; i < sizeof(temp2_timestamp); i++) {
-        printf("%c", (unsigned char)temp2_timestamp[i]);
-    }
-    printf("\n");
-
-    printf("size of temp1_timestamp is: %d\n", sizeof(temp1_timestamp));
-    printf("size of temp2_timestamp is: %d\n", sizeof(temp2_timestamp));
 
     int retTimestamp = memcmp(temp1_timestamp, temp2_timestamp, 8);
-    printf("value of retTimestamp is: %d\n", retTimestamp);
-
     if(retTimestamp != 0) {
     printf("*******************error with timestamp\n");
         return 0;
@@ -195,36 +163,21 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
 
     rewind(bufferTarget);
     rewind(block2Target);
-    printf("temp1_target is: \n");
-    int e = 0;
-    char f;
+
+    int e = 0; char f;
     while((f=fgetc(bufferTarget))!=EOF) {
         temp1_target[e] = f;
-        printf("%c", temp1_target[e]);
+        //printf("%c", temp1_target[e]);
         e++;
     }
-    printf("\temp1_target is: \n");
-    int g = 0;
-    char h;
+    int g = 0; char h;
     while((h=fgetc(block2Target))!=EOF) {
         temp2_target[g] = h;
-        printf("%c", temp2_target[g]);
+        //printf("%c", temp2_target[g]);
         g++;
     }
-    printf("\ntemp1_target is:\n");
-    for (int i = 0; i < sizeof(temp1_target); i++) {
-        printf("%c", (unsigned char)temp1_target[i]);
-    }
-    printf("\ntemp2_target is:\n");
-    for (int i = 0; i < sizeof(temp2_target); i++) {
-        printf("%c", (unsigned char)temp2_target[i]);
-    }
-    printf("\nsize of temp1_target is: %d\n", sizeof(temp1_target));
-    printf("size of temp2_target is: %d\n", sizeof(temp2_target));
 
     int retTarget = memcmp(temp1_target, temp2_target, 8);
-    printf("value of retTarget is: %d\n", retTarget);
-
     if(retTimestamp != 0) {
     printf("*******************error with target\n");
         return 0;
@@ -246,36 +199,20 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
 
     rewind(bufferNonce);
     rewind(block2Nonce);
-    printf("temp1_nonce is: \n");
-    int k = 0;
-    char z;
+    int k = 0; char z;
     while((z=fgetc(bufferNonce))!=EOF) {
         temp1_nonce[k] = z;
-        printf("%c", temp1_nonce[k]);
+        //printf("%c", temp1_nonce[k]);
         k++;
     }
-    printf("\temp2_nonce is: \n");
-    int m = 0;
-    char n;
+    int m = 0; char n;
     while((n=fgetc(block2Nonce))!=EOF) {
         temp2_nonce[m] = n;
-        printf("%c", temp2_target[m]);
+        //printf("%c", temp2_target[m]);
         m++;
     }
-    printf("\temp1_nonce is:\n");
-    for (int i = 0; i < sizeof(temp1_nonce); i++) {
-        printf("%c", (unsigned char)temp1_nonce[i]);
-    }
-    printf("\temp2_nonce is:\n");
-    for (int i = 0; i < sizeof(temp2_nonce); i++) {
-        printf("%c", (unsigned char)temp2_nonce[i]);
-    }
-    printf("\nsize of temp1_nonce is: %d\n", sizeof(temp1_nonce));
-    printf("size of temp2_nonce is: %d\n", sizeof(temp2_nonce));
 
     int retNonce = memcmp(temp1_nonce, temp2_nonce, 10);
-    printf("value of retNonce is: %d\n", retNonce);
-
     if(retNonce != 0) {
     printf("*******************error with nonce\n");
         return 0;
