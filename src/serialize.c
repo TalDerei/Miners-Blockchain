@@ -39,15 +39,19 @@ void rebuild_first_block(FILE *output_blockchain, Block2 *block){
 
     fread(buffer_previousHash, sizeof(unsigned char), 1, output_blockchain);
     printf("previousHash is: \n");
-    for(int i = 0; i < 1; i ++){
+    for(int i = 0; i < 1; i ++) {
         printf("%c",buffer_previousHash[i]); 
     }
 
     printf("\n");
-    printf("rootHash is: \n");
+    printf("************************************************************\n rootHash is: \n");
     fread(buffer_rootHash, sizeof(unsigned char), sizeof(buffer_rootHash), output_blockchain);
-    for(int i=0 ; i < sizeof(buffer_rootHash); i ++){
-        printf("%x",buffer_rootHash[i]);
+    for (int i = 0; i < SHA256_BLOCK_SIZE; i++) {
+        if ((unsigned char)buffer_rootHash[i] <= 0x0f) {
+                printf("0%x", (unsigned char)buffer_rootHash[i]);
+        } else{
+                printf("%x", (unsigned char)buffer_rootHash[i]);
+        }
     }
     printf("\n");
     

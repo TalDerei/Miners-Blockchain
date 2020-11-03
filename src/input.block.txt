@@ -1,10 +1,10 @@
 BEGIN BLOCK
 BEGIN HEADER
-previous hash is: 3000000040000000040202ec05afa7f0002fc05afa7f00root hash is: 3f7f1658dc654e4cf1a0f653a37cdb86ffe11278eca63a5b8bd24ffdea4c
-1603666538
-0.500000
-298250037
-
+previous hash is: 0
+root hash is: 3f7f1658dc0654e4cf01a0f653a37cdb86ffe112780eca63a50b8bd24ffdea4c
+timestamp is: 1604363654
+target value is: 0.500000
+nonce is: 735261046
 END HEADER
 ID is: 1
 left edge is: a
@@ -62,5 +62,4 @@ ID is: 12
 hash is: 766faacd628539962c6464ec047994482dc5dee9a1cb77847abefc3e88a1c
 leafNode value is: eeeee
 leaf node
-
 END BLOCK

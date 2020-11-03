@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int count;
     //printf("input the number of files you want opened: "); 
 	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 2;
+    count = 1;
     //printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         fileNames[i] = (char *)malloc(BUFFER);
     }
     fileNames[0] = "input.txt";
-    fileNames[1] = "input2.txt";
+    //fileNames[1] = "input2.txt";
     
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
         
         // //outputBlock for printing block to file
         FILE *output_block; 
-        output_block = fopen(actualFileNameBlock[i],"w");
+        output_block = fopen(actualFileNameBlock[i],"wb");
 
         ReadOneFile(arr, fileNames[i]);
         leafNodes[i] = (LeafNode *)malloc(lineNum[i] * sizeof(LeafNode));
@@ -112,9 +112,12 @@ int main(int argc, char *argv[]) {
         TreeRoot[i] = merkleTreeRoot(internalNode[i],lineNum[i]);
         printf("\n-------root is: ----\n");
         for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-            printf("%x", (unsigned char) TreeRoot[i]->hash[n]);
+            if ((unsigned char)TreeRoot[i]->hash[n] <= 0x0f) {
+                    printf("0%x", (unsigned char)TreeRoot[i]->hash[n]);
+            } else{
+                    printf("%x", (unsigned char)TreeRoot[i]->hash[n]);
+            }
         }
-        printf("\n");
 
 		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
         print_merkle_tree_value(arr, lineNum[i] , outputMerkleTree);
@@ -152,12 +155,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    //add count to differentiate between first block2 
     int validation_result; 
     //validation goes here:
     for (int i = 0; i < count; i++) {
         // printf("actualFileNameMerkleTree: %s\n", actualFileNameMerkleTree[i]);
         // printf("actualFileNameBlock: %s\n", actualFileNameBlock[i]);
-        validation_result = VALIDATION(block2[i], actualFileNameMerkleTree[i], actualFileNameBlock[i]);
+        validation_result = validation(block2[i], actualFileNameMerkleTree[i], actualFileNameBlock[i], i);
         //exit(0);
         //printf("%d", validation_result);
     }
