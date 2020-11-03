@@ -40,6 +40,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     unsigned char temp1_nonce[100];
     unsigned char temp2_nonce[100];
 
+    //open file associated with outputBlock file handler
     FILE *outputBlock; 
     outputBlock = fopen(actualFileNameBlock,"rb");
     
@@ -185,7 +186,6 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     fgets(buffer_target, BUFFER, outputBlock);
     FILE *bufferTarget; 
     bufferTarget = fopen("bufferOutput.txt","w+b");
-    printf("buffer_target is: %f", buffer_target);
     double target_converted = atof(buffer_target);
     fprintf(bufferTarget, "%f", (double)target_converted);
 
@@ -232,18 +232,56 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 
+    //nonce
+    fseek(outputBlock, 10, SEEK_CUR);
+    fgets(buffer_nonce, BUFFER, outputBlock);
+    FILE *bufferNonce; 
+    bufferNonce = fopen("bufferOutput.txt","w+b");
+    int nonce_converted = atoi(buffer_nonce);
+    fprintf(bufferNonce, "%d", (int)nonce_converted);
 
+    FILE *block2Nonce; 
+    block2Nonce = fopen("block2Output.txt","w+b");
+    fprintf(block2Nonce, "%d", (int)block2->nonce);
 
+    rewind(bufferNonce);
+    rewind(block2Nonce);
+    printf("temp1_nonce is: \n");
+    int k = 0;
+    char z;
+    while((z=fgetc(bufferNonce))!=EOF) {
+        temp1_nonce[k] = z;
+        printf("%c", temp1_nonce[k]);
+        k++;
+    }
+    printf("\temp2_nonce is: \n");
+    int m = 0;
+    char n;
+    while((n=fgetc(block2Nonce))!=EOF) {
+        temp2_nonce[m] = n;
+        printf("%c", temp2_target[m]);
+        m++;
+    }
+    printf("\temp1_nonce is:\n");
+    for (int i = 0; i < sizeof(temp1_nonce); i++) {
+        printf("%c", (unsigned char)temp1_nonce[i]);
+    }
+    printf("\temp2_nonce is:\n");
+    for (int i = 0; i < sizeof(temp2_nonce); i++) {
+        printf("%c", (unsigned char)temp2_nonce[i]);
+    }
+    printf("\nsize of temp1_nonce is: %d\n", sizeof(temp1_nonce));
+    printf("size of temp2_nonce is: %d\n", sizeof(temp2_nonce));
 
+    int retNonce = memcmp(temp1_nonce, temp2_nonce, 10);
+    printf("value of retNonce is: %d\n", retNonce);
 
-
-    // fread(buffer_nonce, sizeof(unsigned int), 1, outputBlock);
-    // if(memcmp(block2->nonce, buffer_nonce, sizeof(unsigned int))) {
-    //     printf("*******************error with timestamp\n");
-    //     // return 0;
-    // }
-    // exit(0);
-    // return 1;
+    if(retNonce != 0) {
+    printf("*******************error with nonce\n");
+        return 0;
+    }
+    remove("bufferOutput.txt");
+    remove("block2Output.txt");
 }
 
 //validate merkle tree of block
