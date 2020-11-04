@@ -208,7 +208,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     int m = 0; char n;
     while((n=fgetc(block2Nonce))!=EOF) {
         temp2_nonce[m] = n;
-        //printf("%c", temp2_target[m]);
+        //printf("%c", temp2_nonce[m]);
         m++;
     }
 
@@ -217,6 +217,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     printf("*******************error with nonce\n");
         return 0;
     }
+    exit(0);
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 }
