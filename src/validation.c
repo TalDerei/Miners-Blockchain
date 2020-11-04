@@ -9,8 +9,6 @@ int validation(Block2 *block2, char actualFileNameMerkleTree[], char actualFileN
     printf("actualFileNameBlock is: %s\n", actualFileNameBlock);
 
     validate_header(block2, actualFileNameBlock, counter);
-    exit(0);
-
     validate_merkle_tree(block2, actualFileNameMerkleTree);
     exit(0);
 
@@ -217,37 +215,42 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     printf("*******************error with nonce\n");
         return 0;
     }
-    exit(0);
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 }
 
 //validate merkle tree of block
 int validate_merkle_tree(Block2 *block2, char actualFileNameMerkleTree[]) {
+    printf("******** Entered validate_merkle_tree **********\n");
     FILE *outputMerkleTree; 
-    outputMerkleTree = fopen(actualFileNameMerkleTree,"w");
+    outputMerkleTree = fopen(actualFileNameMerkleTree,"r");
 
-    char bufferCount[1];
-    char *compareBuffer = (char *)malloc(BUFFER); //compareBuffer hold the line of actualFileNameMerkleTree and compares with merkleTreeRoot
-    //read original file contents
-    fgets(bufferCount[0], sizeof(char), outputMerkleTree);
-    char **bufferValue = (char **)malloc(sizeof(char*));
-    for (int i = 0; i < (int)bufferCount[0]; i++){
-        bufferValue[i] = (char *)malloc(BUFFER);
-        fgets(bufferValue[i], BUFFER, outputMerkleTree);
+    //hold value for the number of lines in input file
+    int bufferCount[1];
+    //compareBuffer hold the line of actualFileNameMerkleTree and compares with merkleTreeRoot
+    char *compareBuffer = (char *)malloc(BUFFER);
+    fgets(bufferCount, sizeof(int), outputMerkleTree);
+    int buffer_counter = atoi(bufferCount);
+    printf("buffer_converter is: %d\n", (int)buffer_counter);
+
+    char **buffer_value = (char **)malloc(sizeof(char *));
+    for (int i = 0; i < buffer_counter; i++){
+        buffer_value[i] = (char *)malloc(BUFFER);
+        fgets(buffer_value[i], BUFFER, outputMerkleTree);
     }
-    InternalNode *internalNode = (InternalNode *)malloc(bufferCount[0] * sizeof(InternalNode)); 
-    LeafNode *leafNodes = (LeafNode *)malloc(bufferCount[0] * sizeof(LeafNode));
-    
-    //createLeafNodes, convertLeaftoInternal, merkleTreeRoot -- 3 function calls
-    createLeafNodes(leafNodes, bufferValue, bufferCount[0]);
-    convertLeaftoInternal(internalNode, leafNodes, bufferCount[0]);
-    InternalNode *root = merkleTreeRoot(internalNode, (int)bufferCount[0]); 
 
+    //createLeafNodes, convertLeaftoInternal, merkleTreeRoot -- 3 function calls
+    InternalNode *internalNode = (InternalNode *)malloc(buffer_counter * sizeof(InternalNode)); 
+    LeafNode *leafNodes = (LeafNode *)malloc(buffer_counter * sizeof(LeafNode));
+    createLeafNodes(leafNodes, buffer_value, buffer_counter);
+    convertLeaftoInternal(internalNode, leafNodes, buffer_counter);
+    InternalNode *root = merkleTreeRoot(internalNode, buffer_counter); 
     compareMerkleTree(merkleTreeRoot, outputMerkleTree, compareBuffer,1);
 }
 
 int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID) {
+    printf("******** Entered validate_merkle_tree **********\n");
+    exit(0);
     int len;
     //check for correct ID
     fgets(compareBuffer, BUFFER, fp);

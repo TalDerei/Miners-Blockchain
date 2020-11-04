@@ -122,6 +122,7 @@ int main(int argc, char *argv[]) {
 		// FILE *output = fopen(strncat(output,".block.out", 1), "w");
         print_merkle_tree_value(arr, lineNum[i] , outputMerkleTree);
     	print_merkle_tree(TreeRoot[i], 1, outputMerkleTree); //print merkle tree
+        fclose(outputMerkleTree);
         //print_block(block, 1, outputBlock); //print block
 
         //create individual blocks part of the blockchain 
