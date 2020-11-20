@@ -43,7 +43,6 @@ void initialize_header(Block *block, InternalNode *Treeroot, unsigned char *poin
     //nonce with 50% difficulty target
     
     generate_nonce(block->header, Treeroot);
-    //printf("nonce for first block is: %s\n", header->nonce);
 
     //targete value
     block->header->target = 0.5;
@@ -66,7 +65,6 @@ void populate_header(Block *block, InternalNode *Treeroot, Block *prevBlock, uns
     //hash of the previous root hash of the previous block
     //printf("******populate_header********\n");
 
-        
     unsigned char *BlockConcat = malloc(BlockSize);
     printf("BlockSize is: %d\n", BlockSize);
     //Don't know if this needed.....In some previous case, we saw some trash when we malloc

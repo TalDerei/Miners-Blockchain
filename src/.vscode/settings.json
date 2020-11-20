@@ -9,6 +9,7 @@
         "random": "c",
         "array": "c",
         "deque": "c",
-        "iterator": "c"
+        "iterator": "c",
+        "algorithm": "c"
     }
 }

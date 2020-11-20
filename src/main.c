@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int count;
     //printf("input the number of files you want opened: "); 
 	//scanf("%d",&count);	//make sure user can ONLY enter an int (not char) while handling any potential errors
-    count = 1;
+    count = 2;
     //printf("number of files entered: %d\n", count); 
 
     char **fileNames = (char **)malloc(count * sizeof(FILE *));
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         fileNames[i] = (char *)malloc(BUFFER);
     }
     fileNames[0] = "input.txt";
-    //fileNames[1] = "input2.txt";
+    fileNames[1] = "input2.txt";
     
     // for (int i = 0; i < count; i ++){
     //     printf("enter the filename[%d]: ", i); 
@@ -163,9 +163,37 @@ int main(int argc, char *argv[]) {
         // printf("actualFileNameMerkleTree: %s\n", actualFileNameMerkleTree[i]);
         // printf("actualFileNameBlock: %s\n", actualFileNameBlock[i]);
         validation_result = validation(block2[i], actualFileNameMerkleTree[i], actualFileNameBlock[i], i);
+        printf("\nvalidation_result is: %d\n", validation_result);
         //exit(0);
         //printf("%d", validation_result);
     }
+
+    free(fileNames);
+    
+    free(lineNum);
+    for (int i = 0; i < 100; i++) {
+        free(arr[i]);
+    }
+    free(arr);
+
+    for(int i = 0; i < count; i++){
+        free(block[i]);
+    }
+    for(int i = 0; i < count; i++){
+        free(leafNodes[i]);
+    }
+    for(int i = 0; i < count; i++){
+        free(internalNode[i]);
+    }
+    for(int i = 0; i < count; i++){
+        free(TreeRoot[i]);
+    } 
+    free(block);
+    free(leafNodes);
+    free(internalNode);
+    free(TreeRoot);
+
+
 
     //check the header contents, except the previous hash
     //check the merkle tree -- comparing good merkle tree (in file) to bad merkle tree (in another file)

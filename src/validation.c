@@ -10,7 +10,6 @@ int validation(Block2 *block2, char actualFileNameMerkleTree[], char actualFileN
 
     validate_header(block2, actualFileNameBlock, counter);
     validate_merkle_tree(block2, actualFileNameMerkleTree);
-    exit(0);
 
     if (validate_header(block2, actualFileNameBlock, counter) && validate_merkle_tree(block2, actualFileNameMerkleTree)) {
         return 1;
@@ -70,11 +69,7 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     FILE *bufferRoothash; 
     bufferRoothash = fopen("bufferOutput.txt","w+b");
     for (int n = 0; n < sizeof(buffer_rootHash); n++) {
-        if ((unsigned char)buffer_rootHash[n] <= 0x0f) {
-                fprintf(bufferRoothash, "0%c", (unsigned char)buffer_rootHash[n]);
-        } else{
-                fprintf(bufferRoothash, "%c", (unsigned char)buffer_rootHash[n]);
-        }
+        fprintf(bufferRoothash, "%c", (unsigned char)buffer_rootHash[n]);
     }
 
     FILE *block2Roothash; 
@@ -86,7 +81,6 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
                 fprintf(block2Roothash, "%x", (unsigned char)block2->rootHash[i]);
         }
     }
-
     rewind(bufferRoothash);
     rewind(block2Roothash);
 
@@ -198,25 +192,31 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     rewind(bufferNonce);
     rewind(block2Nonce);
     int k = 0; char z;
+    printf("nonce values are:\n");
     while((z=fgetc(bufferNonce))!=EOF) {
         temp1_nonce[k] = z;
-        //printf("%c", temp1_nonce[k]);
+        printf("%x\n", temp1_nonce[k]);
         k++;
     }
+    printf("\n!!!!!!!!!!!!!!\n");
     int m = 0; char n;
     while((n=fgetc(block2Nonce))!=EOF) {
         temp2_nonce[m] = n;
-        //printf("%c", temp2_nonce[m]);
+        printf("%x\n", temp2_nonce[m]);
         m++;
     }
+    printf("\n");
 
-    int retNonce = memcmp(temp1_nonce, temp2_nonce, 10);
+    int retNonce = memcmp(temp1_nonce, temp2_nonce, 9);
+    printf("retNonce is: %d\n", retNonce);
     if(retNonce != 0) {
     printf("*******************error with nonce\n");
         return 0;
     }
     remove("bufferOutput.txt");
     remove("block2Output.txt");
+
+    return 1;
 }
 
 //validate merkle tree of block
@@ -245,7 +245,7 @@ int validate_merkle_tree(Block2 *block2, char actualFileNameMerkleTree[]) {
     createLeafNodes(leafNodes, buffer_value, buffer_counter);
     convertLeaftoInternal(internalNode, leafNodes, buffer_counter);
     InternalNode *root = merkleTreeRoot(internalNode, buffer_counter); 
-    compareMerkleTree(root, outputMerkleTree, compareBuffer,1);
+    return compareMerkleTree(root, outputMerkleTree, compareBuffer,1);
 }
 
 int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID) {

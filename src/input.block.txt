@@ -1,0 +1,65 @@
+BEGIN BLOCK
+BEGIN HEADER
+previous hash is: 0
+root hash is: 3f7f1658dc0654e4cf01a0f653a37cdb86ffe112780eca63a50b8bd24ffdea4c
+timestamp is: 1605907688
+target value is: 0.500000
+nonce is: 518887697
+END HEADER
+ID is: 1
+left edge is: a
+hash is: 3f7f1658dc654e4cf1a0f653a37cdb86ffe11278eca63a5b8bd24ffdea4c
+right edge is: eeeee
+leftChild is: 2
+rightChild is: 3
+ID is: 2
+left edge is: a
+hash is: 1187499edfa23548336621c64c8f2028677551883c155dcfc3d887b7dd3fe50
+right edge is: dddd
+leftChild is: 4
+rightChild is: 5
+ID is: 4
+left edge is: a
+hash is: a0cdbcdb2d56c941c21ff5638f4d147e32892f4bb2ace9ca54ba2fd147653b
+right edge is: bb
+leftChild is: 8
+rightChild is: 9
+ID is: 8
+hash is: ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb
+leafNode value is: a
+leaf node
+ID is: 9
+hash is: 3b64db95cb55c763391c70718489ae18b4112d78330de38e33b4c98c3deaf
+leafNode value is: bb
+leaf node
+ID is: 5
+left edge is: ccc
+hash is: a6a05e6172b62a7be7914f764a9b14b8a834715742b4aebdf8e23ee371dd26c
+right edge is: dddd
+leftChild is: 10
+rightChild is: 11
+ID is: 10
+hash is: 64daa44ad493ff28a96effab6e77f1732a3d97d83241581b37dbd7a7a490fe
+leafNode value is: ccc
+leaf node
+ID is: 11
+hash is: 5bf8aa57fc5a6bc547decf1cc6db63f1deb55a3c6c5df497d631fb3d95e1abf
+leafNode value is: dddd
+leaf node
+ID is: 3
+left edge is: eeeee
+hash is: b053af77781a8f711444b712f42972acc5b9e6db343c2520705936e970eb3486
+right edge is: eeeee
+leftChild is: 6
+rightChild is NULL
+ID is: 6
+left edge is: eeeee
+hash is: eeee351e52b90a3f5c427fce7295890dfc088d1801cee45ef9a63afcd368a6
+right edge is: eeeee
+leftChild is: 12
+rightChild is NULL
+ID is: 12
+hash is: 766faacd628539962c6464ec047994482dc5dee9a1cb77847abefc3e88a1c
+leafNode value is: eeeee
+leaf node
+END BLOCK
