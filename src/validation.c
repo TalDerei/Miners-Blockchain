@@ -245,12 +245,11 @@ int validate_merkle_tree(Block2 *block2, char actualFileNameMerkleTree[]) {
     createLeafNodes(leafNodes, buffer_value, buffer_counter);
     convertLeaftoInternal(internalNode, leafNodes, buffer_counter);
     InternalNode *root = merkleTreeRoot(internalNode, buffer_counter); 
-    compareMerkleTree(merkleTreeRoot, outputMerkleTree, compareBuffer,1);
+    compareMerkleTree(root, outputMerkleTree, compareBuffer,1);
 }
 
 int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID) {
     printf("******** Entered validate_merkle_tree **********\n");
-    exit(0);
     int len;
     //check for correct ID
     fgets(compareBuffer, BUFFER, fp);
@@ -258,12 +257,11 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
     if( compareBuffer[len-1] == '\n') {
         compareBuffer[len-1] = '\0';
     }
-    if(!(compareBuffer+7 == ID)){
+    int compareBuffer_int1 = atoi(compareBuffer + 7);
+    if (compareBuffer_int1 != ID) {
         printf("validation failed at ID\n");
-        return 0;
     }
     clearBuffer(compareBuffer);
-    //fprintf(output,"ID is: %d\n", ID);
 
     //check for correct left edge
 	if(root->leftChild != NULL || root->rightChild != NULL){
@@ -280,7 +278,6 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
 		//fprintf(output,"left edge is: %s\n", root->leftEdge);
 	}
 
-
     fgets(compareBuffer, BUFFER, fp);
     len = strlen(compareBuffer);
     if( compareBuffer[len-1] == '\n') {
@@ -291,13 +288,6 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         return 0;
     }
     clearBuffer(compareBuffer);
-
-
-	// fprintf(output,"hash is: ");
-	// for (int n = 0; n < SHA256_BLOCK_SIZE; n++) {
-	// 	fprintf(output,"%x", (unsigned char) root->hash[n]);
-	// }
-	// fprintf(output,"\n");
 
 	if(root->leftChild != NULL || root->rightChild != NULL){
         fgets(compareBuffer, BUFFER, fp);
@@ -335,7 +325,8 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         if( compareBuffer[len-1] == '\n') {
             compareBuffer[len-1] = '\0';
         }
-        if(!(compareBuffer+14 == 2*ID)){
+        int compareBuffer_int2 = atoi(compareBuffer + 14);
+        if(compareBuffer_int2 != 2*ID){
             printf("validation failed at left child ID 164\n");
             return 0;
         }
@@ -347,7 +338,8 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         if( compareBuffer[len-1] == '\n') {
             compareBuffer[len-1] == '\0';
         }
-        if(!(compareBuffer+15 == 2*ID+1)){
+        int compareBuffer_int3 = atoi(compareBuffer + 15);
+        if(compareBuffer_int3 != 2*ID+1){
             printf("validation failed at right child ID 176\n");
             return 0;
         }
@@ -359,13 +351,15 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
 
         compareMerkleTree(root->rightChild, fp, compareBuffer, 2*ID+1);
 		//print_merkle_tree(root->rightChild, 2*ID+1, output);
+
 	}else if (root->leftChild != NULL) {
         fgets(compareBuffer, BUFFER, fp);
         len = strlen(compareBuffer);
         if( compareBuffer[len-1] == '\n') {
             compareBuffer[len-1] = '\0';
         }
-        if(!(compareBuffer+14 == 2*ID)){
+        int compareBuffer_int4 = atoi(compareBuffer + 14);
+        if(compareBuffer_int4 != 2*ID){
             printf("validation failed at left child ID 194\n");
             return 0;
         }
@@ -377,7 +371,8 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         if( compareBuffer[len-1] == '\n') {
             compareBuffer[len-1] = '\0';
         }
-        if(!(compareBuffer+15 == 2*ID+1)){
+        int compareBuffer_int5 = atoi(compareBuffer + 15);
+        if(compareBuffer_int5 != 0){
             printf("validation failed at right child ID 206\n");
             return 0;
         }
@@ -395,8 +390,3 @@ void clearBuffer(char *buffer) {
         buffer[i] = NULL;
     }
 }
-
-// void substring(char* buffer, int index){
-//     *(buffer+index) = *(buffer+index);
-//     // *(buffer+index+1) = '\0';
-// }
