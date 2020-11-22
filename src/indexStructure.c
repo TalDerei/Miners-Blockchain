@@ -12,12 +12,10 @@ int inchain(char search_block[], char search_string[]) {
 
     while (fgets(buffer, BUFFER, outputBlock) != NULL) {
         if ((strstr(buffer, search_string)) != NULL) {
-            printf("search_string found in block!");
             return 1;
         }
         clear_buffer(buffer);
     }
-    printf("search_string NOT FOUND");
     return 0;
 }
 

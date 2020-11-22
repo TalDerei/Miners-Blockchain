@@ -173,10 +173,16 @@ int main(int argc, char *argv[]) {
 	scanf("%s",search_string);	//make sure user can ONLY enter an int (not char) while handling any potential errors
     printf("search entered: %s\n", search_string); 
     int inchain_result = 0;
+    int block_number = 0;
     for (int i = 0; i < count; i++) {
-        inchain_result = inchain(actualFileNameBlock[i], search_string);
-        printf("\inchain_result is: %d\n", inchain_result);
+        if ((inchain_result = inchain(actualFileNameBlock[i], search_string)) == 1) {
+            printf("Query found in blockchain!\n");
+            printf("found in block %d", block_number);
+            exit(0);
+        }
+        block_number++;
     }
+    printf("Query NOT found in blockchain");
 
 
     free(fileNames);
