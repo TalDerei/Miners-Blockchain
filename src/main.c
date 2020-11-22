@@ -168,6 +168,17 @@ int main(int argc, char *argv[]) {
         //printf("%d", validation_result);
     }
 
+    char search_string[BUFFER];
+    printf("What are you searching for in the blockchain? "); 
+	scanf("%s",search_string);	//make sure user can ONLY enter an int (not char) while handling any potential errors
+    printf("search entered: %s\n", search_string); 
+    int inchain_result = 0;
+    for (int i = 0; i < count; i++) {
+        inchain_result = inchain(actualFileNameBlock[i], search_string);
+        printf("\inchain_result is: %d\n", inchain_result);
+    }
+
+
     free(fileNames);
     
     free(lineNum);
