@@ -3,14 +3,8 @@
 #include "validation.h"
 #define BUFFER 119
 
+/* validation validates entire blockchain block by block */
 int validation(Block2 *block2, char actualFileNameMerkleTree[], char actualFileNameBlock[], int counter) {
-    printf("******** Entered validation **********\n");
-    printf("actualFileNameMerkleTree is: %s\n", actualFileNameMerkleTree);
-    printf("actualFileNameBlock is: %s\n", actualFileNameBlock);
-
-    validate_header(block2, actualFileNameBlock, counter);
-    validate_merkle_tree(block2, actualFileNameMerkleTree);
-
     if (validate_header(block2, actualFileNameBlock, counter) && validate_merkle_tree(block2, actualFileNameMerkleTree)) {
         return 1;
     }
@@ -19,9 +13,9 @@ int validation(Block2 *block2, char actualFileNameMerkleTree[], char actualFileN
     }
 }
 
-//validate header contents of block
+/* validate header contents of a block */
 int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
-    printf("******** Entered validate_header **********\n");
+    /* buffers used for comparing contents of block with contents stored in input.block.txt and input.merkletree.txt */
     unsigned char buffer_first_previousHash[1];    
     unsigned char buffer_not_first_previousHash[64];
     unsigned char buffer_rootHash[64];
@@ -37,33 +31,20 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     unsigned char temp1_nonce[100];
     unsigned char temp2_nonce[100];
 
-    //open file associated with outputBlock file handler
+    /* open file associated with outputBlock file handler */
     FILE *outputBlock; 
     outputBlock = fopen(actualFileNameBlock,"rb");
     
-    //previous hash
+    /* validate previous hash */
     fseek(outputBlock, 43, SEEK_SET);
     if (counter == 0) {
         fread(buffer_first_previousHash, sizeof(unsigned char), sizeof(buffer_first_previousHash), outputBlock);
-        // printf("buffer_first_previousHash is: ");
-        // for(int i = 0; i < 1; i++){
-        //     printf("%c", (unsigned char) buffer_first_previousHash[i]);
-        // }
-        // printf("\n");
     }
     else {
         fread(buffer_not_first_previousHash, sizeof(unsigned char), sizeof(buffer_not_first_previousHash), outputBlock);
-        // for (int n = 0; n < sizeof(buffer_not_first_previousHash); n++) {
-        //     if ((unsigned char)buffer_not_first_previousHash[n] <= 0x0f) {
-        //         printf("0%c", (unsigned char)buffer_not_first_previousHash[n]);
-        //     } else{
-        //         printf("%c", (unsigned char)buffer_not_first_previousHash[n]);
-        //     }
-        // }
-        // printf("\n");
     }
 
-    //roothash
+    /* validate roothash */
     fseek(outputBlock, 15, SEEK_CUR);
     fgets(buffer_rootHash, BUFFER, outputBlock);
     FILE *bufferRoothash; 
@@ -87,25 +68,22 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     int i=0; char l;
     while((l=fgetc(bufferRoothash))!=EOF) {
         temp1_rootHash[i] = l;
-        //printf("%c", temp1_rootHash[i]);
         i++;
     }
     int j =0; char t;
     while((t=fgetc(block2Roothash))!=EOF) {
         temp2_rootHash[j] = t;
-        //printf("%c", temp2_rootHash[j]);
         j++;
     }
     int retRoothash = memcmp(temp1_rootHash, temp2_rootHash, sizeof(buffer_rootHash));
     if(retRoothash != 0) {
-    printf("Error with roothash***********************************\n");
+        printf("Validation failed! Error with roothash!\n");
         return 0;
     }
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 
-    //timestamp
-    printf("\n");
+    /* validate timestamp */
     fseek(outputBlock, 14, SEEK_CUR);
     fgets(buffer_timestamp, BUFFER, outputBlock);
     FILE *bufferTimestamp; 
@@ -123,25 +101,23 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     int a = 0; char b;
     while((b=fgetc(bufferTimestamp))!=EOF) {
         temp1_timestamp[a] = b;
-        //printf("%c", temp1_timestamp[a]);
         a++;
     }
     int c = 0; char d;
     while((d=fgetc(block2Timestamp))!=EOF) {
         temp2_timestamp[c] = d;
-        //printf("%c", temp2_timestamp[c]);
         c++;
     }
 
     int retTimestamp = memcmp(temp1_timestamp, temp2_timestamp, 8);
     if(retTimestamp != 0) {
-    printf("*******************error with timestamp\n");
+        printf("Valation failed! Error with timestamp!\n");
         return 0;
     }
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 
-    //target
+    /* validate target */
     fseek(outputBlock, 17, SEEK_CUR);
     fgets(buffer_target, BUFFER, outputBlock);
     FILE *bufferTarget; 
@@ -159,25 +135,23 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     int e = 0; char f;
     while((f=fgetc(bufferTarget))!=EOF) {
         temp1_target[e] = f;
-        //printf("%c", temp1_target[e]);
         e++;
     }
     int g = 0; char h;
     while((h=fgetc(block2Target))!=EOF) {
         temp2_target[g] = h;
-        //printf("%c", temp2_target[g]);
         g++;
     }
 
     int retTarget = memcmp(temp1_target, temp2_target, 8);
     if(retTimestamp != 0) {
-    printf("*******************error with target\n");
+        printf("Validation Failed! Error with target\n");
         return 0;
     }
     remove("bufferOutput.txt");
     remove("block2Output.txt");
 
-    //nonce
+    /* validate nonce */
     fseek(outputBlock, 10, SEEK_CUR);
     fgets(buffer_nonce, BUFFER, outputBlock);
     FILE *bufferNonce; 
@@ -192,25 +166,19 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     rewind(bufferNonce);
     rewind(block2Nonce);
     int k = 0; char z;
-    printf("nonce values are:\n");
     while((z=fgetc(bufferNonce))!=EOF) {
         temp1_nonce[k] = z;
-        printf("%x\n", temp1_nonce[k]);
         k++;
     }
-    printf("\n!!!!!!!!!!!!!!\n");
     int m = 0; char n;
     while((n=fgetc(block2Nonce))!=EOF) {
         temp2_nonce[m] = n;
-        printf("%x\n", temp2_nonce[m]);
         m++;
     }
-    printf("\n");
 
     int retNonce = memcmp(temp1_nonce, temp2_nonce, 9);
-    printf("retNonce is: %d\n", retNonce);
     if(retNonce != 0) {
-    printf("*******************error with nonce\n");
+        printf("Validation failed! Error with nonce\n");
         return 0;
     }
     remove("bufferOutput.txt");
@@ -219,27 +187,23 @@ int validate_header(Block2 *block2, char actualFileNameBlock[], int counter) {
     return 1;
 }
 
-//validate merkle tree of block
+/* validate merkle tree of a block */
 int validate_merkle_tree(Block2 *block2, char actualFileNameMerkleTree[]) {
-    printf("******** Entered validate_merkle_tree **********\n");
+    /* open file associated with outputMerkleTree file handler */
     FILE *outputMerkleTree; 
     outputMerkleTree = fopen(actualFileNameMerkleTree,"r");
 
-    //hold value for the number of lines in input file
-    int bufferCount[1];
-    //compareBuffer hold the line of actualFileNameMerkleTree and compares with merkleTreeRoot
+    int bufferCount[1]; 
     char *compareBuffer = (char *)malloc(BUFFER);
     fgets(bufferCount, sizeof(int), outputMerkleTree);
     int buffer_counter = atoi(bufferCount);
-    printf("buffer_converter is: %d\n", (int)buffer_counter);
-
     char **buffer_value = (char **)malloc(sizeof(char *));
     for (int i = 0; i < buffer_counter; i++){
         buffer_value[i] = (char *)malloc(BUFFER);
         fgets(buffer_value[i], BUFFER, outputMerkleTree);
     }
 
-    //createLeafNodes, convertLeaftoInternal, merkleTreeRoot -- 3 function calls
+    /* createLeafNodes, convertLeaftoInternal, merkleTreeRoot -- 3 function calls */
     InternalNode *internalNode = (InternalNode *)malloc(buffer_counter * sizeof(InternalNode)); 
     LeafNode *leafNodes = (LeafNode *)malloc(buffer_counter * sizeof(LeafNode));
     createLeafNodes(leafNodes, buffer_value, buffer_counter);
@@ -248,10 +212,10 @@ int validate_merkle_tree(Block2 *block2, char actualFileNameMerkleTree[]) {
     return compareMerkleTree(root, outputMerkleTree, compareBuffer,1);
 }
 
+/* validation of the merkletree associated with a block */
 int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID) {
-    printf("******** Entered validate_merkle_tree **********\n");
+    /* same code-base as in printMerkleTree.c, except modified for validation rather than printing */
     int len;
-    //check for correct ID
     fgets(compareBuffer, BUFFER, fp);
     len = strlen(compareBuffer);
     if( compareBuffer[len-1] == '\n') {
@@ -263,7 +227,6 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
     }
     clearBuffer(compareBuffer);
 
-    //check for correct left edge
 	if(root->leftChild != NULL || root->rightChild != NULL){
         fgets(compareBuffer, BUFFER, fp);
         len = strlen(compareBuffer);
@@ -275,7 +238,6 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output,"left edge is: %s\n", root->leftEdge);
 	}
 
     fgets(compareBuffer, BUFFER, fp);
@@ -300,7 +262,6 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output,"right edge is: %s\n", root->rightEdge);
 	}else{
         fgets(compareBuffer, BUFFER, fp);
         len = strlen(compareBuffer);
@@ -308,15 +269,13 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
             compareBuffer[len-1] = '\0';
         }
         if(!memcmp(compareBuffer+19, root->leftEdge, 100)){
-            printf("validation failed at leftEdge 146\n");
+            printf("validation failed at leftEdge\n");
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output, "leafNode value is: %s\n", root->leftEdge);
 
         fgets(compareBuffer, BUFFER, fp);
         clearBuffer(compareBuffer);
-		//fprintf(output,"leaf node\n\n");
 	}
 
 	if (root->rightChild != NULL) {
@@ -327,11 +286,10 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         }
         int compareBuffer_int2 = atoi(compareBuffer + 14);
         if(compareBuffer_int2 != 2*ID){
-            printf("validation failed at left child ID 164\n");
+            printf("validation failed at left child ID\n");
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output, "leftChild is: %d\n", 2*ID);
 
         fgets(compareBuffer, BUFFER, fp);
         len = strlen(compareBuffer);
@@ -340,17 +298,14 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         }
         int compareBuffer_int3 = atoi(compareBuffer + 15);
         if(compareBuffer_int3 != 2*ID+1){
-            printf("validation failed at right child ID 176\n");
+            printf("validation failed at right child ID\n");
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output, "rightChild is: %d\n",  2*ID+1);
         
         compareMerkleTree(root->leftChild, fp, compareBuffer, 2*ID);
-		//print_merkle_tree(root->leftChild, 2*ID, output);
 
         compareMerkleTree(root->rightChild, fp, compareBuffer, 2*ID+1);
-		//print_merkle_tree(root->rightChild, 2*ID+1, output);
 
 	}else if (root->leftChild != NULL) {
         fgets(compareBuffer, BUFFER, fp);
@@ -360,11 +315,10 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         }
         int compareBuffer_int4 = atoi(compareBuffer + 14);
         if(compareBuffer_int4 != 2*ID){
-            printf("validation failed at left child ID 194\n");
+            printf("validation failed at left child ID\n");
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output, "leftChild is: %d\n", 2*ID);
 
         fgets(compareBuffer, BUFFER, fp);
         len = strlen(compareBuffer);
@@ -373,18 +327,17 @@ int compareMerkleTree(InternalNode *root, FILE *fp, char *compareBuffer, int ID)
         }
         int compareBuffer_int5 = atoi(compareBuffer + 15);
         if(compareBuffer_int5 != 0){
-            printf("validation failed at right child ID 206\n");
+            printf("validation failed at right child ID\n");
             return 0;
         }
         clearBuffer(compareBuffer);
-		//fprintf(output, "rightChild is NULL\n");
 
         compareMerkleTree(root->leftChild, fp, compareBuffer, 2*ID);
-		//print_merkle_tree(root->leftChild, 2*ID, output);
 	}
     return 1;
 }
 
+/* clear buffer for re-use */
 void clearBuffer(char *buffer) {
     for(int i = 0 ; i < BUFFER; i++){
         buffer[i] = NULL;

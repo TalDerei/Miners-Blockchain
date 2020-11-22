@@ -10,8 +10,6 @@ void serialize_first_blockchain(Block *block, FILE *write_blockchain){
     Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
     Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
     Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
-
-    print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
 }
 
 /* rebuild_first_block rebuilds the first block in a linked-list after reading the data from disk */
@@ -45,8 +43,6 @@ void serialize_blockchain(Block *block, FILE *write_blockchain) {
     Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
     Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
     Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
-
-    print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
 } 
 
 /* rebuild_first_block rebuilds the block[i] (not the first block) in a linked-list after reading the data from disk */

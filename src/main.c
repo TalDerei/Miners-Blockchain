@@ -123,14 +123,19 @@ int main(int argc, char *argv[]) {
     }
 
     /* validating the correctness of the blockchain */
-    int validation_result; 
+    int validation_result;
+    int counter = 0;
     for (int i = 0; i < count; i++) {
         validation_result = validation(block2[i], actualFileNameMerkleTree[i], actualFileNameBlock[i], i);
         if (validation_result == 0) {
-            printf("\nvalidation of the blockchain failed!");
+            printf("\nblockchain validation FAILED!");
+            exit(0);
+        }
+        counter++;
+        if (counter == count) {
+            printf("\nblockchain successfully validated!\n");
         }
     }
-    printf("\nblockchain validated!\n");
 
     /* proof of membership of a query string in blockchain */
     char search_string[BUFFER];
