@@ -5,7 +5,8 @@
 
 #include "sha256.h"
 #include "merkleTree.h"
-//header struct
+
+/* header struct */
 struct header {
   unsigned char *previousHash; 
   unsigned char rootHash[32];
@@ -15,13 +16,14 @@ struct header {
 };
 typedef struct header Header;
 
-//block struct
+/* block struct */
 struct block {
   Header *header;
   InternalNode *rootHash;
 };
 typedef struct block Block;
 
+/* function prototypes for block */
 void create_block(Block *, InternalNode *, Block *, FILE *, FILE *, unsigned char *);
 void initialize_block(Block *, InternalNode *, unsigned char *, FILE *, FILE *);
 void populate_header(Block *, InternalNode *, Block *, unsigned char *);

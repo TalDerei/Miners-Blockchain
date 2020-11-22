@@ -3,10 +3,9 @@
 #include "indexStructure.h"
 #define BUFFER 100
 
+/* inchain provides proof of membership */
 int inchain(char search_block[], char search_string[]) {
     char buffer[BUFFER];
-
-    //open file associated with outputBlock file handler
     FILE *outputBlock; 
     outputBlock = fopen(search_block,"rb");
 
@@ -19,6 +18,7 @@ int inchain(char search_block[], char search_string[]) {
     return 0;
 }
 
+/* clear buffer for re-use */
 void clear_buffer(char buffer[]) {
     for(int i = 0 ; i < BUFFER; i++){
         buffer[i] = NULL;

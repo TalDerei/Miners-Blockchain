@@ -51,5 +51,3 @@ void print_block(Block* B_ptr, int ID_K, FILE* out){
     print_merkle_tree(B_ptr->rootHash, ID_K, out);
     fprintf(out, "END BLOCK");
 }
-
-//make them the same

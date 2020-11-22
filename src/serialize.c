@@ -2,75 +2,34 @@
 
 #include "serialize.h"
 
+/* serialize_first_block serializes the first block from memory to disk (header contents and merkle tree) */
 void serialize_first_blockchain(Block *block, FILE *write_blockchain){
-    //printf("\n$$$$$$$$$$$$$$$$$$$$ serialize_first_blockchain $$$$$$$$$$$$$$$$$$$$$$$$\n");
-    //serialize block's merkleTree to file
-    //printf("\n-------HEADER: previousHash---------\n");
+    /* ***write data in BINARY representation to disk -- the data will look garbaled*** */
     Fwrite(block->header->previousHash, sizeof(unsigned char), 1, write_blockchain);
-    //printf("\n-------HEADER: rootHash---------\n");
     Fwrite(block->header->rootHash, sizeof(unsigned char), 32, write_blockchain);
-    //printf("\n-------HEADER: timestamp---------\n");
     Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
-    //printf("\n-------HEADER: target---------\n");
     Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
-    //printf("\n-------HEADER: nonce---------\n");
     Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
 
-    //serialize block's header contents to file
-    //printf("\n-------MERKLETREE: hash of Merkle Tree---------\n");  
-    //print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
-
-    // printf("PrevHash is: %c\n",*(block->header->previousHash));
-    // printf("rootHash is: \n");
-    // for(int i=0 ; i < SHA256_BLOCK_SIZE; i++){
-    //     printf("%x",(unsigned char)block->header->rootHash[i]);
-    // }
-    // printf("\nserialize_blockchain: Nonce is: %u", block->header->nonce);
-    // printf("\n");
+    print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
 }
 
+/* rebuild_first_block rebuilds the first block in a linked-list after reading the data from disk */
 void rebuild_first_block(FILE *output_blockchain, Block2 *block){
-    printf("\n\n\n$$$$$$$$$$$$$$$$$$$$ rebuild_first_block $$$$$$$$$$$$$$$$$$$$$$$$\n");
     unsigned char buffer_previousHash[1];
     unsigned char buffer_rootHash[32];
     int buffer_timestamp[1];
     double buffer_target[1];
     unsigned int buffer_nonce[1];
 
+    /* fread to read back in the contents stored in disk and store in respective buffer */
     fread(buffer_previousHash, sizeof(unsigned char), 1, output_blockchain);
-    printf("previousHash is: \n");
-    for(int i = 0; i < 1; i ++) {
-        printf("%c",buffer_previousHash[i]); 
-    }
-
-    printf("\n");
-    printf("************************************************************\n rootHash is: \n");
     fread(buffer_rootHash, sizeof(unsigned char), sizeof(buffer_rootHash), output_blockchain);
-    for (int i = 0; i < SHA256_BLOCK_SIZE; i++) {
-        if ((unsigned char)buffer_rootHash[i] <= 0x0f) {
-                printf("0%x", (unsigned char)buffer_rootHash[i]);
-        } else{
-                printf("%x", (unsigned char)buffer_rootHash[i]);
-        }
-    }
-    printf("\n");
-    
-    printf("timestamp is: \n");
     fread(buffer_timestamp, sizeof(int), 1, output_blockchain);
-    printf("%d",(int)buffer_timestamp[0]); 
-    
-    printf("\n");
-    printf("target is: \n");
     fread(buffer_target, sizeof(double), 1, output_blockchain);
-    printf("%f",buffer_target[0]); 
-
-    printf("\n");
-    printf("nonce is: \n");
     fread(buffer_nonce, sizeof(unsigned int), 1, output_blockchain);
-    printf("%u",buffer_nonce[0]); 
-    printf("\n");
 
-    //rebuild block from buffer
+    /* rebuild block from disk and store in Block2 structure */
     memcpy(block->previousHash, buffer_previousHash, 1);
     memcpy(block->rootHashHeader, buffer_rootHash, SHA256_BLOCK_SIZE);
     block->timestamp = buffer_timestamp[0];
@@ -79,70 +38,33 @@ void rebuild_first_block(FILE *output_blockchain, Block2 *block){
     block->nonce = buffer_nonce[0];
 }
 
+/* serialize_blockchain serializes block[i] (not the first block) from memory to disk (header contents and merkle tree) */
 void serialize_blockchain(Block *block, FILE *write_blockchain) {
-    //printf("\n$$$$$$$$$$$$$$$$$$$$ serialize_blockchain $$$$$$$$$$$$$$$$$$$$$$$$\n");
-    //serialize block's merkleTree to file
-    //printf("\n-------HEADER: previousHash---------\n");
     Fwrite(block->header->previousHash, sizeof(unsigned char), 32, write_blockchain);
-    //printf("\n-------HEADER: rootHash---------\n");
     Fwrite(block->header->rootHash, sizeof(unsigned char), 32, write_blockchain);
-    //printf("\n-------HEADER: timestamp---------\n");
     Fwrite(&(block->header->timestamp), sizeof(unsigned int), 1, write_blockchain);
-    //printf("\n-------HEADER: target---------\n");
     Fwrite(&(block->header->target), sizeof(double), 1, write_blockchain);
-    //printf("\n-------HEADER: nonce---------\n");
     Fwrite(&(block->header->nonce), sizeof(unsigned int), 1, write_blockchain);
 
-    //serialize block's header contents to file
-    //printf("\n-------MERKLETREE: hash of Merkle Tree---------\n");  
-    //print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
-
-    // printf("PrevHash is: %c\n",*(block->header->previousHash));
-    // printf("rootHash is: \n");
-    // for(int i=0 ; i < SHA256_BLOCK_SIZE; i++){
-    //     printf("%x",(unsigned char)block->header->rootHash[i]);
-    // }
-    // printf("\n serialize_blockchain: Nonce is: %u", block->header->nonce);
-    // printf("\n");
+    print_merkle_tree(block->rootHash->hash, 1, write_blockchain);
 } 
 
+/* rebuild_first_block rebuilds the block[i] (not the first block) in a linked-list after reading the data from disk */
 void rebuild_block(FILE *output_blockchain, Block2 *block) {
-    printf("\n\n\n$$$$$$$$$$$$$$$$$$$$ rebuild_block $$$$$$$$$$$$$$$$$$$$$$$$\n");
     unsigned char buffer_previousHash[32];
     unsigned char buffer_rootHash[32];
     int buffer_timestamp[1];
     double buffer_target[1];
     unsigned int buffer_nonce[1];
 
+    /* fread to read back in the contents stored in disk and store in respective buffer */
     fread(buffer_previousHash, sizeof(unsigned char), 32, output_blockchain);
-    printf("previousHash is: \n");
-    for(int i = 0; i < 32; i ++){
-        printf("%x",buffer_previousHash[i]); 
-    }
-
-    printf("\n");
-    printf("rootHash is: \n");
     fread(buffer_rootHash, sizeof(unsigned char), sizeof(buffer_rootHash), output_blockchain);
-    for(int i=0 ; i < sizeof(buffer_rootHash); i ++){
-        printf("%x",buffer_rootHash[i]);
-    }
-    printf("\n");
-    
-    printf("timestamp is: \n");
     fread(buffer_timestamp, sizeof(int), 1, output_blockchain);
-    printf("%d",(int)buffer_timestamp[0]); 
-    
-    printf("\n");
-    printf("target is: \n");
     fread(buffer_target, sizeof(double), 1, output_blockchain);
-    printf("%f",buffer_target[0]); 
-
-    printf("\n");
-    printf("nonce is: \n");
     fread(buffer_nonce, sizeof(unsigned int), 1, output_blockchain);
-    printf("%u",buffer_nonce[0]); 
-    printf("\n");
 
+    /* rebuild block from disk and store in Block2 structure */
     memcpy(block->previousHash, buffer_previousHash, SHA256_BLOCK_SIZE);
     memcpy(block->rootHashHeader, buffer_rootHash, SHA256_BLOCK_SIZE);
     block->timestamp = buffer_timestamp[0];

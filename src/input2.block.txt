@@ -1,10 +1,10 @@
 BEGIN BLOCK
 BEGIN HEADER
-previous hash is: e67b319af0e5f9be79558856c64b897d8e03690ab7f4e6feac0f9d08bba3a78d
+previous hash is: d44bec3839626e6abe9da893ab3863ca37df862cf2739e3fcf0f623bd8b86ed4
 root hash is: f3f1701b710d2fefbf01d132ebce494879494b38db157a65a6791009f936f3bc
-timestamp is: 1606021459
+timestamp is: 1606045791
 target value is: 0.500000
-nonce is: 2104173940
+nonce is: 1089650194
 END HEADER
 ID is: 1
 left edge is: 1
