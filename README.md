@@ -1,4 +1,4 @@
-# CSE297 Team Miners Repository 
+# Miners Repository 
 This is the "Team Miners" repository for CSE 297 (Fall 2020).
 
 ## Branches
