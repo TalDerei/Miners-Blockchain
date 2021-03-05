@@ -1,5 +1,5 @@
 # Miners Repository 
-This is the "Team Miners" repository.
+This is the "Team Miners" repository for CSE 297 (Fall 2020).
 
 ## Branches
 'git checkout phase-1' for Phase-1 Branch  
